@@ -1,3 +1,5 @@
+MinIOC framework license.
+
 The MIT License (MIT)
 
 Copyright (c) 2014 Pascal Revillet

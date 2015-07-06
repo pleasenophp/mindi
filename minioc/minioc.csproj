@@ -96,7 +96,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="src\LICENSE.txt" />
-    <None Include="src\context.meta" />
     <None Include="src\context\bindings.meta" />
   </ItemGroup>
 </Project>

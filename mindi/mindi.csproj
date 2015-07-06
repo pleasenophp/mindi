@@ -65,4 +65,7 @@
       <Name>minioc</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="LICENSE-SGI.txt" />
+  </ItemGroup>
 </Project>
