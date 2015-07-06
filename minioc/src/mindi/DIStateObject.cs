@@ -10,7 +10,7 @@ namespace minioc.MinDI
 {
 	
 	[Serializable]
-	public class DIStateObject : IDIStateObject {
+	public abstract class DIStateObject : IDIStateObject {
 		private DIState _state = DIState.NotResolved;
 		DIState IDIStateObject.diState {
 			get {
