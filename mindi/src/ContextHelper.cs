@@ -36,6 +36,17 @@ namespace MinDI {
 			return obj;
 		}
 
+
+		/// <summary>
+		/// Creates the bind helper to simplify binding syntax.
+		/// Extension of the MiniocContext.
+		/// </summary>
+		/// <returns>The bind helper.</returns>
+		/// <param name="context">Context.</param>
+		public static BindHelper CreateBindHelper(this MiniocContext context) {
+			return new BindHelper (context);
+		}
+
 		/// <summary>
 		/// Extension for the MiniocContext to easyly create IDIBinders
 		/// </summary>

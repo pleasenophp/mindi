@@ -54,6 +54,7 @@
     <Compile Include="src\unity\factories\MonoBehaviourFactory.cs" />
     <Compile Include="src\unity\objects\ContextMonoBehaviour.cs" />
     <Compile Include="src\unity\objects\DIStateMonoBehaviour.cs" />
+    <Compile Include="src\binders\BindHelper.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

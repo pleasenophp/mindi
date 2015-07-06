@@ -53,12 +53,10 @@ namespace MinDI.Tests
 		[Test]
 		public void TestCreationByNewFactorySingleton() {
 			MiniocContext context = ContextHelper.CreateContext();
+			BindHelper b = context.CreateBindHelper();
 
-			// Then let's create a standard factory we will use
-			IDIBinder binder = context.CreateBinder<SingletonBinder>();
-
-			// Let's bind a test type using our factory
-			binder.Bind<IDependencyTest>(() => new DependencyTest());
+			// Let's bind a test type using singleton binder
+			b.singleton.Bind<IDependencyTest>(() => new DependencyTest());
 			
 			// Let's see that the dependencies are now injected - this class has injected context
 			IDependencyTest test1 = context.Resolve<IDependencyTest>();
@@ -86,10 +84,10 @@ namespace MinDI.Tests
 		[Test]
 		public void Test2InterfacesContainerBinding() {
 			MiniocContext context = ContextHelper.CreateContext();
-			IDIBinder modelBinder = context.CreateBinder<GroupSingletonBinder>();
+			BindHelper b = context.CreateBindHelper ();
 
 			// Then creating bindings for 2 interfaces through the container
-			modelBinder.BindMany<IAdvancedRead, IAdvancedWrite>(() => new AdvancedModel());
+			b.group.BindMany<IAdvancedRead, IAdvancedWrite>(() => new AdvancedModel());
 
 			IAdvancedRead read = context.Resolve<IAdvancedRead>();
 			IAdvancedWrite write = context.Resolve<IAdvancedWrite>();
