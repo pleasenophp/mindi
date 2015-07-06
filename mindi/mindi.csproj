@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{26DAE650-5AD8-42FB-B67E-C9ED91FD6B1A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>mindi</RootNamespace>
+    <AssemblyName>mindi</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="UnityEngine">
+      <HintPath>..\..\Lib\unity-5.1.0f3\UnityEngine.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="src\ContextHelper.cs" />
+    <Compile Include="src\binders\BaseDIBinder.cs" />
+    <Compile Include="src\binders\GroupSingletonBinder.cs" />
+    <Compile Include="src\binders\IDIBinder.cs" />
+    <Compile Include="src\binders\MultipleBinder.cs" />
+    <Compile Include="src\binders\SingletonBinder.cs" />
+    <Compile Include="src\context\ContextBuilder.cs" />
+    <Compile Include="src\context\IContextInitializer.cs" />
+    <Compile Include="src\context\IGlobalContextInitializer.cs" />
+    <Compile Include="src\exceptions\MindiException.cs" />
+    <Compile Include="src\factories\ContextChainFactory.cs" />
+    <Compile Include="src\factories\ContextFactory.cs" />
+    <Compile Include="src\factories\IDIDestroyingFactory.cs" />
+    <Compile Include="src\factories\IDIFactory.cs" />
+    <Compile Include="src\objects\ContextObject.cs" />
+    <Compile Include="src\objects\PublicContextObject.cs" />
+    <Compile Include="src\unity\factories\MonoBehaviourFactory.cs" />
+    <Compile Include="src\unity\objects\ContextMonoBehaviour.cs" />
+    <Compile Include="src\unity\objects\DIStateMonoBehaviour.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="src\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\minioc\minioc.csproj">
+      <Project>{EF726DF6-62BB-4D9E-8874-C7AD3C1C7C79}</Project>
+      <Name>minioc</Name>
+    </ProjectReference>
+  </ItemGroup>
+</Project>

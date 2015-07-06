@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{EF726DF6-62BB-4D9E-8874-C7AD3C1C7C79}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>minioc</RootNamespace>
+    <AssemblyName>minioc</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="UnityEngine">
+      <HintPath>..\..\Lib\unity-5.1.0f3\UnityEngine.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="src\Bindings.cs" />
+    <Compile Include="src\Dependencies.cs" />
+    <Compile Include="src\MiniocContext.cs" />
+    <Compile Include="src\MiniocHelper.cs" />
+    <Compile Include="src\attributes\AutoInjectAttribute.cs" />
+    <Compile Include="src\attributes\InjectionConstructorAttribute.cs" />
+    <Compile Include="src\attributes\InjectionMethodAttribute.cs" />
+    <Compile Include="src\attributes\InjectionPropertyAttribute.cs" />
+    <Compile Include="src\context\AutoInjectField.cs" />
+    <Compile Include="src\context\AutoInjectMember.cs" />
+    <Compile Include="src\context\AutoInjectProperty.cs" />
+    <Compile Include="src\context\DefaultInjectionContext.cs" />
+    <Compile Include="src\context\MiniocBindings.cs" />
+    <Compile Include="src\context\ReflectionCache.cs" />
+    <Compile Include="src\context\TypeBindings.cs" />
+    <Compile Include="src\context\bindings\Binding.cs" />
+    <Compile Include="src\context\bindings\BindingImpl.cs" />
+    <Compile Include="src\context\bindings\BindingStub.cs" />
+    <Compile Include="src\context\bindings\GenericBindingStub.cs" />
+    <Compile Include="src\context\bindings\InstantiationMode.cs" />
+    <Compile Include="src\mindi\DIState.cs" />
+    <Compile Include="src\mindi\DIStateObject.cs" />
+    <Compile Include="src\mindi\IDIStateObject.cs" />
+    <Compile Include="src\misc\MiniocException.cs" />
+    <Compile Include="src\resolution\core\InjectionContext.cs" />
+    <Compile Include="src\resolution\dependencies\Dependency.cs" />
+    <Compile Include="src\resolution\dependencies\DependencyResolver.cs" />
+    <Compile Include="src\resolution\dependencies\DependencyStub.cs" />
+    <Compile Include="src\resolution\dependencies\DependencyTarget.cs" />
+    <Compile Include="src\resolution\dependencies\ExplicitDependency.cs" />
+    <Compile Include="src\resolution\dependencies\ExplicitDependencyResolver.cs" />
+    <Compile Include="src\resolution\dependencies\FactoryExplicitDependencyResolver.cs" />
+    <Compile Include="src\resolution\dependencies\NameDependencyTarget.cs" />
+    <Compile Include="src\resolution\dependencies\NamedExplicitDependencyResolver.cs" />
+    <Compile Include="src\resolution\dependencies\TypeDependencyTarget.cs" />
+    <Compile Include="src\resolution\dependencies\ValueExplicitDependencyResolver.cs" />
+    <Compile Include="src\resolution\injection\ConstructorInjectionStrategy.cs" />
+    <Compile Include="src\resolution\injection\DependencyResolverHelper.cs" />
+    <Compile Include="src\resolution\injection\InjectionStrategy.cs" />
+    <Compile Include="src\resolution\injection\InjectorStrategyType.cs" />
+    <Compile Include="src\resolution\injection\MethodInjectionStrategy.cs" />
+    <Compile Include="src\resolution\injection\PropertiesInjectionStrategy.cs" />
+    <Compile Include="src\resolution\instantiator\ConstructorInstantiator.cs" />
+    <Compile Include="src\resolution\instantiator\Instantiator.cs" />
+    <Compile Include="src\resolution\lifecylcle\BoundInstanceFactory.cs" />
+    <Compile Include="src\resolution\lifecylcle\MultipleInstanceFactory.cs" />
+    <Compile Include="src\resolution\lifecylcle\SingletonFactory.cs" />
+    <Compile Include="src\resolution\lifecylcle\providers\BoundValueProvider.cs" />
+    <Compile Include="src\resolution\lifecylcle\providers\BoundValueProviderNotSet.cs" />
+    <Compile Include="src\resolution\lifecylcle\providers\ExplicitValueProvider.cs" />
+    <Compile Include="src\resolution\lifecylcle\providers\FactoryValueProvider.cs" />
+    <Compile Include="src\resolution\lifecylcle\providers\TypeInstanceBoundValueProvider.cs" />
+    <Compile Include="src\unity\MonoBehaviourInstantiator.cs" />
+    <Compile Include="src\unity\PrefabInstantiator.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="src\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\LICENSE.txt" />
+    <None Include="src\context.meta" />
+    <None Include="src\context\bindings.meta" />
+  </ItemGroup>
+</Project>
