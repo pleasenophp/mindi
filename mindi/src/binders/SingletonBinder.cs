@@ -7,11 +7,17 @@ using minioc.resolution.instantiator;
 
 namespace MinDI.Binders {
 
-	public class SingletonBinder : MultipleBinder
+	// That's usefull for the singleton classes 
+	public class SingletonBinder : BaseDIBinder
 	{
-		protected override void ConfigureBinding (Binding binding)
+		private object instance = null;
+
+		public override T Resolve<T> (Func<T> create)
 		{
-			binding.SetInstantiationMode (InstantiationMode.SINGLETON);
+			if (instance == null) {
+				instance = create ();
+			}
+			return instance as T;
 		}
 	}
 }

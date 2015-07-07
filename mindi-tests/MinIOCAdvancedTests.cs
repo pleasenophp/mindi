@@ -87,7 +87,7 @@ namespace MinDI.Tests
 			BindHelper b = context.CreateBindHelper ();
 
 			// Then creating bindings for 2 interfaces through the container
-			b.group.BindMany<IAdvancedRead, IAdvancedWrite>(() => new AdvancedModel());
+			b.singleton.BindMany<IAdvancedRead, IAdvancedWrite>(() => new AdvancedModel());
 
 			IAdvancedRead read = context.Resolve<IAdvancedRead>();
 			IAdvancedWrite write = context.Resolve<IAdvancedWrite>();
@@ -101,7 +101,7 @@ namespace MinDI.Tests
 		[Test]
 		public void Test2InterfacesContainerBindingPersistence() {
 			MiniocContext context = ContextHelper.CreateContext();
-			IDIBinder modelBinder = context.CreateBinder<GroupSingletonBinder>();
+			IDIBinder modelBinder = context.CreateBinder<SingletonBinder>();
 
 			modelBinder.BindMany<IAdvancedRead, IAdvancedWrite>(() => new AdvancedModel());
 			

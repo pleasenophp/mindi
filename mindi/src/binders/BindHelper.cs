@@ -12,12 +12,10 @@ namespace MinDI.Binders {
 		private MiniocContext context;
 
 		private MultipleBinder _multiple;
-		private SingletonBinder _singleton;
 
 		public BindHelper(MiniocContext context) {
 			this.context = context;
 			_multiple = context.CreateBinder<MultipleBinder> ();
-			_singleton = context.CreateBinder<SingletonBinder> ();
 		}
 			
 		public MultipleBinder multiple {
@@ -28,13 +26,7 @@ namespace MinDI.Binders {
 
 		public SingletonBinder singleton {
 			get {
-				return _singleton;
-			}
-		}
-
-		public GroupSingletonBinder group {
-			get {
-				return context.CreateBinder<GroupSingletonBinder> ();
+				return context.CreateBinder<SingletonBinder> ();
 			}
 		}
 	}
