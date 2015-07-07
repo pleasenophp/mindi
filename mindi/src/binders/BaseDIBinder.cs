@@ -15,11 +15,10 @@ namespace MinDI.Binders {
 		public Binding Bind<T> (Func<T> create, string name = null, Action<Binding> configure = null) where T:class
 		{
 			Binding binding = InternalBind<T> (create, name);
+			this.ConfigureBinding (binding);
 			if (configure != null) {
 				configure (binding);
-			} else {
-				this.ConfigureBinding (binding);
-			}
+			} 
 
 			context.Register (binding);
 			return binding;
@@ -67,6 +66,11 @@ namespace MinDI.Binders {
 
 		private Binding InternalBind<T> (Func<T> create, string name=null) where T:class
 		{
+			if (string.IsNullOrEmpty(name)) {
+				string contextName = (string.IsNullOrEmpty(context.name))?"context":context.name;
+				name = string.Format("{0}_{1}_{2}", "#binding", contextName, typeof(T).FullName);
+			}
+
 			return Bindings.ForType<T> (name).ImplementedBy (() => this.Resolve<T> (create));
 		}
 	}
