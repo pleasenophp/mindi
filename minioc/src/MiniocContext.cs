@@ -83,21 +83,28 @@ namespace minioc
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
 		/// <returns></returns>
-		public object Resolve (Type type)
+		public object Resolve (Type type, bool omitInjectDependencies = false)
 		{
 			try {
 				if (_parentContext != null) {
 					object result;
 					if (_bindings.tryResolveDefault (type, _injectionContext, out result)) {
-						this.InjectDependencies (result);
+						if (!omitInjectDependencies) {
+							this.InjectDependencies (result);
+						}
 						return result;
 					} else {
-						result = _parentContext.Resolve (type);
+						result = _parentContext.Resolve (type, true);
+						if (!omitInjectDependencies) {
+							this.InjectDependencies(result);
+						}
 						return result;
 					}
 				} else {
 					object result = _bindings.resolveDefault (type, _injectionContext);
-					this.InjectDependencies(result);
+					if (!omitInjectDependencies) {
+						this.InjectDependencies(result);
+					}
 					return result;
 				}
 			} catch (MiniocException e) {
@@ -111,21 +118,28 @@ namespace minioc
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
 		/// <returns></returns>
-		public object Resolve (Type type, string name)
+		public object Resolve (Type type, string name, bool omitInjectDependencies = false)
 		{
 			try {
 				if (_parentContext != null) {
 					object result;
 					if (_bindings.tryResolve (type, name, _injectionContext, out result)) {
-						this.InjectDependencies (result);
+						if (!omitInjectDependencies) {
+							this.InjectDependencies(result);
+						}
 						return result;
 					} else {
-						result = _parentContext.Resolve (type, name);
+						result = _parentContext.Resolve (type, name, true);
+						if (!omitInjectDependencies) {
+							this.InjectDependencies(result);
+						}
 						return result;
 					}
 				} else {
 					object result = _bindings.resolve (type, name, _injectionContext);
-					this.InjectDependencies (result);
+					if (!omitInjectDependencies) {
+						this.InjectDependencies(result);
+					}
 					return result;
 				}
 			} catch (MiniocException e) {
