@@ -34,6 +34,16 @@ namespace MinDI.Context {
 			}
 		}
 
+
+		public static void InitSingle<T>(MiniocContext context) where T:IContextInitializer {
+			IContextInitializer initializer = Activator.CreateInstance<T>();
+			if (initializer == null) {
+				throw new MindiException("Couldn't create an initializer instance for type "+typeof(T).FullName);
+			}
+
+			initializer.Initialize(context);
+		}
+
 		private static void FetchInitializers() {
 			initializers = new Dictionary<Type, List<IContextInitializer>>();
 

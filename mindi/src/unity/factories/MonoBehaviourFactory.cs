@@ -71,7 +71,7 @@ namespace MinDI.Factories {
 
 			// If it's specified object mode, only destroying the component, not touching the object
 			if (specifiedObject != null) {
-				DestroyComponent(component);
+				DestroyComponent(component as MonoBehaviour);
 				return;
 			}
 
@@ -82,7 +82,7 @@ namespace MinDI.Factories {
 				GameObject.Destroy(obj);
 			}
 			else {
-				DestroyComponent(component);
+				DestroyComponent(component as MonoBehaviour);
 			}
 		}
 
