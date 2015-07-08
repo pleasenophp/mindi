@@ -205,5 +205,7 @@ FakesAssemblies/
 *.opt
 
 .DS_Store
+deploy.sh
+/deploy-target*
 
 
