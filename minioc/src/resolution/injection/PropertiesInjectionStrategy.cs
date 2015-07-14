@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using minioc.misc;
-using minioc.attributes;
+using MinDI;
 using minioc.resolution.dependencies;
 
 namespace minioc.resolution.injection {
@@ -14,7 +14,7 @@ internal class PropertiesInjectionStrategy : InjectionStrategy {
 
     public InjectorStrategyType type { get { return InjectorStrategyType.PROPERTIES; } }
 
-    public void inject(object instance, DependencyResolver dependencyResolver, List<Dependency> dependencies) {
+    public void inject(object instance, DependencyResolver dependencyResolver, IList<IDependency> dependencies) {
         foreach (PropertyInfo propertyInfo in _properties) {
             object value = null;
 

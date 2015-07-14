@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using minioc.misc;
 using minioc.resolution.dependencies;
+using MinDI;
 
 namespace minioc.resolution.injection {
 internal class MethodInjectionStrategy : InjectionStrategy {
@@ -13,13 +14,13 @@ internal class MethodInjectionStrategy : InjectionStrategy {
 
     public InjectorStrategyType type { get { return InjectorStrategyType.METHOD; } }
 
-    public void inject(object instance, DependencyResolver dependencyResolver, List<Dependency> dependencies) {
+    public void inject(object instance, DependencyResolver dependencyResolver, IList<IDependency> dependencies) {
         foreach (MethodInfo methodInfo in _methodInfos) {
             inject(methodInfo, instance, dependencyResolver, dependencies);
         }
     }
 
-    private void inject(MethodInfo methodInfo, object instance, DependencyResolver dependencyResolver, List<Dependency> dependencies) {
+    private void inject(MethodInfo methodInfo, object instance, DependencyResolver dependencyResolver, IList<IDependency> dependencies) {
         ParameterInfo[] parameterInfos = methodInfo.GetParameters();
         object[] parameterValues = new object[parameterInfos.Length];
 

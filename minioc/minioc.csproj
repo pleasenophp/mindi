@@ -39,10 +39,6 @@
     <Compile Include="src\Dependencies.cs" />
     <Compile Include="src\MiniocContext.cs" />
     <Compile Include="src\MiniocHelper.cs" />
-    <Compile Include="src\attributes\AutoInjectAttribute.cs" />
-    <Compile Include="src\attributes\InjectionConstructorAttribute.cs" />
-    <Compile Include="src\attributes\InjectionMethodAttribute.cs" />
-    <Compile Include="src\attributes\InjectionPropertyAttribute.cs" />
     <Compile Include="src\context\AutoInjectField.cs" />
     <Compile Include="src\context\AutoInjectMember.cs" />
     <Compile Include="src\context\AutoInjectProperty.cs" />
@@ -50,17 +46,10 @@
     <Compile Include="src\context\MiniocBindings.cs" />
     <Compile Include="src\context\ReflectionCache.cs" />
     <Compile Include="src\context\TypeBindings.cs" />
-    <Compile Include="src\context\bindings\Binding.cs" />
     <Compile Include="src\context\bindings\BindingImpl.cs" />
-    <Compile Include="src\context\bindings\BindingStub.cs" />
     <Compile Include="src\context\bindings\GenericBindingStub.cs" />
-    <Compile Include="src\context\bindings\InstantiationMode.cs" />
-    <Compile Include="src\mindi\DIState.cs" />
-    <Compile Include="src\mindi\DIStateObject.cs" />
-    <Compile Include="src\mindi\IDIStateObject.cs" />
     <Compile Include="src\misc\MiniocException.cs" />
     <Compile Include="src\resolution\core\InjectionContext.cs" />
-    <Compile Include="src\resolution\dependencies\Dependency.cs" />
     <Compile Include="src\resolution\dependencies\DependencyResolver.cs" />
     <Compile Include="src\resolution\dependencies\DependencyStub.cs" />
     <Compile Include="src\resolution\dependencies\DependencyTarget.cs" />
@@ -78,7 +67,6 @@
     <Compile Include="src\resolution\injection\MethodInjectionStrategy.cs" />
     <Compile Include="src\resolution\injection\PropertiesInjectionStrategy.cs" />
     <Compile Include="src\resolution\instantiator\ConstructorInstantiator.cs" />
-    <Compile Include="src\resolution\instantiator\Instantiator.cs" />
     <Compile Include="src\resolution\lifecylcle\BoundInstanceFactory.cs" />
     <Compile Include="src\resolution\lifecylcle\MultipleInstanceFactory.cs" />
     <Compile Include="src\resolution\lifecylcle\SingletonFactory.cs" />
@@ -98,4 +86,20 @@
     <None Include="src\LICENSE.txt" />
     <None Include="src\context\bindings.meta" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\mindi-interop\mindi-interop.csproj">
+      <Project>{021BCAE4-375A-4581-92CD-7217F6D37BB8}</Project>
+      <Name>mindi-interop</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ProjectExtensions>
+    <MonoDevelop>
+      <Properties>
+        <Policies>
+          <TextStylePolicy TabsToSpaces="False" inheritsSet="VisualStudio" inheritsScope="text/plain" scope="text/x-csharp" />
+          <CSharpFormattingPolicy IndentSwitchBody="True" NamespaceBraceStyle="EndOfLine" ClassBraceStyle="EndOfLine" InterfaceBraceStyle="EndOfLine" StructBraceStyle="EndOfLine" EnumBraceStyle="EndOfLine" MethodBraceStyle="EndOfLine" ConstructorBraceStyle="EndOfLine" DestructorBraceStyle="EndOfLine" ElseNewLinePlacement="NewLine" CatchNewLinePlacement="NewLine" FinallyNewLinePlacement="NewLine" BeforeMethodDeclarationParentheses="False" BeforeMethodCallParentheses="False" BeforeConstructorDeclarationParentheses="False" BeforeIndexerDeclarationBracket="False" BeforeDelegateDeclarationParentheses="False" AfterDelegateDeclarationParameterComma="True" NewParentheses="False" ConditionalOperatorBeforeConditionSpace="False" ConditionalOperatorAfterConditionSpace="False" ConditionalOperatorBeforeSeparatorSpace="False" ConditionalOperatorAfterSeparatorSpace="False" SpacesBeforeBrackets="False" inheritsSet="Mono" inheritsScope="text/x-csharp" scope="text/x-csharp" />
+        </Policies>
+      </Properties>
+    </MonoDevelop>
+  </ProjectExtensions>
 </Project>

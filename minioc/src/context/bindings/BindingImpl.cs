@@ -6,9 +6,10 @@ using minioc.resolution.lifecycle;
 using minioc.resolution.lifecycle.providers;
 using minioc.misc;
 using minioc.resolution.core;
+using MinDI;
 
 namespace minioc.context.bindings {
-internal class BindingImpl : Binding, BindingStub {
+internal class BindingImpl : IBinding, BindingStub {
     public const string UNNAMED_BINDING = "__$UNNAMED__";
 
     public Type type { get; private set; }
@@ -20,7 +21,7 @@ internal class BindingImpl : Binding, BindingStub {
 
     private BoundInstanceFactory _boundInstanceFactory;
 
-    private List<Dependency> _dependencies = new List<Dependency>();
+    private List<IDependency> _dependencies = new List<IDependency>();
 
 
     public BindingImpl(Type type, string name) {
@@ -28,13 +29,13 @@ internal class BindingImpl : Binding, BindingStub {
         this.name = name == null ? UNNAMED_BINDING : name;
     }
 
-    public Binding ImplementedBy<T>() {
+    public IBinding ImplementedBy<T>() {
         checkIsValueProviderSet();
         _valueProvider = new TypeInstanceBoundValueProvider(typeof(T));
         return this;
     }
 
-    public Binding ImplementedBy(Type instanceType) {
+    public IBinding ImplementedBy(Type instanceType) {
         checkIsValueProviderSet();
         if (!type.IsAssignableFrom(instanceType)) {
             throw new MiniocException(string.Format("Type {0} cannot be used as implementation of {1}", instanceType, type));
@@ -43,7 +44,7 @@ internal class BindingImpl : Binding, BindingStub {
         return this;
     }
 
-    public Binding ImplementedByInstance(object instance) {
+    public IBinding ImplementedByInstance(object instance) {
         checkIsValueProviderSet();
         if (!type.IsInstanceOfType(instance)) {
             throw new MiniocException(string.Format("object {0} cannot be used as implementation of {1}", instance, type));
@@ -52,7 +53,7 @@ internal class BindingImpl : Binding, BindingStub {
         return this;
     }
 
-    public Binding ImplementedBy(Func<object> factory) {
+    public IBinding ImplementedBy(Func<object> factory) {
         checkIsValueProviderSet();
         _valueProvider = new FactoryValueProvider(factory);
         return this;
@@ -64,22 +65,22 @@ internal class BindingImpl : Binding, BindingStub {
         }
     }
 
-    public Binding SetInstantiationMode(InstantiationMode instantiationMode) {
+    public IBinding SetInstantiationMode(InstantiationMode instantiationMode) {
         _instantiationMode = instantiationMode;
         return this;
     }
 
-    public Binding InstanciatedBy(Instantiator instantiator) {
+    public IBinding InstanciatedBy(Instantiator instantiator) {
         _valueProvider.setInstantiator(instantiator);
         return this;
     }
 
-    public Binding DependsOn(Dependency dependency) {
+    public IBinding DependsOn(IDependency dependency) {
         _dependencies.Add(dependency);
         return this;
     }
 
-    public Binding MakeDefault() {
+    public IBinding MakeDefault() {
         isDefault = true;
         return this;
     }

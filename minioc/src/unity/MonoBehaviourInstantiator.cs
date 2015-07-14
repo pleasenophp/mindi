@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using minioc.resolution.instantiator;
+using MinDI;
 
 namespace minioc.unity {
 public class MonoBehaviourInstantiator : Instantiator {

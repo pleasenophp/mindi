@@ -4,6 +4,7 @@ using minioc.resolution.dependencies;
 using minioc.resolution.instantiator;
 using minioc.misc;
 using minioc.resolution.core;
+using MinDI;
 
 namespace minioc.resolution.lifecycle.providers {
 internal class BoundValueProviderNotSet : BoundValueProvider {
@@ -13,7 +14,7 @@ internal class BoundValueProviderNotSet : BoundValueProvider {
         throw new MiniocException("Cannot set Instantiator when no implementation is set");
     }
 
-    public object createInstance(InjectionContext injectionContext, List<Dependency> dependencies) {
+    public object createInstance(InjectionContext injectionContext, List<IDependency> dependencies) {
         throw new NotImplementedException();
     }
 

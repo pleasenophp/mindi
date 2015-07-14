@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 using minioc;
-using minioc.attributes;
+
 using minioc.context.bindings;
 using minioc.resolution.instantiator;
 using MinDI.Objects;
@@ -17,7 +17,7 @@ namespace MinDI.Factories {
 	{
 		public T Resolve (string name = null)
 		{
-			MiniocContext newContext = ContextHelper.CreateContext (this.context);
+			IDIContext newContext = ContextHelper.CreateContext (this.context);
 			ContextBuilder.Initialize<TInitializer> (newContext);
 
 			if (string.IsNullOrEmpty(name)) {

@@ -1,4 +1,5 @@
 using System;
+using MinDI;
 
 namespace minioc.resolution.instantiator {
 internal class ConstructorInstantiator : Instantiator {

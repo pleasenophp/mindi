@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using minioc.resolution.dependencies;
 using minioc.resolution.lifecycle.providers;
 using minioc.resolution.core;
+using MinDI;
 
 namespace minioc.resolution.lifecycle {
 internal class SingletonFactory : BoundInstanceFactory {
@@ -12,7 +13,7 @@ internal class SingletonFactory : BoundInstanceFactory {
         _boundValueProvider = boundValueProvider;
     }
 
-    public object getInstance(List<Dependency> dependencies, InjectionContext injectionContext) {
+    public object getInstance(List<IDependency> dependencies, InjectionContext injectionContext) {
         if (_instance != null) {
             return _instance;
         }

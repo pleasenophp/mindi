@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using minioc;
-using minioc.attributes;
 using minioc.context.bindings;
 using minioc.resolution.instantiator;
 using System.Reflection;
@@ -19,7 +18,7 @@ namespace MinDI.Context {
 	public static class ContextBuilder {
 		private static IDictionary<Type, List<IContextInitializer>> initializers = null;
 		
-		public static void Initialize<T>(MiniocContext context) where T:IContextInitializer {	
+		public static void Initialize<T>(IDIContext context) where T:IContextInitializer {	
 			if (initializers == null) {
 				FetchInitializers();
 			}
@@ -35,7 +34,7 @@ namespace MinDI.Context {
 		}
 
 
-		public static void InitSingle<T>(MiniocContext context) where T:IContextInitializer {
+		public static void InitSingle<T>(IDIContext context) where T:IContextInitializer {
 			IContextInitializer initializer = Activator.CreateInstance<T>();
 			if (initializer == null) {
 				throw new MindiException("Couldn't create an initializer instance for type "+typeof(T).FullName);

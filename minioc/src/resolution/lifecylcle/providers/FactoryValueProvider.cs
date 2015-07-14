@@ -4,6 +4,7 @@ using minioc.resolution.dependencies;
 using minioc.resolution.instantiator;
 using minioc.misc;
 using minioc.resolution.core;
+using MinDI;
 
 namespace minioc.resolution.lifecycle.providers {
 internal class FactoryValueProvider : BoundValueProvider {
@@ -19,7 +20,7 @@ internal class FactoryValueProvider : BoundValueProvider {
         throw new MiniocException("Instantiator cannot be set on factory value");
     }
 
-    public object createInstance(InjectionContext injectionContext, List<Dependency> dependencies) {
+    public object createInstance(InjectionContext injectionContext, List<IDependency> dependencies) {
         return _factory();
     }
 }

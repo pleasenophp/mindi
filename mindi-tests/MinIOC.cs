@@ -5,7 +5,6 @@ using NUnit.Framework;
 using UnityEngine;
 using minioc;
 using minioc.context.bindings;
-using minioc.attributes;
 
 namespace MinDI.Tests
 {
@@ -30,7 +29,7 @@ namespace MinDI.Tests
 		}
 
 		class GreenApple : IApple {
-			[InjectionProperty]
+			[Injection]
 			public MiniocContext context {get; set;}
 
 			public void TestContext(MiniocContext cont) {

@@ -6,7 +6,7 @@ using minioc.misc;
 using minioc.resolution.core;
 using minioc.resolution.dependencies;
 using UnityEngine;
-using minioc.MinDI;
+using MinDI.StateObjects;
 
 namespace MinDI.Objects
 {

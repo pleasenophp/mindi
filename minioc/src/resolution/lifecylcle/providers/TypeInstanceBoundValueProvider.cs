@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using minioc.resolution.dependencies;
 using minioc.resolution.instantiator;
 using minioc.resolution.core;
+using MinDI;
 
 namespace minioc.resolution.lifecycle.providers {
 internal class TypeInstanceBoundValueProvider : BoundValueProvider {
@@ -19,7 +20,7 @@ internal class TypeInstanceBoundValueProvider : BoundValueProvider {
         _instantiator = instantiator;
     }
 
-    public object createInstance(InjectionContext injectionContext, List<Dependency> dependencies) {
+    public object createInstance(InjectionContext injectionContext, List<IDependency> dependencies) {
         return injectionContext.createInstance(_type, _instantiator, dependencies);
     }
 }

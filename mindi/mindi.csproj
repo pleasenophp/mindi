@@ -69,6 +69,10 @@
       <Project>{EF726DF6-62BB-4D9E-8874-C7AD3C1C7C79}</Project>
       <Name>minioc</Name>
     </ProjectReference>
+    <ProjectReference Include="..\mindi-interop\mindi-interop.csproj">
+      <Project>{021BCAE4-375A-4581-92CD-7217F6D37BB8}</Project>
+      <Name>mindi-interop</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="LICENSE-SGI.txt" />

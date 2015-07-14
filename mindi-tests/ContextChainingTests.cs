@@ -5,7 +5,6 @@ using NUnit.Framework;
 using UnityEngine;
 using minioc;
 using minioc.context.bindings;
-using minioc.attributes;
 using MinDI.Binders;
 
 namespace MinDI.Tests
@@ -23,7 +22,7 @@ namespace MinDI.Tests
 		}
 
 		class Container : IContainer {
-			[InjectionProperty]
+			[Injection]
 			public IAdapter adapter {get; set;}
 		}
 

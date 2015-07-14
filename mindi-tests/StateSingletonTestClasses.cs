@@ -1,11 +1,11 @@
 using System;
 using System.Collections;
 using minioc;
-using minioc.attributes;
 using minioc.context.bindings;
 using minioc.resolution.instantiator;
 using UnityEngine;
 using MinDI.Objects;
+using MinDI;
 
 public interface IAdvancedRead
 {
@@ -24,7 +24,7 @@ public class AdvancedModel : IAdvancedRead, IAdvancedWrite
 
 public interface IDependencyTest
 {
-	MiniocContext context { get; }
+	IDIContext context { get; }
 }
 
 public class DependencyTest : PublicContextObject, IDependencyTest

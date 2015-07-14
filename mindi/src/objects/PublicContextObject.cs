@@ -1,10 +1,10 @@
 using System;
 using System.Collections;
 using minioc;
-using minioc.attributes;
 using minioc.context.bindings;
 using minioc.resolution.instantiator;
-using minioc.MinDI;
+using MinDI.StateObjects;
+
 
 namespace MinDI.Objects {
 
@@ -18,10 +18,10 @@ namespace MinDI.Objects {
 	public class PublicContextObject : DIStateObject {
 		
 		[NonSerialized]
-		private MiniocContext _context;
+		private IDIContext _context;
 		
-		[InjectionProperty]
-		public MiniocContext context {
+		[Injection]
+		public IDIContext context {
 			get {
 				return _context;
 			}

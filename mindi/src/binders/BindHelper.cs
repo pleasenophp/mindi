@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 using minioc;
-using minioc.attributes;
+
 using minioc.context.bindings;
 using minioc.resolution.instantiator;
 using minioc.resolution.dependencies;
@@ -10,11 +10,11 @@ namespace MinDI.Binders {
 
 	public class BindHelper {
 
-		private MiniocContext context;
+		private IDIContext context;
 
 		private MultipleBinder _multiple;
 
-		public BindHelper(MiniocContext context) {
+		public BindHelper(IDIContext context) {
 			this.context = context;
 			_multiple = context.CreateBinder<MultipleBinder> ();
 		}

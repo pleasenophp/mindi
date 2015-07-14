@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using minioc.resolution.instantiator;
 using Object = UnityEngine.Object;
+using MinDI;
 
 namespace minioc.unity {
 public class PrefabInstantiator : Instantiator {

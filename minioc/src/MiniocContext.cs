@@ -5,17 +5,16 @@ using minioc.context.bindings;
 using minioc.misc;
 using minioc.resolution.core;
 using minioc.resolution.dependencies;
-using minioc.MinDI;
+using MinDI;
 // using UnityEngine;
+using MinDI.StateObjects;
 
 namespace minioc
 {
-	public class MiniocContext : DependencyResolver
-	{
+	public class MiniocContext : DependencyResolver, IDIContext {
 		private MiniocBindings _bindings = new MiniocBindings ();
 		private InjectionContext _injectionContext;
-		private MiniocContext _parentContext;
-		public readonly string name;
+		private IDIContext _parentContext;
 
 		~MiniocContext ()
 		{
@@ -30,11 +29,11 @@ namespace minioc
 		{
 		}
 
-		public MiniocContext (MiniocContext parentContext) : this(parentContext, null)
+		public MiniocContext (IDIContext parentContext) : this(parentContext, null)
 		{
 		}
 
-		public MiniocContext (MiniocContext parentContext, string name)
+		public MiniocContext (IDIContext parentContext, string name)
 		{
 			_parentContext = parentContext;
 			this.name = name;
@@ -47,7 +46,7 @@ namespace minioc
 		/// Register a Binding (create with Bindings.ForType)
 		/// </summary>
 		/// <param name="binding"></param>
-		public void Register (Binding binding)
+		public void Register (IBinding binding)
 		{
 			BindingImpl impl = (BindingImpl)binding;
 			impl.verifyIntegrity ();
@@ -152,7 +151,7 @@ namespace minioc
 		/// </summary>
 		/// <param name="instance"></param>
 		/// <param name="dependencies"></param>
-		public void InjectDependencies (object instance, List<Dependency> dependencies = null)
+		public void InjectDependencies (object instance, IList<IDependency> dependencies = null)
 		{
 			IDIStateObject stateInstance = instance as IDIStateObject;
 			if (stateInstance == null) {
@@ -167,19 +166,17 @@ namespace minioc
 			}
 		}
 
-		public void RemoveBinding (Binding binding)
+		public void RemoveBinding (IBinding binding)
 		{
 			_bindings.remove (binding);
 		}
 
+		public string name { get; private set;}
 
-		public MiniocContext parent {
+		public IDIContext parent {
 			get {
 				return _parentContext;
 			}
 		}
 	}
-
-	
-	
 }

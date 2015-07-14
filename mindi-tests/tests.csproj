@@ -52,6 +52,10 @@
       <Project>{26DAE650-5AD8-42FB-B67E-C9ED91FD6B1A}</Project>
       <Name>mindi</Name>
     </ProjectReference>
+    <ProjectReference Include="..\mindi-interop\mindi-interop.csproj">
+      <Project>{021BCAE4-375A-4581-92CD-7217F6D37BB8}</Project>
+      <Name>mindi-interop</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -5,7 +5,6 @@ using NUnit.Framework;
 using UnityEngine;
 using minioc;
 using minioc.context.bindings;
-using minioc.attributes;
 using MinDI.Binders;
 
 namespace MinDI.Tests
@@ -18,7 +17,7 @@ namespace MinDI.Tests
 
 		[Test]
 		public void TestCreationByNew_IDICOntainerBranch() {
-			MiniocContext context = ContextHelper.CreateContext();
+			IDIContext context = ContextHelper.CreateContext();
 
 			// Let's bind a test type using a usual new
 			context.Register(Bindings
@@ -36,7 +35,7 @@ namespace MinDI.Tests
 
 		[Test]
 		public void TestCreationByNewFactory() {
-			MiniocContext context = ContextHelper.CreateContext();
+			IDIContext context = ContextHelper.CreateContext();
 
 			// Then let's create a standard factory we will use
 			IDIBinder binder = context.CreateBinder<SingletonBinder>();
@@ -52,7 +51,7 @@ namespace MinDI.Tests
 		// Let's ensure a factory can work correctly with multiple / singletone
 		[Test]
 		public void TestCreationByNewFactorySingleton() {
-			MiniocContext context = ContextHelper.CreateContext();
+			IDIContext context = ContextHelper.CreateContext();
 			BindHelper b = context.CreateBindHelper();
 
 			// Let's bind a test type using singleton binder
@@ -66,7 +65,7 @@ namespace MinDI.Tests
 
 		[Test]
 		public void TestCreationByNewFactoryMultiple() {
-			MiniocContext context = ContextHelper.CreateContext();
+			IDIContext context = ContextHelper.CreateContext();
 
 			// Then let's create a standard factory we will use
 			IDIBinder binder = context.CreateBinder<MultipleBinder>();
@@ -83,7 +82,7 @@ namespace MinDI.Tests
 
 		[Test]
 		public void Test2InterfacesContainerBinding() {
-			MiniocContext context = ContextHelper.CreateContext();
+			IDIContext context = ContextHelper.CreateContext();
 			BindHelper b = context.CreateBindHelper ();
 
 			// Then creating bindings for 2 interfaces through the container
@@ -100,7 +99,7 @@ namespace MinDI.Tests
 
 		[Test]
 		public void Test2InterfacesContainerBindingPersistence() {
-			MiniocContext context = ContextHelper.CreateContext();
+			IDIContext context = ContextHelper.CreateContext();
 			IDIBinder modelBinder = context.CreateBinder<SingletonBinder>();
 
 			modelBinder.BindMany<IAdvancedRead, IAdvancedWrite>(() => new AdvancedModel());
@@ -113,7 +112,7 @@ namespace MinDI.Tests
 		}
 
 		
-		private void SingletoneCreation(MiniocContext context) {
+		private void SingletoneCreation(IDIContext context) {
 			IAdvancedWrite write = context.Resolve<IAdvancedWrite>();
 			Assert.That(write is AdvancedModel);
 			write.tag = "my_test_model";

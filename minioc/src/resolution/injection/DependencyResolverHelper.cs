@@ -2,10 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using minioc.resolution.dependencies;
+using MinDI;
 
 namespace minioc.resolution.injection {
 internal static class DependencyResolverHelper {
-    public static bool tryResolveDependency(Type type, string name, out object value, DependencyResolver dependencyResolver, IEnumerable<Dependency> dependencies) {
+    public static bool tryResolveDependency(Type type, string name, out object value, DependencyResolver dependencyResolver, IEnumerable<IDependency> dependencies) {
         object tmpValue = null;
         if (dependencies == null) {
             value = null;
