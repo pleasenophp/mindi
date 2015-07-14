@@ -61,9 +61,9 @@ namespace minioc
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
 		/// <returns></returns>
-		public T Resolve<T> ()
+		public T Resolve<T> (bool omitInjectDependencies = false)
 		{
-			return (T)Resolve (typeof(T));
+			return (T)Resolve (typeof(T), omitInjectDependencies);
 		}
 
 		/// <summary>
@@ -72,9 +72,9 @@ namespace minioc
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
 		/// <returns></returns>
-		public T Resolve<T> (string name)
+		public T Resolve<T> (string name, bool omitInjectDependencies = false)
 		{
-			return (T)Resolve (typeof(T), name);
+			return (T)Resolve (typeof(T), name, omitInjectDependencies);
 		}
 
 		/// <summary>

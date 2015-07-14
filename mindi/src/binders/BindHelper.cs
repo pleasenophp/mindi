@@ -4,6 +4,7 @@ using minioc;
 using minioc.attributes;
 using minioc.context.bindings;
 using minioc.resolution.instantiator;
+using minioc.resolution.dependencies;
 
 namespace MinDI.Binders {
 

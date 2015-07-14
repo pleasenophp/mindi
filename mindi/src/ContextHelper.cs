@@ -5,6 +5,7 @@ using minioc.attributes;
 using minioc.context.bindings;
 using minioc.resolution.instantiator;
 using MinDI.Binders;
+using minioc.resolution.dependencies;
 
 
 namespace MinDI {
@@ -61,12 +62,26 @@ namespace MinDI {
 		/// <param name="context">Context.</param>
 		/// <typeparam name="TInterface">The 1st type parameter.</typeparam>
 		/// <typeparam name="TInstance">The 2nd type parameter.</typeparam>
-		public static TInstance Resolve<TInterface, TInstance>(this MiniocContext context) 
+		public static TInstance Resolve<TInterface, TInstance>(this MiniocContext context, string name = null) 
 			where TInterface : class
 			where TInstance : class, TInterface 
 		{
-			return context.Resolve<TInterface>() as TInstance;
+			return context.Resolve<TInterface>(name) as TInstance;
 		}
-		
+
+		/// <summary>
+		/// Chains an interface on the new context, rebinding it as a singletone
+		/// This is usefull to build complex hierarchy of the objects
+		/// Returns the new context. 
+		/// </summary>
+		/// <param name="context">Context.</param>
+		/// <typeparam name="T">The interface type parameter.</typeparam>
+		public static MiniocContext Chain<T>(this MiniocContext context) where T:class {
+			MiniocContext newContext = new MiniocContext(context);
+			BindHelper bind = newContext.CreateBindHelper();
+			bind.singleton.Rebind<T>();
+			return newContext;
+		}
+			
 	}
 }

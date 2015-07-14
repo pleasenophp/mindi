@@ -46,7 +46,7 @@ namespace MinDI.Binders {
 				throw new MindiException("Called Rebind, but the parent context is null");
 			}
 
-			return this.Bind<T> (()=>context.parent.Resolve<T>(resolutionName), 
+			return this.Bind<T> (()=>context.parent.Resolve<T>(resolutionName, true), 
 				name, configure);
 		}
 
