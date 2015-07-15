@@ -42,6 +42,7 @@
     <Compile Include="MinIOCAdvancedTests.cs" />
     <Compile Include="StateSingletonTestClasses.cs" />
     <Compile Include="ContextChainingTests.cs" />
+    <Compile Include="FixedBugs.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\minioc\minioc.csproj">

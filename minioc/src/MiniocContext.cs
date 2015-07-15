@@ -73,6 +73,10 @@ namespace minioc
 		/// <returns></returns>
 		public T Resolve<T> (string name, bool omitInjectDependencies = false)
 		{
+			if (string.IsNullOrEmpty(name)) {
+				return (T)Resolve (typeof(T), omitInjectDependencies);
+			}
+
 			return (T)Resolve (typeof(T), name, omitInjectDependencies);
 		}
 
@@ -119,6 +123,10 @@ namespace minioc
 		/// <returns></returns>
 		public object Resolve (Type type, string name, bool omitInjectDependencies = false)
 		{
+			if (string.IsNullOrEmpty(name)) {
+				return Resolve(type, omitInjectDependencies);
+			}
+
 			try {
 				if (_parentContext != null) {
 					object result;
