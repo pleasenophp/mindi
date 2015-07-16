@@ -45,6 +45,7 @@
     <Compile Include="Attributes\InjectionMethodAttribute.cs" />
     <Compile Include="Attributes\InjectionAttribute.cs" />
     <Compile Include="Interfaces\BindingStub.cs" />
+    <Compile Include="Attributes\ContextAssemblyAttribute.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

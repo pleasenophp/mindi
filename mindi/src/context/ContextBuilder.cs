@@ -8,7 +8,6 @@ using minioc.resolution.instantiator;
 using System.Reflection;
 
 namespace MinDI.Context {
-	
 	/// <summary>
 	/// Context builder.
 	/// This class is responsible for finding all the populators and call them to populate context
@@ -47,8 +46,12 @@ namespace MinDI.Context {
 			initializers = new Dictionary<Type, List<IContextInitializer>>();
 
 			foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies()) {
-				foreach (Type type in assembly.GetTypes()) {
+				if (Assembly.GetExecutingAssembly() != assembly && Assembly.GetCallingAssembly() != assembly && 
+					!assembly.IsUnityProjectAssembly() && !assembly.HasContext()) {
+					continue;
+				}
 
+				foreach (Type type in assembly.GetTypes()) {
 					if (type.IsClass && typeof(IContextInitializer).IsAssignableFrom(type)) {
 						AddInitializer(type);
 					}
@@ -86,6 +89,19 @@ namespace MinDI.Context {
 			}
 			initializers[interfaceType] = instances;
 			instances.Add(Activator.CreateInstance(type) as IContextInitializer);
+		}
+
+		private static bool HasContext(this Assembly assembly) {
+			object[] attributes = assembly.GetCustomAttributes(typeof(ContextAssemblyAttribute), false);	
+			if (attributes.Length == 0) {
+				return false;
+			}
+			return true;
+		}
+
+		private static bool IsUnityProjectAssembly(this Assembly assembly) {
+			// NOTE - pretty lame way to do it like this, but seems to be ok for now
+			return assembly.FullName.Contains("Unity") || assembly.FullName.Contains("Assembly-CSharp");
 		}
 	}
 }
