@@ -21,13 +21,13 @@ namespace MinDI.Binders {
 		public IBinding Bind<T> (Func<T> create, string name = null, Action<IBinding> configure = null) where T:class
 		{
 			IBinding binding = InternalBind<T> (create, name);
-			this.ConfigureBinding (binding);
-			if (configure != null) {
-				configure (binding);
-			} 
+			return RegisterBinding(binding, configure);
+		}
 
-			context.Register (binding);
-			return binding;
+
+		public IBinding BindInstance<T> (T instance, string name = null, Action<IBinding> configure = null) {
+			IBinding binding = InternalBindInstance<T>(instance, name);
+			return RegisterBinding(binding, configure);
 		}
 
 		/// <summary>
@@ -92,11 +92,35 @@ namespace MinDI.Binders {
 		private IBinding InternalBind<T> (Func<T> create, string name=null) where T:class
 		{
 			if (string.IsNullOrEmpty(name)) {
-				string contextName = (string.IsNullOrEmpty(context.name))?"context":context.name;
-				name = string.Format("{0}_{1}_{2}", "#binding", contextName, typeof(T).FullName);
+				name = GetDefaultBindingName<T>();
 			}
 
 			return Bindings.ForType<T> (name).ImplementedBy (() => this.Resolve<T> (create));
+		}
+
+		private IBinding InternalBindInstance<T> (T instance, string name=null)
+		{
+			if (string.IsNullOrEmpty(name)) {
+				name = GetDefaultBindingName<T>();
+			}
+
+			return Bindings.ForType<T> (name).ImplementedByInstance(instance);
+		}
+
+
+		private string GetDefaultBindingName<T>() {
+			string contextName = (string.IsNullOrEmpty(context.name))?"context":context.name;
+			string name = string.Format("{0}_{1}_{2}", "#binding", contextName, typeof(T).FullName);
+			return name;
+		}
+
+		private IBinding RegisterBinding(IBinding binding, Action<IBinding> configure) {
+			this.ConfigureBinding (binding);
+			if (configure != null) {
+				configure (binding);
+			} 
+			context.Register (binding);
+			return binding;
 		}
 	}
 }

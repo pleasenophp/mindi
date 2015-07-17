@@ -13,6 +13,8 @@ namespace MinDI.Binders {
 
 		IBinding Bind<T> (Func<T> create, string name = null, Action<IBinding> configure = null) where T:class;
 
+		IBinding BindInstance<T> (T instance, string name = null, Action<IBinding> configure = null);
+
 		void BindMany<T1, T2> (Func<object> create, string name = null, Action<IBinding> configure = null) 
 			where T1:class where T2:class;
 

@@ -6,7 +6,7 @@ using UnityEngine;
 using minioc;
 using minioc.context.bindings;
 
-namespace MinDI.Tests
+namespace MinDI.Tests.MinIOC
 {
     [TestFixture]
     [Category("Other")]

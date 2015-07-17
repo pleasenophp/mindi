@@ -7,7 +7,7 @@ using minioc;
 using minioc.context.bindings;
 using MinDI.Binders;
 
-namespace MinDI.Tests
+namespace MinDI.Tests.MinIOC
 {
 
 	[TestFixture]

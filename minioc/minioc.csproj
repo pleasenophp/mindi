@@ -77,6 +77,7 @@
     <Compile Include="src\resolution\lifecylcle\providers\TypeInstanceBoundValueProvider.cs" />
     <Compile Include="src\unity\MonoBehaviourInstantiator.cs" />
     <Compile Include="src\unity\PrefabInstantiator.cs" />
+    <Compile Include="src\resolution\injection\PrimitiveInjectionStrategy.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

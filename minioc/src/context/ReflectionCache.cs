@@ -27,6 +27,9 @@ namespace minioc.context {
 			else if (type.IsInterface) {
 				throw new MiniocException(string.Format("Type {0} is an interface, cannot instantiate", type));
 			}
+			else if (type.IsPrimitive || type.IsEnum) {
+				return new PrimitiveInjectionStrategy();
+			}
 
 			InjectionStrategy injectionStrategy = tryInjectProperties(type);
 			if (injectionStrategy == null) {
@@ -38,22 +41,6 @@ namespace minioc.context {
 			}
 
 			return injectionStrategy;
-
-
-			/*
-	        List<ConstructorInfo> constructors = type.GetConstructors().ToList();
-	        InjectionStrategy injectionStrategy = tryInjectTaggedConstructor(constructors);
-	        if (injectionStrategy == null) {
-	            injectionStrategy = tryInjectMethod(type);
-	        }
-	        if (injectionStrategy == null) {
-	            injectionStrategy = tryInjectProperties(type);
-	        }
-	        if (injectionStrategy == null) {
-	            injectionStrategy = tryInjectUnTaggedConstructor(type, constructors);
-	        }
-	        return injectionStrategy;
-	        */
 		}
 			
 
@@ -88,7 +75,7 @@ namespace minioc.context {
 			return new ConstructorInjectionStrategy(constructors[0]);
 		}
 
-		// Don't wanna allow to inject constructors as it will not work with the current implementation
+		// Don't wanna allow to inject constructors as it will not work with the current implementation and design
 		/*
 		private static InjectionStrategy tryInjectTaggedConstructor(List<ConstructorInfo> constructors) {
 			ConstructorInfo[] injectConstructors =
@@ -101,7 +88,6 @@ namespace minioc.context {
 			}
 			return null;
 		}
-		 
 		*/
 
 		private int injectionOrderSorter(MethodInfo a, MethodInfo b) {

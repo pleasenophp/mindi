@@ -33,21 +33,18 @@ namespace minioc.context {
 
 		public object createInstance(Type type, Instantiator instantiator, IList<IDependency> dependencies) {
 			InjectionStrategy injectionStrategy = getInjectionStrategy(type);
-			object instance;
-			if (!instantiator.AllowConstructorInjection()) {
-				instance = instantiator.CreateInstance(type);
-				if (injectionStrategy.type != InjectorStrategyType.CONSTRUCTOR) {
-					injectionStrategy.inject(instance, _dependencyResolver, dependencies);
-				}
-			}
-			else if (injectionStrategy.type == InjectorStrategyType.CONSTRUCTOR) {
-				ConstructorInjectionStrategy constructorInjectionStrategy = (ConstructorInjectionStrategy)injectionStrategy;
-				instance = constructorInjectionStrategy.createInstance(_dependencyResolver, dependencies);
+			object instance = null;
+		
+			// NOTE - this is needed for the class that has no injectors marked. Can inject through default constructor
+			// Should be used only as a fail-safe measure
+			if (injectionStrategy.type == InjectorStrategyType.CONSTRUCTOR) {
+				instance = (injectionStrategy as ConstructorInjectionStrategy).createInstance(_dependencyResolver, dependencies);
 			}
 			else {
 				instance = instantiator.CreateInstance(type);
 				injectionStrategy.inject(instance, _dependencyResolver, dependencies);
 			}
+
 			return instance;
 		}
 

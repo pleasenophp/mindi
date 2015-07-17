@@ -38,11 +38,12 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <Compile Include="MinIOC.cs" />
-    <Compile Include="MinIOCAdvancedTests.cs" />
-    <Compile Include="StateSingletonTestClasses.cs" />
-    <Compile Include="ContextChainingTests.cs" />
-    <Compile Include="FixedBugs.cs" />
+    <Compile Include="Core\TestBindings.cs" />
+    <Compile Include="MinIOC\MinIOC.cs" />
+    <Compile Include="MinIOC\MinIOCAdvancedTests.cs" />
+    <Compile Include="MinIOC\ContextChainingTests.cs" />
+    <Compile Include="MinIOC\StateSingletonTestClasses.cs" />
+    <Compile Include="Core\FixedBugs.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\minioc\minioc.csproj">
@@ -60,5 +61,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Core\" />
+    <Folder Include="MinIOC\" />
   </ItemGroup>
 </Project>
