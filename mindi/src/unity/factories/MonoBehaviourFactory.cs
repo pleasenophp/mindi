@@ -10,6 +10,7 @@ using System.Collections.Generic;
 
 namespace MinDI.Factories {
 
+	// TODO - might need to remove it after building it in context
 	/// <summary>
 	/// Standard factory to create mono behaviours
 	/// </summary>

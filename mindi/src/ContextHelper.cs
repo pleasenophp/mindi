@@ -20,20 +20,7 @@ namespace MinDI {
 			return context;
 
 		}
-
-
-		/// <summary>
-		/// Facilitates the creation of the object by automatically injecting the dependencies
-		/// </summary>
-		/// <param name="context">Context.</param>
-		/// <param name="obj">Object.</param>
-		/// <typeparam name="T">The 1st type parameter.</typeparam>
-		public static T Create<T>(IDIContext context, T obj) {
-			context.InjectDependencies(obj);
-			return obj;
-		}
-
-
+			
 		/// <summary>
 		/// Creates the bind helper to simplify binding syntax.
 		/// Extension of the IDIContext.
@@ -43,17 +30,7 @@ namespace MinDI {
 		public static BindHelper CreateBindHelper(this IDIContext context) {
 			return new BindHelper(context);
 		}
-
-		/// <summary>
-		/// Extension for the IDIContext to easyly create IDIBinders
-		/// </summary>
-		/// <returns>The binder.</returns>
-		/// <param name="context">Context.</param>
-		/// <typeparam name="T">The 1st type parameter.</typeparam>
-		public static T CreateBinder<T>(this IDIContext context) where T:IDIBinder {
-			return Create<T>(context, Activator.CreateInstance<T>());
-		}
-
+			
 		/// <summary>
 		/// Resolve an interface from the specified context with casting it to the instance.
 		/// Can be usefull for the builders and factories

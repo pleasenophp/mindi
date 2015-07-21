@@ -16,7 +16,7 @@ namespace MinDI.Binders {
 
 		public BindHelper(IDIContext context) {
 			this.context = context;
-			_multiple = context.CreateBinder<MultipleBinder> ();
+			_multiple = new MultipleBinder(this.context);
 		}
 			
 		public MultipleBinder multiple {
@@ -27,8 +27,26 @@ namespace MinDI.Binders {
 
 		public SingletonBinder singleton {
 			get {
-				return context.CreateBinder<SingletonBinder> ();
+				return new SingletonBinder(this.context);
 			}
+		}
+
+		public MonoBehaviourBinder mbSingleton {
+			get {
+				return new MonoBehaviourBinder(this.context);
+			}
+		}
+
+		public MonoBehaviourMultipleBinder mbMultiple {
+			get {
+				return new MonoBehaviourMultipleBinder(this.context);
+			}
+		}
+
+		public static string GetDefaultBindingName<T>(IDIContext context) {
+			string contextName = (string.IsNullOrEmpty(context.name))?"context":context.name;
+			string name = string.Format("{0}_{1}_{2}", "#binding", contextName, typeof(T).FullName);
+			return name;
 		}
 	}
 }

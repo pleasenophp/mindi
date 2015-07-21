@@ -9,6 +9,10 @@ namespace MinDI.Binders {
 
 	public abstract class BaseDIBinder : PublicContextObject, IDIBinder
 	{
+		public BaseDIBinder(IDIContext context) {
+			this.context = context;
+		}
+
 		public abstract T Resolve<T> (Func<T> create) where T:class;
 
 		/// <summary>
@@ -92,7 +96,7 @@ namespace MinDI.Binders {
 		private IBinding InternalBind<T> (Func<T> create, string name=null) where T:class
 		{
 			if (string.IsNullOrEmpty(name)) {
-				name = GetDefaultBindingName<T>();
+				name = BindHelper.GetDefaultBindingName<T>(context);
 			}
 
 			return Bindings.ForType<T> (name).ImplementedBy (() => this.Resolve<T> (create));
@@ -101,17 +105,10 @@ namespace MinDI.Binders {
 		private IBinding InternalBindInstance<T> (T instance, string name=null)
 		{
 			if (string.IsNullOrEmpty(name)) {
-				name = GetDefaultBindingName<T>();
+				name = BindHelper.GetDefaultBindingName<T>(context);
 			}
 
 			return Bindings.ForType<T> (name).ImplementedByInstance(instance);
-		}
-
-
-		private string GetDefaultBindingName<T>() {
-			string contextName = (string.IsNullOrEmpty(context.name))?"context":context.name;
-			string name = string.Format("{0}_{1}_{2}", "#binding", contextName, typeof(T).FullName);
-			return name;
 		}
 
 		private IBinding RegisterBinding(IBinding binding, Action<IBinding> configure) {

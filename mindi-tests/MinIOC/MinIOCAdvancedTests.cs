@@ -38,7 +38,7 @@ namespace MinDI.Tests.MinIOC
 			IDIContext context = ContextHelper.CreateContext();
 
 			// Then let's create a standard factory we will use
-			IDIBinder binder = context.CreateBinder<SingletonBinder>();
+			SingletonBinder binder = new SingletonBinder(context);
 
 			// Let's bind a test type using our factory
 			binder.Bind<IDependencyTest>(() => new DependencyTest());
@@ -68,7 +68,7 @@ namespace MinDI.Tests.MinIOC
 			IDIContext context = ContextHelper.CreateContext();
 
 			// Then let's create a standard factory we will use
-			IDIBinder binder = context.CreateBinder<MultipleBinder>();
+			MultipleBinder binder = new MultipleBinder(context);
 
 			// Let's bind a test type using our factory
 			binder.Bind<IDependencyTest>(() => new DependencyTest());
@@ -100,7 +100,7 @@ namespace MinDI.Tests.MinIOC
 		[Test]
 		public void Test2InterfacesContainerBindingPersistence() {
 			IDIContext context = ContextHelper.CreateContext();
-			IDIBinder modelBinder = context.CreateBinder<SingletonBinder>();
+			SingletonBinder modelBinder = new SingletonBinder(context);
 
 			modelBinder.BindMany<IAdvancedRead, IAdvancedWrite>(() => new AdvancedModel());
 			

@@ -10,6 +10,8 @@ namespace MinDI.Binders {
 	// That's usefull for the singleton classes 
 	public class SingletonBinder : BaseDIBinder
 	{
+		public SingletonBinder(IDIContext context) : base (context) {}
+
 		private object instance = null;
 
 		public override T Resolve<T> (Func<T> create)

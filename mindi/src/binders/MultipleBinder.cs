@@ -9,14 +9,14 @@ namespace MinDI.Binders {
 
 	public class MultipleBinder : BaseDIBinder
 	{
-		#region IDIFactory implementation
+
+		public MultipleBinder(IDIContext context) : base (context) {}
 		
 		public override T Resolve<T> (Func<T> create)
 		{
 			return create ();
 		}
-		
-		#endregion
+
 	}
 
 }
