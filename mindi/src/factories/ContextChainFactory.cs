@@ -27,6 +27,14 @@ namespace MinDI.Factories {
 				return newContext.Resolve<T> (name);
 			}
 		}
+
+		public T Destroy(T instance) {
+			if (instance == null) {
+				return null;
+			}
+
+			throw new NotImplementedException();
+		}
 	}
 
 }

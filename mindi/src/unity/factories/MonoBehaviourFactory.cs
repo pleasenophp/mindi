@@ -16,7 +16,7 @@ namespace MinDI.Factories {
 	/// </summary>
 	public class MonoBehaviourFactory<T, TInstance> : 
 		PublicContextObject, 
-		IDIDestroyingFactory<T> where T:class where TInstance:MonoBehaviour, T 
+		IDIFactory<T> where T:class where TInstance:MonoBehaviour, T 
 	{
 
 		protected InstantiationMode instantiationMode;
@@ -58,21 +58,21 @@ namespace MinDI.Factories {
 			return result;
 		}
 
-		public void Destroy(T instance) {
+		public T Destroy(T instance) {
 			TInstance component = instance as TInstance;
 			if (component == null) {
-				return;
+				return null;
 			}
 
 			GameObject obj = component.gameObject;
 			if (obj == null) {
-				return;
+				return null;
 			}
 
 			// If it's specified object mode, only destroying the component, not touching the object
 			if (specifiedObject != null) {
 				DestroyComponent(component);
-				return;
+				return null;
 			}
 
 			// Else if it's binding by object name mode - destroying the game object when there is no more components on it
@@ -84,6 +84,8 @@ namespace MinDI.Factories {
 			else {
 				DestroyComponent(component);
 			}
+
+			return null;
 		}
 
 		protected virtual void Reconfigure() {

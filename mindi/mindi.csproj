@@ -49,7 +49,6 @@
     <Compile Include="src\exceptions\MindiException.cs" />
     <Compile Include="src\factories\ContextChainFactory.cs" />
     <Compile Include="src\factories\ContextFactory.cs" />
-    <Compile Include="src\factories\IDIDestroyingFactory.cs" />
     <Compile Include="src\factories\IDIFactory.cs" />
     <Compile Include="src\objects\ContextObject.cs" />
     <Compile Include="src\objects\PublicContextObject.cs" />
@@ -61,6 +60,9 @@
     <Compile Include="src\binders\MonoBehaviourBinder.cs" />
     <Compile Include="src\binders\MonoBehaviourMultipleBinder.cs" />
     <Compile Include="src\binders\IDIBinder.cs" />
+    <Compile Include="src\context\ContextEnvironment.cs" />
+    <Compile Include="src\context\MindiContextInitializer.cs" />
+    <Compile Include="src\context\IApplicationContextInitializer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

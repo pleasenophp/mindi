@@ -13,6 +13,7 @@ namespace MinDI.Factories {
 	public interface IDIFactory<T> where T:class
 	{
 		T Resolve (string name = null);
+		T Destroy(T instance);
 	}
 
 }

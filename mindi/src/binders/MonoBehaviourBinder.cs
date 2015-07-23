@@ -43,6 +43,13 @@ namespace MinDI.Binders {
 		{
 			return baseBinder.Bind<T>(() => this.Resolve<T, TInstance>(), name);
 		}
+
+		public IBinding BindResource<T, TInstance> (string resourceName, string bindingName = null) 
+			where T:class where TInstance:MonoBehaviour, T
+
+		{
+			return baseBinder.Bind<T>(() => ResolveResource<T, TInstance>(resourceName), bindingName);
+		}
 			
 		private T Resolve<T, TInstance> () 
 			where T:class where TInstance:MonoBehaviour, T
@@ -50,6 +57,19 @@ namespace MinDI.Binders {
 			string objectName = typeof(TInstance).Name;
 			GameObject obj = new GameObject(objectName);
 			return obj.AddComponent<TInstance>();
+		}
+
+		private T ResolveResource<T, TInstance>(string path) 
+				where T:class where TInstance:MonoBehaviour, T
+		{
+			GameObject prefab = Resources.Load<GameObject>(path);
+			if (prefab == null) {
+				throw new MindiException("Cannot load the resource by path "+path);
+			}
+
+			GameObject obj = (GameObject)GameObject.Instantiate(prefab);
+			obj.name = typeof(TInstance).Name;
+			return obj.GetComponent<TInstance>();
 		}
 	}
 
