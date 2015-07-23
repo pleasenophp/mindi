@@ -9,7 +9,6 @@ namespace MinDI.Binders {
 
 	public interface IDIBinder
 	{
-		T Resolve<T> (Func<T> create) where T:class;
 
 		IBinding Bind<T> (Func<T> create, string name = null, Action<IBinding> configure = null) where T:class;
 

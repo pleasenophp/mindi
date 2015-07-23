@@ -12,7 +12,7 @@ namespace MinDI.Binders {
 
 		public MultipleBinder(IDIContext context) : base (context) {}
 		
-		public override T Resolve<T> (Func<T> create)
+		protected override T Resolve<T> (Func<T> create)
 		{
 			return create ();
 		}

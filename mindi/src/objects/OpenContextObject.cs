@@ -15,7 +15,7 @@ namespace MinDI {
 	/// Usually it's a factory that should have such a privilegy.
 	/// </summary>
 	[Serializable]
-	public class OpenContextObject : DIStateObject {
+	public class OpenContextObject : DIStateObject, IDIClosedContext {
 		
 		[NonSerialized]
 		private IDIContext _context;
@@ -31,6 +31,17 @@ namespace MinDI {
 				}
 				_context = value;
 				OnContextInjected();
+			}
+		}
+
+		[NonSerialized]
+		private IDIContext _stCreatorContext = null;
+		IDIContext IDIClosedContext.stCreatorContext {
+			get {
+				return _stCreatorContext;
+			}
+			set {
+				_stCreatorContext = value;
 			}
 		}
 

@@ -31,6 +31,18 @@ namespace MinDI {
 				return _context;
 			}
 		}
+
+		[NonSerialized]
+		private IDIContext _stCreatorContext = null;
+		IDIContext IDIClosedContext.stCreatorContext {
+			get {
+				return _stCreatorContext;
+			}
+			set {
+				_stCreatorContext = value;
+			}
+		}
+			
 		#endregion
 	}
 }

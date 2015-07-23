@@ -12,7 +12,7 @@ namespace MinDI.Binders {
 			this.context = context;
 		}
 
-		public abstract T Resolve<T> (Func<T> create) where T:class;
+		protected abstract T Resolve<T> (Func<T> create) where T:class;
 
 		/// <summary>
 		/// Bind the specified interface using create factory, optional binding name and configuration
@@ -32,25 +32,7 @@ namespace MinDI.Binders {
 			IBinding binding = InternalBindInstance<T>(instance, name);
 			return RegisterBinding(binding, configure);
 		}
-
-		/// <summary>
-		/// Rebind the binding from parent context to a new binder.
-		/// This can be usefull to e.g. rebind the library binding to a singletone
-		/// </summary>
-		/// <param name="name">Name for new binding.</param>
-		/// <param name="resolutionName">Resolution name for parent binding.</param>
-		/// <param name="configure">Configuration of binding.</param>
-		/// <typeparam name="T">The interface type.</typeparam>
-		public IBinding Rebind<T>(string name = null, string resolutionName = null, Action<IBinding> configure = null) 
-			where T:class 
-		{
-			if (context.parent == null) {
-				throw new MindiException("Called Rebind, but the parent context is null");
-			}
-
-			return this.Bind<T> (()=>context.parent.Resolve<T>(resolutionName, true), 
-				name, configure);
-		}
+			
 
 		public void BindMany<T1, T2> (Func<object> create, string name = null, Action<IBinding> configure = null) 
 		where T1:class where T2:class
