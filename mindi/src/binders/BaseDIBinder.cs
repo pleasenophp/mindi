@@ -3,11 +3,10 @@ using System.Collections;
 using minioc;
 using minioc.context.bindings;
 using minioc.resolution.instantiator;
-using MinDI.Objects;
 
 namespace MinDI.Binders {
 
-	public abstract class BaseDIBinder : PublicContextObject, IDIBinder
+	public abstract class BaseDIBinder : OpenContextObject, IDIBinder
 	{
 		public BaseDIBinder(IDIContext context) {
 			this.context = context;

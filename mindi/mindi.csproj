@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{26DAE650-5AD8-42FB-B67E-C9ED91FD6B1A}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>mindi</RootNamespace>
+    <RootNamespace>MinDI</RootNamespace>
     <AssemblyName>mindi</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
   </PropertyGroup>
@@ -51,10 +51,7 @@
     <Compile Include="src\factories\ContextFactory.cs" />
     <Compile Include="src\factories\IDIFactory.cs" />
     <Compile Include="src\objects\ContextObject.cs" />
-    <Compile Include="src\objects\PublicContextObject.cs" />
     <Compile Include="src\unity\factories\MonoBehaviourFactory.cs" />
-    <Compile Include="src\unity\objects\ContextMonoBehaviour.cs" />
-    <Compile Include="src\unity\objects\DIStateMonoBehaviour.cs" />
     <Compile Include="src\binders\BindHelper.cs" />
     <Compile Include="src\binders\SingletonBinder.cs" />
     <Compile Include="src\binders\MonoBehaviourBinder.cs" />
@@ -63,10 +60,17 @@
     <Compile Include="src\context\ContextEnvironment.cs" />
     <Compile Include="src\context\MindiContextInitializer.cs" />
     <Compile Include="src\context\IApplicationContextInitializer.cs" />
+    <Compile Include="src\objects\ContextMonoBehaviour.cs" />
+    <Compile Include="src\objects\DIStateMonoBehaviour.cs" />
+    <Compile Include="src\objects\OpenContextObject.cs" />
+    <Compile Include="src\objects\remote\RemoteObjectsRecord.cs" />
+    <Compile Include="src\objects\remote\IRemoteObjectsRecord.cs" />
+    <Compile Include="src\objects\IDIClosedContext.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="src\" />
+    <Folder Include="src\objects\remote\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\minioc\minioc.csproj">

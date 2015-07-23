@@ -6,7 +6,7 @@ using minioc.resolution.instantiator;
 using MinDI.StateObjects;
 
 
-namespace MinDI.Objects {
+namespace MinDI {
 
 	/// <summary>
 	/// Context object is an automatical memory of context on the object.
@@ -15,7 +15,7 @@ namespace MinDI.Objects {
 	/// Usually it's a factory that should have such a privilegy.
 	/// </summary>
 	[Serializable]
-	public class PublicContextObject : DIStateObject {
+	public class OpenContextObject : DIStateObject {
 		
 		[NonSerialized]
 		private IDIContext _context;
@@ -30,7 +30,11 @@ namespace MinDI.Objects {
 					throw new MindiException("Attempt to alter context on ContextObject");
 				}
 				_context = value;
+				OnContextInjected();
 			}
+		}
+
+		protected virtual void OnContextInjected() {
 		}
 	}
 

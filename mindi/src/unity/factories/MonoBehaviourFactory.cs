@@ -4,7 +4,6 @@ using minioc;
 
 using minioc.context.bindings;
 using minioc.resolution.instantiator;
-using MinDI.Objects;
 using UnityEngine;
 using System.Collections.Generic;
 
@@ -15,7 +14,7 @@ namespace MinDI.Factories {
 	/// Standard factory to create mono behaviours
 	/// </summary>
 	public class MonoBehaviourFactory<T, TInstance> : 
-		PublicContextObject, 
+		OpenContextObject, 
 		IDIFactory<T> where T:class where TInstance:MonoBehaviour, T 
 	{
 

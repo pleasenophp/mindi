@@ -4,7 +4,6 @@ using minioc;
 using minioc.context.bindings;
 using minioc.resolution.instantiator;
 using UnityEngine;
-using MinDI.Objects;
 using MinDI;
 
 
@@ -25,6 +24,6 @@ namespace MinDI.Tests.MinIOC {
 		IDIContext context { get; }
 	}
 
-	public class DependencyTest : PublicContextObject, IDependencyTest {
+	public class DependencyTest : OpenContextObject, IDependencyTest {
 	}
 }

@@ -4,21 +4,31 @@ using minioc;
 
 using minioc.context.bindings;
 using minioc.resolution.instantiator;
-using MinDI.Objects;
+using MinDI.Context;
+using MinDI.StateObjects;
 
 
 namespace MinDI.Factories {
 	/// <summary>
 	/// Standard factory to resolve an object from context
 	/// </summary>
-	public class ContextFactory<T> : PublicContextObject, IDIFactory<T> where T:class
+	public class ContextFactory<T> : OpenContextObject, IDIFactory<T> where T:class
 	{
-		public T Resolve (string name = null) {
-			if (string.IsNullOrEmpty(name)) {
-				return context.Resolve<T>();
+		protected ContextEnvironment environment;
+
+		protected override void OnContextInjected() {
+			environment = context.Resolve<ContextEnvironment>();
+		}
+
+		public virtual T Resolve (string name = null) {
+			// In the remote objects environment, chaining context, and creating RemoteObjectsDescriptor
+			if (environment == ContextEnvironment.RemoteObjects) {
+				IDIContext newContext = ContextHelper.CreateContext(this.context);
+				BindObjectsRecord(newContext);
+				return Resolve(newContext, name);
 			}
 			else {
-				return context.Resolve<T>(name);
+				return Resolve(context, name);
 			}
 		}
 
@@ -27,8 +37,25 @@ namespace MinDI.Factories {
 				return null;
 			}
 
-			// First of all need to force chaining context in factory if it's a Unity type of context
-			// If the factory works on normal context, then it resolves in chaining mode only by request
+			if (environment != ContextEnvironment.RemoteObjects) {
+				return null;
+			}
+
+			// Getting context of the object
+			IDIClosedContext contextObject = instance as IDIClosedContext;
+			if (contextObject == null) {
+				throw new MindiException(
+					string.Format("Called Destroy on object {0} that doesn't implement IDIClosedContext. Consider deriving the object from the ContextObject",
+						instance));
+			}
+
+			if (contextObject.context == null) {
+				throw new MindiException(string.Format("Context is null for object {0}", instance));
+			}
+
+			IRemoteObjectsRecord ror = contextObject.context.Resolve<IRemoteObjectsRecord>();
+			ror.DestroyAll();
+			return null;
 
 			// When we resolve an object on the new context and this object is mono behaviour that is instantiated:
 			// - the object records its creation on the RemoteObjectsDescriptor in the context
@@ -40,8 +67,21 @@ namespace MinDI.Factories {
 			// Then we just clear all the remote objects by calling GameObject.Destroy on them 
 
 			// If we meet a child factory object - then we call destroy on child factory
+		}
 
-			throw new NotImplementedException();
+
+		protected T Resolve(IDIContext context, string name) {
+			if (string.IsNullOrEmpty(name)) {
+				return context.Resolve<T>();
+			}
+			else {
+				return context.Resolve<T>(name);
+			}
+		}
+
+		protected void BindObjectsRecord(IDIContext context) {
+			var bind = context.CreateBindHelper();
+			bind.singleton.Bind<IRemoteObjectsRecord>(() => new RemoteObjectsRecord());
 		}
 	}
 }

@@ -8,7 +8,7 @@ using minioc.resolution.dependencies;
 using UnityEngine;
 using MinDI.StateObjects;
 
-namespace MinDI.Objects
+namespace MinDI
 {
 	public abstract class DIStateMonoBehaviour : MonoBehaviour, IDIStateObject {
 		private DIState _state = DIState.NotResolved;
