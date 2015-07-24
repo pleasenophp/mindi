@@ -64,7 +64,6 @@
     <Compile Include="src\objects\OpenContextObject.cs" />
     <Compile Include="src\objects\remote\RemoteObjectsRecord.cs" />
     <Compile Include="src\objects\remote\IRemoteObjectsRecord.cs" />
-    <Compile Include="src\objects\IDIClosedContext.cs" />
     <Compile Include="src\objects\remote\DestroyBehaviour.cs" />
     <Compile Include="src\objects\remote\MBInstantiationType.cs" />
     <Compile Include="src\factories\IAutoDestructable.cs" />

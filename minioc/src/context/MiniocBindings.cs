@@ -51,6 +51,10 @@ namespace minioc.context {
 		}
 
 		public object resolve(Type type, string name, InjectionContext injectionContext) {
+			if (string.IsNullOrEmpty(name)) {
+				return resolveDefault(type, injectionContext);
+			}
+
 			TypeBindings typeBindings;
 			if (!_bindings.TryGetValue(type, out typeBindings)) {
 				throw new MiniocException("No Binding exist for type : " + type);
@@ -59,6 +63,10 @@ namespace minioc.context {
 		}
 
 		public bool tryResolve(Type type, string name, InjectionContext injectionContext, out object result) {
+			if (string.IsNullOrEmpty(name)) {
+				return tryResolveDefault(type, injectionContext, out result);
+			}
+
 			TypeBindings typeBindings;
 			if (!_bindings.TryGetValue(type, out typeBindings)) {
 				result = null;

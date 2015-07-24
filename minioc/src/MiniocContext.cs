@@ -11,7 +11,6 @@ using MinDI.StateObjects;
 
 namespace minioc
 {
-
 	// TODO - check thread safety of calling Resolve
 	public class MiniocContext : DependencyResolver, IDIContext {
 		private MiniocBindings _bindings = new MiniocBindings ();
@@ -64,7 +63,7 @@ namespace minioc
 		/// <returns></returns>
 		public T Resolve<T> (bool omitInjectDependencies = false)
 		{
-			return (T)Resolve (typeof(T), omitInjectDependencies);
+			return (T)Resolve (typeof(T), null, omitInjectDependencies);
 		}
 
 		/// <summary>
@@ -75,63 +74,21 @@ namespace minioc
 		/// <returns></returns>
 		public T Resolve<T> (string name, bool omitInjectDependencies = false)
 		{
-			if (string.IsNullOrEmpty(name)) {
-				return (T)Resolve (typeof(T), omitInjectDependencies);
-			}
-
 			return (T)Resolve (typeof(T), name, omitInjectDependencies);
 		}
-
-		/// <summary>
-		/// Returns the value bound to given type
-		/// Throws a MiniocException if not bound
-		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <returns></returns>
-		public object Resolve (Type type, bool omitInjectDependencies = false)
-		{
-			try {
-				if (_parentContext != null) {
-					object result;
-					if (_bindings.tryResolveDefault (type, _injectionContext, out result)) {
-						if (!omitInjectDependencies) {
-							this.InjectDependencies (result);
-						}
-						return result;
-					} else {
-						result = _parentContext.Resolve (type, true);
-						if (!omitInjectDependencies) {
-							this.InjectDependencies(result);
-						}
-						return result;
-					}
-				} else {
-					object result = _bindings.resolveDefault (type, _injectionContext);
-					if (!omitInjectDependencies) {
-						this.InjectDependencies(result);
-					}
-					return result;
-				}
-			} catch (MiniocException e) {
-				throw new MiniocException (string.Format ("Unable to resolve instance of '{0}'", type), e);
-			}
-		}
-
+			
 		/// <summary>
 		/// Returns the value bound to given type and with given name
 		/// Throws a MiniocException if not bound
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
 		/// <returns></returns>
-		public object Resolve (Type type, string name, bool omitInjectDependencies = false)
+		public object Resolve (Type type, string name=null, bool omitInjectDependencies = false)
 		{
-			if (string.IsNullOrEmpty(name)) {
-				return Resolve(type, omitInjectDependencies);
-			}
-
 			try {
 				if (_parentContext != null) {
 					object result;
+
 					if (_bindings.tryResolve (type, name, _injectionContext, out result)) {
 						if (!omitInjectDependencies) {
 							this.InjectDependencies(result);
@@ -139,6 +96,9 @@ namespace minioc
 						return result;
 					} else {
 						result = _parentContext.Resolve (type, name, true);
+
+						// TODO - if an object, resolved from the parent context is singletone there, 
+						// Inject dependencies from the parent context to avoid subjectivisation
 						if (!omitInjectDependencies) {
 							this.InjectDependencies(result);
 						}
@@ -163,6 +123,13 @@ namespace minioc
 		/// <param name="dependencies"></param>
 		public void InjectDependencies (object instance, IList<IDependency> dependencies = null)
 		{
+			// If this object is singletone from the other context, injecting the dependencies on this context
+			IDIClosedContext closedContext = instance as IDIClosedContext;
+			if (closedContext != null && closedContext.stCreatorContext != null && closedContext.stCreatorContext != this) {
+				closedContext.stCreatorContext.InjectDependencies(instance, dependencies);
+				return;
+			}
+				
 			IDIStateObject stateInstance = instance as IDIStateObject;
 			if (stateInstance == null) {
 				_injectionContext.injectDependencies (instance, dependencies);
