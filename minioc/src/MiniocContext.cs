@@ -11,6 +11,8 @@ using MinDI.StateObjects;
 
 namespace minioc
 {
+
+	// TODO - check thread safety of calling Resolve
 	public class MiniocContext : DependencyResolver, IDIContext {
 		private MiniocBindings _bindings = new MiniocBindings ();
 		private InjectionContext _injectionContext;

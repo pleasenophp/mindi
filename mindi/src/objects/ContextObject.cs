@@ -4,13 +4,36 @@ using minioc;
 using minioc.context.bindings;
 using minioc.resolution.instantiator;
 using MinDI.StateObjects;
+using MinDI.Factories;
 
 
 namespace MinDI {
 
 	// TODO - sort DRY with PublicContextObject
 	[Serializable]
-	public class ContextObject : DIStateObject, IDIClosedContext {
+	public class ContextObject : DIStateObject, IDIClosedContext, IAutoDestructable {
+		#region IAutoDestructable implementation
+
+		[NonSerialized]
+		private IDestroyingFactory _factory;
+		public IDestroyingFactory factory {
+			get {
+				return _factory;
+			}
+			set {
+				_factory = value;
+			}
+		}
+
+		~ContextObject() {
+			if (_factory != null) {
+				IActionQueue queue = _context.Resolve<IActionQueue>();
+				queue.Enqueue(() => _factory.DestroyInstance(this));
+			}
+		}
+
+		#endregion
+
 
 		[NonSerialized]
 		private IDIContext _context;

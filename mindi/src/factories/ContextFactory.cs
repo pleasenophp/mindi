@@ -12,7 +12,8 @@ namespace MinDI.Factories {
 	/// <summary>
 	/// Standard factory to resolve an object from context
 	/// </summary>
-	public class ContextFactory<T> : OpenContextObject, IDIFactory<T> where T:class
+	public class ContextFactory<T> : OpenContextObject, IDIFactory<T>
+		where T:class
 	{
 		protected ContextEnvironment environment;
 
@@ -25,6 +26,7 @@ namespace MinDI.Factories {
 			if (environment == ContextEnvironment.RemoteObjects) {
 				IDIContext newContext = ContextHelper.CreateContext(this.context);
 				BindObjectsRecord(newContext);
+
 				return Resolve(newContext, name);
 			}
 			else {
@@ -33,12 +35,26 @@ namespace MinDI.Factories {
 		}
 
 		public T Destroy(T instance) {
+			DestroyInstance(instance);
+			return null;
+		}
+			
+		public void DestroyInstance(object instance) {
+			// TODO
+			// If an object is created by a child factory, this factory records in our object descriptor 
+			// the pair - factory - instance
+
+			// When we destroy the object from the factory, and this object is recoreded as root in RemoteObjectsDescriptor
+			// Then we just clear all the remote objects by calling GameObject.Destroy on them 
+
+			// If we meet a child factory object - then we call destroy on child factory
+
 			if (instance == null) {
-				return null;
+				return;
 			}
 
 			if (environment != ContextEnvironment.RemoteObjects) {
-				return null;
+				return;
 			}
 
 			// Getting context of the object
@@ -61,27 +77,25 @@ namespace MinDI.Factories {
 
 			IRemoteObjectsRecord ror = contextObject.context.Resolve<IRemoteObjectsRecord>();
 			ror.DestroyAll();
-			return null;
-
-
-			// TODO
-			// If an object is created by a child factory, this factory records in our object descriptor 
-			// the pair - factory - instance
-
-			// When we destroy the object from the factory, and this object is recoreded as root in RemoteObjectsDescriptor
-			// Then we just clear all the remote objects by calling GameObject.Destroy on them 
-
-			// If we meet a child factory object - then we call destroy on child factory
 		}
 
 
 		protected T Resolve(IDIContext context, string name) {
+			T instance = null;
+
 			if (string.IsNullOrEmpty(name)) {
-				return context.Resolve<T>();
+				instance = context.Resolve<T>();
 			}
 			else {
-				return context.Resolve<T>(name);
+				instance = context.Resolve<T>(name);
 			}
+
+			IAutoDestructable destructable = instance as IAutoDestructable;
+			if (destructable != null) {
+				destructable.factory = this;
+			}
+
+			return instance;
 		}
 
 		protected void BindObjectsRecord(IDIContext context) {

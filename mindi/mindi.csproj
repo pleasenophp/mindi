@@ -67,6 +67,10 @@
     <Compile Include="src\objects\IDIClosedContext.cs" />
     <Compile Include="src\objects\remote\DestroyBehaviour.cs" />
     <Compile Include="src\objects\remote\MBInstantiationType.cs" />
+    <Compile Include="src\factories\IAutoDestructable.cs" />
+    <Compile Include="src\factories\IDestroyingFactory.cs" />
+    <Compile Include="src\objects\remote\ActionQueue.cs" />
+    <Compile Include="src\objects\remote\IActionQueue.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

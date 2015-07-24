@@ -4,6 +4,7 @@ using minioc;
 using minioc.context.bindings;
 using minioc.resolution.instantiator;
 using MinDI.StateObjects;
+using MinDI.Factories;
 
 
 namespace MinDI {
@@ -15,8 +16,30 @@ namespace MinDI {
 	/// Usually it's a factory that should have such a privilegy.
 	/// </summary>
 	[Serializable]
-	public class OpenContextObject : DIStateObject, IDIClosedContext {
-		
+	public class OpenContextObject : DIStateObject, IDIClosedContext, IAutoDestructable {
+		#region IAutoDestructable implementation
+
+		[NonSerialized]
+		private IDestroyingFactory _factory;
+		public IDestroyingFactory factory {
+			get {
+				return _factory;
+			}
+			set {
+				_factory = value;
+			}
+		}
+
+		~OpenContextObject() {
+			if (_factory != null) {
+				IActionQueue queue = _context.Resolve<IActionQueue>();
+				queue.Enqueue(() => _factory.DestroyInstance(this));
+			}
+		}
+
+		#endregion
+
+
 		[NonSerialized]
 		private IDIContext _context;
 		

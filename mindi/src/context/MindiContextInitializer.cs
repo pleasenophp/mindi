@@ -1,4 +1,5 @@
 ﻿using System;
+using MinDI.StateObjects;
 
 namespace MinDI.Context {
 	public class MindiContextInitializer : IGlobalContextInitializer {
@@ -6,7 +7,7 @@ namespace MinDI.Context {
 		public void Initialize(IDIContext context) {
 			var bind = context.CreateBindHelper();
 			bind.singleton.BindInstance<ContextEnvironment>(ContextEnvironment.Normal);
-
+			bind.singleton.Bind<IActionQueue>(() => new ActionQueue());
 		}
 		#endregion
 		

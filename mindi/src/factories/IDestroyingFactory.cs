@@ -10,10 +10,9 @@ namespace MinDI.Factories {
 	/// <summary>
 	/// A factory interface to produce objects
 	/// </summary>
-	public interface IDIFactory<T> : IDestroyingFactory where T:class
+	public interface IDestroyingFactory
 	{
-		T Resolve (string name = null);
-		T Destroy(T instance);
+		void DestroyInstance(object instance);
 	}
 
 }
