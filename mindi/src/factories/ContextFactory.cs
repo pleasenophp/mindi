@@ -63,9 +63,8 @@ namespace MinDI.Factories {
 			ror.DestroyAll();
 			return null;
 
-			// When we resolve an object on the new context and this object is mono behaviour that is instantiated:
-			// - the object records its creation on the RemoteObjectsDescriptor in the context
-			// (that is always present in the factory context)
+
+			// TODO
 			// If an object is created by a child factory, this factory records in our object descriptor 
 			// the pair - factory - instance
 

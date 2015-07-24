@@ -3,7 +3,10 @@ using System.Collections.Generic;
 
 
 namespace MinDI.StateObjects {
-	
+
+
+	// TODO - sort out the objects hierarchy.
+	// Leave: ContextObject, ContextMonoBehaviour, OpenContextObject
 	[Serializable]
 	public abstract class DIStateObject : IDIStateObject {
 		private DIState _state = DIState.NotResolved;
@@ -14,6 +17,9 @@ namespace MinDI.StateObjects {
 			set {
 				_state = value;
 			}
+		}
+
+		public virtual void AfterInjection() {
 		}
 	}
 }

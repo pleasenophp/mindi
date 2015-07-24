@@ -4,6 +4,7 @@ using minioc;
 using minioc.context.bindings;
 using minioc.resolution.instantiator;
 using UnityEngine;
+using MinDI.StateObjects;
 
 namespace MinDI.Binders {
 
@@ -27,14 +28,10 @@ namespace MinDI.Binders {
 		}
 
 
-
 		// TODO - add different binding types - for prefab, etc
 		// TODO - add resolution of the ContextType, and bind depending on it as DontDestroyOnLoad
 		// ContextType: Normal (not allowed to bind MB at all), UnityRoot (always create MB as DontDestroyOnLoad, 
 		// Unity - Create MB normally
-		// TODO - add reporting of every new mono behaviour creation to the special ContextDescriptor object.
-		// Thus each factory for mono behaviour can have an instance of this object on it's own context, to 
-		// track all the monobehaviours that are created during one instantiation procedure
 
 		public IBinding Bind<T, TInstance> (string name = null) 
 			where T:class where TInstance:MonoBehaviour, T
@@ -55,6 +52,7 @@ namespace MinDI.Binders {
 		{
 			string objectName = typeof(TInstance).Name;
 			GameObject obj = new GameObject(objectName);
+			BindInstantiation(obj, MBInstantiationType.NewObject);
 			return obj.AddComponent<TInstance>();
 		}
 
@@ -68,8 +66,21 @@ namespace MinDI.Binders {
 
 			GameObject obj = (GameObject)GameObject.Instantiate(prefab);
 			obj.name = typeof(TInstance).Name;
+			BindInstantiation(obj, MBInstantiationType.NewObject);
 			return obj.GetComponent<TInstance>();
 		}
+
+		private void BindInstantiation(GameObject obj, MBInstantiationType instantiation) {
+			DestroyBehaviour destroyBehaviour = obj.GetComponent<DestroyBehaviour>();
+			if (destroyBehaviour != null) {
+				destroyBehaviour.instantiationType = MBInstantiationType.ExistingObject;
+				return;
+			}
+
+			destroyBehaviour = obj.AddComponent<DestroyBehaviour>();
+			destroyBehaviour.instantiationType = instantiation;
+		}
+
 	}
 
 }

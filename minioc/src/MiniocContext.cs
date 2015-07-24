@@ -168,7 +168,8 @@ namespace minioc
 			else {
 				if (stateInstance.diState == DIState.NotResolved) {
 					stateInstance.diState = DIState.Resolving;
-					_injectionContext.injectDependencies (instance, dependencies);
+					_injectionContext.injectDependencies(instance, dependencies);
+					stateInstance.AfterInjection();
 					stateInstance.diState = DIState.Resolved;
 				}
 			}

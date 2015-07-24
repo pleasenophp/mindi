@@ -31,5 +31,8 @@ namespace MinDI
 				_destroyed = value;
 			}
 		}
+
+		public virtual void AfterInjection() {
+		}
 	}
 }

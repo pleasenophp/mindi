@@ -51,7 +51,6 @@
     <Compile Include="src\factories\ContextFactory.cs" />
     <Compile Include="src\factories\IDIFactory.cs" />
     <Compile Include="src\objects\ContextObject.cs" />
-    <Compile Include="src\unity\factories\MonoBehaviourFactory.cs" />
     <Compile Include="src\binders\BindHelper.cs" />
     <Compile Include="src\binders\SingletonBinder.cs" />
     <Compile Include="src\binders\MonoBehaviourBinder.cs" />
@@ -66,6 +65,8 @@
     <Compile Include="src\objects\remote\RemoteObjectsRecord.cs" />
     <Compile Include="src\objects\remote\IRemoteObjectsRecord.cs" />
     <Compile Include="src\objects\IDIClosedContext.cs" />
+    <Compile Include="src\objects\remote\DestroyBehaviour.cs" />
+    <Compile Include="src\objects\remote\MBInstantiationType.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

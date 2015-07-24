@@ -5,6 +5,7 @@ namespace MinDI.StateObjects {
 
 	public interface IDIStateObject {
 		DIState diState {get; set;}
+		void AfterInjection();
 	}
 	
 }

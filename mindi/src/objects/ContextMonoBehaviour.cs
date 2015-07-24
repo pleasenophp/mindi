@@ -13,16 +13,18 @@ namespace MinDI {
 		private IDIContext _context;
 
 		[Injection]
-		private IDIContext contextInjection {
-			get {
-				return _context;
-			}
+		public IDIContext contextInjection {
 			set {
 				if (_context != null) {
 					throw new MindiException("Attempt to alter context on ContextObject");
 				}
 				_context = value;
 			}
+		}
+
+		public override void AfterInjection() {
+			IRemoteObjectsRecord remoteRecord = _context.Resolve<IRemoteObjectsRecord>();
+			remoteRecord.Register(this);
 		}
 
 		#region IDIClosedContext implementation
