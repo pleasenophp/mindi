@@ -1,19 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Object = UnityEngine.Object;
 using MinDI.StateObjects;
 
-namespace MinDI {
+namespace MinDI.StateObjects {
 
 	public class RemoteObjectsRecord : IRemoteObjectsRecord {
-		private IList<Object> objects;
+		private IList<object> objects;
 
 		public RemoteObjectsRecord() {
-			objects = new List<Object>();
+			objects = new List<object>();
 		}
 
-		public void Register(Object obj) {
+		public void Register(object obj) {
 			if (obj == null) {
 				return;
 			}
@@ -23,13 +22,13 @@ namespace MinDI {
 
 		// TODO - make this method cleaner
 		public void DestroyAll() {
-			foreach (Object obj in objects) {
+			foreach (object o in objects) {
+				UnityEngine.Object obj = o as UnityEngine.Object;
 				if (obj == null) {
+					DestroyFactoryObject(o);
 					continue;
 				}
-
-				// TODO - add child factories registrations
-
+					
 				IDIClosedContext contextObject = obj as IDIClosedContext;
 				if (contextObject != null) {
 					if (contextObject.stCreatorContext != null && contextObject.stCreatorContext != contextObject.context) {
@@ -59,6 +58,15 @@ namespace MinDI {
 			}
 
 			objects.Clear();
+		}
+
+		private void DestroyFactoryObject(object o) {
+			FactoryObjectRecord obj = o as FactoryObjectRecord;
+			if (obj == null) {
+				return;
+			}
+
+			obj.factory.DestroyInstance(obj.instance);
 		}
 
 	}

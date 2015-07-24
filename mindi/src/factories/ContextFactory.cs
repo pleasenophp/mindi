@@ -21,16 +21,17 @@ namespace MinDI.Factories {
 			environment = context.Resolve<ContextEnvironment>();
 		}
 
-		public virtual T Resolve (string name = null) {
+		public virtual T Create (string name = null) {
 			// In the remote objects environment, chaining context, and creating RemoteObjectsDescriptor
 			if (environment == ContextEnvironment.RemoteObjects) {
 				IDIContext newContext = ContextHelper.CreateContext(this.context);
 				BindObjectsRecord(newContext);
-
-				return Resolve(newContext, name);
+				T instance = Create(newContext, name);
+				RegisterCreation(instance);
+				return instance;
 			}
 			else {
-				return Resolve(context, name);
+				return Create(context, name);
 			}
 		}
 
@@ -39,16 +40,8 @@ namespace MinDI.Factories {
 			return null;
 		}
 			
+		// TODO - after destroying an instance - remove it from the remote objects record
 		public void DestroyInstance(object instance) {
-			// TODO
-			// If an object is created by a child factory, this factory records in our object descriptor 
-			// the pair - factory - instance
-
-			// When we destroy the object from the factory, and this object is recoreded as root in RemoteObjectsDescriptor
-			// Then we just clear all the remote objects by calling GameObject.Destroy on them 
-
-			// If we meet a child factory object - then we call destroy on child factory
-
 			if (instance == null) {
 				return;
 			}
@@ -78,9 +71,8 @@ namespace MinDI.Factories {
 			IRemoteObjectsRecord ror = contextObject.context.Resolve<IRemoteObjectsRecord>();
 			ror.DestroyAll();
 		}
-
-
-		protected T Resolve(IDIContext context, string name) {
+			
+		protected T Create(IDIContext context, string name) {
 			T instance = null;
 
 			if (string.IsNullOrEmpty(name)) {
@@ -96,6 +88,12 @@ namespace MinDI.Factories {
 			}
 
 			return instance;
+		}
+
+		// Register creation of an instance on this factory in the parent ROR
+		protected void RegisterCreation(T instance) {
+			IRemoteObjectsRecord ror = this.context.Resolve<IRemoteObjectsRecord>();
+			ror.Register(new FactoryObjectRecord(this, instance));
 		}
 
 		protected void BindObjectsRecord(IDIContext context) {

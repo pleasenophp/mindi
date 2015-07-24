@@ -14,7 +14,7 @@ namespace MinDI.Factories {
 	public class ContextChainFactory<T, TInitializer> : ContextFactory<T>, IDIFactory<T> 
 	where T:class where TInitializer:IContextInitializer
 	{
-		public override T Resolve (string name = null)
+		public override T Create (string name = null)
 		{
 			IDIContext newContext = ContextHelper.CreateContext (this.context);
 			ContextBuilder.Initialize<TInitializer> (newContext);
@@ -22,7 +22,7 @@ namespace MinDI.Factories {
 				BindObjectsRecord(newContext);
 			}
 
-			return Resolve(newContext, name);
+			return Create(newContext, name);
 		}
 	}
 

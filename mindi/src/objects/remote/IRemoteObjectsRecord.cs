@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MinDI {
+namespace MinDI.StateObjects {
 	public interface IRemoteObjectsRecord {
-		void Register(UnityEngine.Object obj);
+		void Register(object obj);
 		void DestroyAll();
 	}
 		

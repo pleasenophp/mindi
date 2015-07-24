@@ -71,6 +71,8 @@
     <Compile Include="src\factories\IDestroyingFactory.cs" />
     <Compile Include="src\objects\remote\ActionQueue.cs" />
     <Compile Include="src\objects\remote\IActionQueue.cs" />
+    <Compile Include="src\objects\remote\FactoryObjectRecord.cs" />
+    <Compile Include="src\objects\remote\RemoteObjectsRecordStub.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

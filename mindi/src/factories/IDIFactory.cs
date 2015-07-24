@@ -12,7 +12,7 @@ namespace MinDI.Factories {
 	/// </summary>
 	public interface IDIFactory<T> : IDestroyingFactory where T:class
 	{
-		T Resolve (string name = null);
+		T Create (string name = null);
 		T Destroy(T instance);
 	}
 
