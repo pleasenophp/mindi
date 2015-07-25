@@ -70,8 +70,7 @@ namespace MinDI.Binders {
 			Bind<T4> (() => create () as T4, name, configure);
 			Bind<T5> (() => create () as T5, name, configure);
 		}
-
-		// TODO - make rebind work through the introspection
+			
 		/// <summary>
 		/// Rebind the binding from parent context to a new binder.
 		/// This can be usefull to e.g. rebind the library binding to a singletone
@@ -87,8 +86,21 @@ namespace MinDI.Binders {
 				throw new MindiException("Called Rebind, but the parent context is null");
 			}
 
-			return this.Bind<T> (()=>context.parent.Resolve<T>(resolutionName, true), 
-				name, configure);
+			BindingDescriptor descriptor = context.Introspect<T>(resolutionName);
+			if (descriptor.bindingType == BindingType.None) {
+				throw new MindiException("Called Rebind, but no existing binding found for type "+typeof(T)+" for name "+resolutionName);
+			}
+
+			if (descriptor.bindingType == BindingType.Instance) {
+				throw new MindiException("Cannot rebind an instance binding. Type: "+typeof(T));
+			}
+
+			if (descriptor.context == this.context) {
+				throw new MindiException("Called Rebind, but there is already a binding on this context for type "+typeof(T)+
+					" for name "+resolutionName);
+			}
+
+			return this.Bind<T> (() => descriptor.factory() as T, name, configure);
 		}
 
 		protected virtual void ConfigureBinding (IBinding binding)
