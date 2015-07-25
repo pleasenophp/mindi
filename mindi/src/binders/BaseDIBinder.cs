@@ -3,16 +3,19 @@ using System.Collections;
 using minioc;
 using minioc.context.bindings;
 using minioc.resolution.instantiator;
+using MinDI.Introspection;
 
 namespace MinDI.Binders {
 
 	public abstract class BaseDIBinder : OpenContextObject, IDIBinder
 	{
+		protected InstantiationType instantiationType;
+
 		public BaseDIBinder(IDIContext context) {
-			this.context = context;
+			this.contextInjection = context;
 		}
 
-		protected abstract T Resolve<T> (Func<T> create) where T:class;
+		protected abstract T Resolve<T>(Func<T> create) where T:class;
 
 		/// <summary>
 		/// Bind the specified interface using create factory, optional binding name and configuration
@@ -68,6 +71,26 @@ namespace MinDI.Binders {
 			Bind<T5> (() => create () as T5, name, configure);
 		}
 
+		// TODO - make rebind work through the introspection
+		/// <summary>
+		/// Rebind the binding from parent context to a new binder.
+		/// This can be usefull to e.g. rebind the library binding to a singletone
+		/// </summary>
+		/// <param name="name">Name for new binding.</param>
+		/// <param name="resolutionName">Resolution name for parent binding.</param>
+		/// <param name="configure">Configuration of binding.</param>
+		/// <typeparam name="T">The interface type.</typeparam>
+		public IBinding Rebind<T>(string name = null, string resolutionName = null, Action<IBinding> configure = null) 
+			where T:class 
+		{
+			if (context.parent == null) {
+				throw new MindiException("Called Rebind, but the parent context is null");
+			}
+
+			return this.Bind<T> (()=>context.parent.Resolve<T>(resolutionName, true), 
+				name, configure);
+		}
+
 		protected virtual void ConfigureBinding (IBinding binding)
 		{
 			// Setting Multiple as default instantiation mode
@@ -79,8 +102,10 @@ namespace MinDI.Binders {
 			if (string.IsNullOrEmpty(name)) {
 				name = BindHelper.GetDefaultBindingName<T>(context);
 			}
-
-			return Bindings.ForType<T> (name).ImplementedBy (() => this.Resolve<T> (create));
+				
+			return Bindings.ForType<T>(name)
+				.ImplementedBy(() => this.Resolve<T>(create))
+				.SetDescriptor(this.context, this.instantiationType, BindingType.Factory, () => create());
 		}
 
 		private IBinding InternalBindInstance<T> (T instance, string name=null)
@@ -89,7 +114,8 @@ namespace MinDI.Binders {
 				name = BindHelper.GetDefaultBindingName<T>(context);
 			}
 
-			return Bindings.ForType<T> (name).ImplementedByInstance(instance);
+			return Bindings.ForType<T> (name).ImplementedByInstance(instance)
+				.SetDescriptor(this.context, this.instantiationType, BindingType.Instance, null);
 		}
 
 		private IBinding RegisterBinding(IBinding binding, Action<IBinding> configure) {

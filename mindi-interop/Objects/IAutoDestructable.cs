@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MinDI.Factories {
+namespace MinDI.StateObjects{
 	public interface IAutoDestructable {
 		IDestroyingFactory factory {get; set;}
 	}

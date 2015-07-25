@@ -84,8 +84,8 @@
     <Folder Include="src\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\LICENSE.txt" />
     <None Include="src\context\bindings.meta" />
+    <None Include="src\minioc-license.txt" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\mindi-interop\mindi-interop.csproj">

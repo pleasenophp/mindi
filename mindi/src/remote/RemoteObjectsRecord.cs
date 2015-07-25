@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using MinDI.StateObjects;
+using MinDI.Introspection;
 
 namespace MinDI.StateObjects {
 
@@ -29,19 +30,6 @@ namespace MinDI.StateObjects {
 					continue;
 				}
 					
-				IDIClosedContext contextObject = obj as IDIClosedContext;
-				if (contextObject != null) {
-					if (contextObject.stCreatorContext != null && contextObject.stCreatorContext != contextObject.context) {
-						throw new MindiException(string.Format("The object {0} is already singletone on different context. Cannot destroy.", 
-							obj));
-					}
-				}
-					
-				ContextMonoBehaviour contextMb = obj as ContextMonoBehaviour;
-				if (contextMb != null) {
-					contextMb.__destroyed = true;
-				}
-
 				MonoBehaviour mb = obj as MonoBehaviour;
 				if (mb != null) {
 					DestroyBehaviour destroyBehaviour = mb.GetComponent<DestroyBehaviour>();

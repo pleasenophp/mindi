@@ -30,7 +30,7 @@ namespace MinDI.Tests.MinIOC
 			IDependencyTest test = context.Resolve<IDependencyTest>();
 
 			//Assert.IsNull(test.context); -- in original MinIOC
-			Assert.IsNotNull(test.context);
+			Assert.IsNotNull(test.contextAccess);
 		}
 
 		[Test]
@@ -45,7 +45,7 @@ namespace MinDI.Tests.MinIOC
 
 			// Let's see that the dependencies are now injected - this class has injected context
 			IDependencyTest test = context.Resolve<IDependencyTest>();
-			Assert.IsNotNull(test.context);
+			Assert.IsNotNull(test.contextAccess);
 		}
 
 		// Let's ensure a factory can work correctly with multiple / singletone

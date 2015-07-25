@@ -1,16 +1,26 @@
 using System;
 using System.Collections;
 using MinDI.StateObjects;
-
+using UnityEngine;
+using MinDI.Introspection;
 
 namespace MinDI {
 
 	/// <summary>
 	/// Derive your MonoBehaviours that work with MinDI from this class
 	/// </summary>
-	public class ContextMonoBehaviour : DIStateMonoBehaviour, IDIClosedContext {
+	public abstract class ContextMonoBehaviour : MonoBehaviour, IDIClosedContext {
+		private DIState _state = DIState.NotResolved;
+
 		[NonSerialized]
 		private IDIContext _context;
+
+		[NonSerialized]
+		private BindingDescriptor _descriptor = new BindingDescriptor();
+
+
+		#region IDIClosedContext implementation
+
 
 		[Injection]
 		public IDIContext contextInjection {
@@ -22,29 +32,35 @@ namespace MinDI {
 			}
 		}
 
-		public override void AfterInjection() {
+		DIState IDIClosedContext.diState {
+			get {
+				return _state;
+			}
+			set {
+				_state = value;
+			}
+		}
+
+		void IDIClosedContext.AfterInjection() {
 			IRemoteObjectsRecord remoteRecord = _context.Resolve<IRemoteObjectsRecord>();
 			remoteRecord.Register(this);
 		}
 
-		#region IDIClosedContext implementation
 		IDIContext IDIClosedContext.context {
 			get {
 				return _context;
 			}
 		}
 
-		[NonSerialized]
-		private IDIContext _stCreatorContext = null;
-		IDIContext IDIClosedContext.stCreatorContext {
+		BindingDescriptor IDIClosedContext.bindingDescriptor {
 			get {
-				return _stCreatorContext;
+				return _descriptor;
 			}
 			set {
-				_stCreatorContext = value;
+				_descriptor = value;
 			}
 		}
-			
+
 		#endregion
 	}
 }

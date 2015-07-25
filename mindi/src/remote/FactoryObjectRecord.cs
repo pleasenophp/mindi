@@ -1,5 +1,4 @@
 ﻿using System;
-using MinDI.Factories;
 
 namespace MinDI.StateObjects {
 	public class FactoryObjectRecord {

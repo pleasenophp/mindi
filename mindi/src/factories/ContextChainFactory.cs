@@ -6,7 +6,7 @@ using minioc.context.bindings;
 using minioc.resolution.instantiator;
 using MinDI.Context;
 
-namespace MinDI.Factories {
+namespace MinDI {
 
 	/// <summary>
 	/// A factory that chains context when creating a new object

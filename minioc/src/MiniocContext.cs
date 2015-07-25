@@ -8,6 +8,7 @@ using minioc.resolution.dependencies;
 using MinDI;
 // using UnityEngine;
 using MinDI.StateObjects;
+using MinDI.Introspection;
 
 namespace minioc
 {
@@ -17,10 +18,12 @@ namespace minioc
 		private InjectionContext _injectionContext;
 		private IDIContext _parentContext;
 
+		/*
 		~MiniocContext ()
 		{
-			// Debug.LogWarning ("DESTROYED CONTEXT: " + name);
+			Debug.LogWarning ("DESTROYED CONTEXT: " + name);
 		}
+		*/
 
 		public MiniocContext () : this(null, null)
 		{
@@ -97,8 +100,6 @@ namespace minioc
 					} else {
 						result = _parentContext.Resolve (type, name, true);
 
-						// TODO - if an object, resolved from the parent context is singletone there, 
-						// Inject dependencies from the parent context to avoid subjectivisation
 						if (!omitInjectDependencies) {
 							this.InjectDependencies(result);
 						}
@@ -116,6 +117,23 @@ namespace minioc
 			}
 		}
 
+		public BindingDescriptor Introspect<T>(string name=null) {
+			return Introspect(typeof(T), name);
+		}
+
+		public BindingDescriptor Introspect(Type type, string name=null) {
+			BindingDescriptor descriptor = _bindings.Introspect(type, name);
+			if (descriptor == null && _parentContext != null) {
+				return _parentContext.Introspect(type, name);
+			}
+
+			if (descriptor == null) {
+				descriptor = new BindingDescriptor();
+			}
+	
+			return descriptor;
+		}
+
 		/// <summary>
 		/// Injects dependencies on an object created outside of Minioc
 		/// </summary>
@@ -123,14 +141,23 @@ namespace minioc
 		/// <param name="dependencies"></param>
 		public void InjectDependencies (object instance, IList<IDependency> dependencies = null)
 		{
-			// If this object is singletone from the other context, injecting the dependencies on this context
-			IDIClosedContext closedContext = instance as IDIClosedContext;
-			if (closedContext != null && closedContext.stCreatorContext != null && closedContext.stCreatorContext != this) {
-				closedContext.stCreatorContext.InjectDependencies(instance, dependencies);
+			// Not injecting any dependencies if the object is not context object
+			IDIClosedContext stateInstance = instance as IDIClosedContext;
+			if (stateInstance == null) {
 				return;
 			}
-				
-			IDIStateObject stateInstance = instance as IDIStateObject;
+
+			BindingDescriptor descriptor = stateInstance.bindingDescriptor;
+			if (descriptor == null) {
+				throw new MindiException("Called inject dependencies on an instance that has no binding descriptor set: "+instance);
+			}
+
+			// If this instance is concrete on another layer, we inject dependencies on its own layer only to avoid subjectivization
+			if (descriptor.instantiationType == InstantiationType.Concrete && descriptor.context != this) {
+				descriptor.context.InjectDependencies(instance, dependencies);
+				return;
+			}
+
 			if (stateInstance == null) {
 				_injectionContext.injectDependencies (instance, dependencies);
 			}
@@ -143,7 +170,7 @@ namespace minioc
 				}
 			}
 		}
-
+			
 		public void RemoveBinding (IBinding binding)
 		{
 			_bindings.remove (binding);

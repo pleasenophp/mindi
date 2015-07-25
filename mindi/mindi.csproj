@@ -46,11 +46,8 @@
     <Compile Include="src\context\ContextBuilder.cs" />
     <Compile Include="src\context\IContextInitializer.cs" />
     <Compile Include="src\context\IGlobalContextInitializer.cs" />
-    <Compile Include="src\exceptions\MindiException.cs" />
     <Compile Include="src\factories\ContextChainFactory.cs" />
     <Compile Include="src\factories\ContextFactory.cs" />
-    <Compile Include="src\factories\IDIFactory.cs" />
-    <Compile Include="src\objects\ContextObject.cs" />
     <Compile Include="src\binders\BindHelper.cs" />
     <Compile Include="src\binders\SingletonBinder.cs" />
     <Compile Include="src\binders\MonoBehaviourBinder.cs" />
@@ -59,24 +56,16 @@
     <Compile Include="src\context\ContextEnvironment.cs" />
     <Compile Include="src\context\MindiContextInitializer.cs" />
     <Compile Include="src\context\IApplicationContextInitializer.cs" />
-    <Compile Include="src\objects\ContextMonoBehaviour.cs" />
-    <Compile Include="src\objects\DIStateMonoBehaviour.cs" />
-    <Compile Include="src\objects\OpenContextObject.cs" />
-    <Compile Include="src\objects\remote\RemoteObjectsRecord.cs" />
-    <Compile Include="src\objects\remote\IRemoteObjectsRecord.cs" />
-    <Compile Include="src\objects\remote\DestroyBehaviour.cs" />
-    <Compile Include="src\objects\remote\MBInstantiationType.cs" />
-    <Compile Include="src\factories\IAutoDestructable.cs" />
-    <Compile Include="src\factories\IDestroyingFactory.cs" />
-    <Compile Include="src\objects\remote\ActionQueue.cs" />
-    <Compile Include="src\objects\remote\IActionQueue.cs" />
-    <Compile Include="src\objects\remote\FactoryObjectRecord.cs" />
-    <Compile Include="src\objects\remote\RemoteObjectsRecordStub.cs" />
+    <Compile Include="src\remote\ActionQueue.cs" />
+    <Compile Include="src\remote\DestroyBehaviour.cs" />
+    <Compile Include="src\remote\FactoryObjectRecord.cs" />
+    <Compile Include="src\remote\MBInstantiationType.cs" />
+    <Compile Include="src\remote\RemoteObjectsRecord.cs" />
+    <Compile Include="src\remote\RemoteObjectsRecordStub.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="src\" />
-    <Folder Include="src\objects\remote\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\minioc\minioc.csproj">

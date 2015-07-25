@@ -4,6 +4,7 @@ using minioc.context.bindings;
 using minioc.misc;
 using minioc.resolution.core;
 using MinDI;
+using MinDI.Introspection;
 
 namespace minioc.context {
 	internal class MiniocBindings {
@@ -74,6 +75,16 @@ namespace minioc.context {
 			}
 			result = typeBindings.resolve(name, injectionContext);
 			return true;
+		}
+
+		public BindingDescriptor Introspect(Type type, string name) {
+			TypeBindings typeBindings;
+			if (!_bindings.TryGetValue(type, out typeBindings)) {
+				return null;
+
+			}
+		
+			return typeBindings.introspect(name);
 		}
 
 		public void remove(IBinding binding) {

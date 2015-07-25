@@ -15,7 +15,7 @@ namespace MinDI.Binders {
 		}
 
 		protected MonoBehaviourBinder(IDIContext context, InstantiationMode mode) {
-			this.context = context;
+			this.contextInjection = context;
 
 			var b = context.CreateBindHelper();
 

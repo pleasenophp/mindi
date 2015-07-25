@@ -21,9 +21,14 @@ namespace MinDI.Tests.MinIOC {
 	}
 
 	public interface IDependencyTest {
-		IDIContext context { get; }
+		IDIContext contextAccess { get; }
 	}
 
 	public class DependencyTest : OpenContextObject, IDependencyTest {
+		public IDIContext contextAccess {
+			get {
+				return this.context;
+			}
+		}
 	}
 }

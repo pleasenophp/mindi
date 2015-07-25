@@ -1,21 +1,26 @@
 using System;
-using System.Collections;
-using minioc;
-using minioc.context.bindings;
-using minioc.resolution.instantiator;
+using System.Collections.Generic;
 using MinDI.StateObjects;
-using MinDI.Factories;
-
+using MinDI.Introspection;
 
 namespace MinDI {
 
-	// TODO - sort DRY with PublicContextObject
+
 	[Serializable]
-	public class ContextObject : DIStateObject, IDIClosedContext, IAutoDestructable {
-		#region IAutoDestructable implementation
+	public abstract class ContextObject : IDIClosedContext, IAutoDestructable {
+		private DIState _state = DIState.NotResolved;
 
 		[NonSerialized]
 		private IDestroyingFactory _factory;
+
+		[NonSerialized]
+		private IDIContext _context;
+
+		[NonSerialized]
+		private BindingDescriptor _descriptor = new BindingDescriptor();
+
+		#region IAutoDestructable implementation
+
 		public IDestroyingFactory factory {
 			get {
 				return _factory;
@@ -34,10 +39,6 @@ namespace MinDI {
 
 		#endregion
 
-
-		[NonSerialized]
-		private IDIContext _context;
-
 		[Injection]
 		public IDIContext contextInjection {
 			set {
@@ -49,23 +50,34 @@ namespace MinDI {
 		}
 
 		#region IDIClosedContext implementation
+
+		DIState IDIClosedContext.diState {
+			get {
+				return _state;
+			}
+			set {
+				_state = value;
+			}
+		}
+
+		public virtual void AfterInjection() {
+		}
+
 		IDIContext IDIClosedContext.context {
 			get {
 				return _context;
 			}
 		}
 
-		[NonSerialized]
-		private IDIContext _stCreatorContext = null;
-		IDIContext IDIClosedContext.stCreatorContext {
+		BindingDescriptor IDIClosedContext.bindingDescriptor {
 			get {
-				return _stCreatorContext;
+				return _descriptor;
 			}
 			set {
-				_stCreatorContext = value;
+				_descriptor = value;
 			}
 		}
-
+			
 		#endregion
 	}
 }

@@ -6,9 +6,10 @@ using minioc.context.bindings;
 using minioc.resolution.instantiator;
 using MinDI.Context;
 using MinDI.StateObjects;
+using MinDI.Introspection;
 
 
-namespace MinDI.Factories {
+namespace MinDI {
 	/// <summary>
 	/// Standard factory to resolve an object from context
 	/// </summary>
@@ -17,7 +18,7 @@ namespace MinDI.Factories {
 	{
 		protected ContextEnvironment environment;
 
-		protected override void OnContextInjected() {
+		public override void AfterInjection() {
 			environment = context.Resolve<ContextEnvironment>();
 		}
 
@@ -60,12 +61,6 @@ namespace MinDI.Factories {
 
 			if (contextObject.context == null) {
 				throw new MindiException(string.Format("Context is null for object {0}", instance));
-			}
-
-			// If object is singletone, created on different context than this one
-			if (contextObject.stCreatorContext != null && contextObject.stCreatorContext != contextObject.context) {
-				throw new MindiException(string.Format("The object {0} is already singletone on different context, than the one, belonging to this factory {1}. Cannot destroy.", 
-					instance, this));
 			}
 
 			IRemoteObjectsRecord ror = contextObject.context.Resolve<IRemoteObjectsRecord>();

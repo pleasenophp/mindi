@@ -21,37 +21,29 @@ namespace MinDI.Tests.MinIOC
 		interface IAdapter {
 		}
 
-		class Container : IContainer {
+		class Container : ContextObject, IContainer {
 			[Injection]
 			public IAdapter adapter {get; set;}
 		}
 
-		class DefaultAdapter : IAdapter {
+		class DefaultAdapter : ContextObject, IAdapter {
 		}
 
-		class CustomAdapter : IAdapter {
+		class CustomAdapter : ContextObject, IAdapter {
 		}
 			
 
 		[Test]
 		public void TestParentContainerChildAdapter() {
-			MiniocContext context = new MiniocContext ();
+			IDIContext context = ContextHelper.CreateContext();
+			var bind = context.CreateBindHelper();
 
-			context.Register(Bindings.ForType<IContainer>()
-				.ImplementedBy(()=>new Container())
-				.SetInstantiationMode(InstantiationMode.SINGLETON));
+			bind.multiple.Bind<IContainer>(() => new Container());
+			bind.multiple.Bind<IAdapter>(() => new DefaultAdapter());
 
-			context.Register(Bindings.ForType<IAdapter>()
-					.ImplementedBy(()=>new DefaultAdapter())
-				.SetInstantiationMode(InstantiationMode.SINGLETON));
-
-
-			MiniocContext childContext = new MiniocContext (context);
-
-			childContext.Register(Bindings.ForType<IAdapter>()
-				.ImplementedBy(()=>new CustomAdapter())
-				.SetInstantiationMode(InstantiationMode.SINGLETON));
-
+			IDIContext childContext = ContextHelper.CreateContext(context);
+			var childBind = childContext.CreateBindHelper();
+			childBind.multiple.Bind<IAdapter>(() => new CustomAdapter());
 		
 			// Resolving container from the parent context
 			// Expecting DefaultAdapter
