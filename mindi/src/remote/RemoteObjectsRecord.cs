@@ -17,7 +17,6 @@ namespace MinDI.StateObjects {
 			if (obj == null) {
 				return;
 			}
-
 			objects.Add(obj);
 		}
 

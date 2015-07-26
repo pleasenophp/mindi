@@ -11,10 +11,10 @@ namespace MinDI {
 	/// <summary>
 	/// A factory that chains context when creating a new object
 	/// </summary>
-	public class ContextChainFactory<T, TInitializer> : ContextFactory<T>, IDIFactory<T> 
+	public class ContextChainFactory<T, TInitializer> : BaseDIFactory<T>, IDIFactory<T> 
 	where T:class where TInitializer:IContextInitializer
 	{
-		public override T Create (string name = null)
+		public T Create (string name = null)
 		{
 			IDIContext newContext = ContextHelper.CreateContext (this.context);
 			ContextBuilder.Initialize<TInitializer> (newContext);

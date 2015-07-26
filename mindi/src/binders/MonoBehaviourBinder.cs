@@ -73,7 +73,14 @@ namespace MinDI.Binders {
 			GameObject obj = (GameObject)GameObject.Instantiate(prefab);
 			obj.name = typeof(TInstance).Name;
 			BindInstantiation(obj, MBInstantiationType.NewObject);
-			return obj.GetComponent<TInstance>();
+			TInstance instance = obj.GetComponent<TInstance>();
+
+			if (instance == null) {
+				throw new MindiException(String.Format("No MonoBehaviour of type {0} found on prefab {1}", 
+					typeof(TInstance), prefab.name));
+			}
+
+			return instance;
 		}
 
 		private void BindInstantiation(GameObject obj, MBInstantiationType instantiation) {
