@@ -6,7 +6,7 @@ using MinDI.Introspection;
 
 namespace MinDI.StateObjects {
 
-	public class RemoteObjectsRecord : IRemoteObjectsRecord {
+	public class RemoteObjectsRecord : OpenContextObject, IRemoteObjectsRecord {
 		private IList<object> objects;
 
 		public RemoteObjectsRecord() {
@@ -23,6 +23,8 @@ namespace MinDI.StateObjects {
 
 		// TODO - make this method cleaner
 		public void DestroyAll() {
+			IRemoteObjectsHash objectsHash = context.Resolve<IRemoteObjectsHash>();
+
 			foreach (object o in objects) {
 				UnityEngine.Object obj = o as UnityEngine.Object;
 				if (obj == null) {
@@ -37,10 +39,12 @@ namespace MinDI.StateObjects {
 						GameObject.Destroy(mb);
 					}
 					else if (destroyBehaviour.instantiationType == MBInstantiationType.NewObject) {
+						objectsHash.hash.Remove(mb.gameObject.GetInstanceID());
 						GameObject.Destroy(mb.gameObject);
 					}
 				}
 				else {
+					objectsHash.hash.Remove(obj.GetInstanceID());
 					GameObject.Destroy(obj);
 				}
 			}

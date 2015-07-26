@@ -10,6 +10,7 @@ namespace MinDI.Binders {
 
 	public class MonoBehaviourBinder : OpenContextObject {
 		private IDIBinder baseBinder;
+		private IRemoteObjectsHash objectsHash;
 
 		public MonoBehaviourBinder(IDIContext context) : this (context, InstantiationMode.SINGLETON) {
 		}
@@ -25,6 +26,8 @@ namespace MinDI.Binders {
 			else if (mode == InstantiationMode.MULTIPLE) {
 				baseBinder = b.multiple;
 			}
+
+			objectsHash = context.Resolve<IRemoteObjectsHash>();
 		}
 
 
@@ -64,6 +67,9 @@ namespace MinDI.Binders {
 				throw new MindiException("Cannot load the resource by path "+path);
 			}
 
+			// This is hack for UnityEditor mode only - to not bind loaded prefabs to the scene
+			objectsHash.hash.Add(prefab.GetInstanceID());
+
 			GameObject obj = (GameObject)GameObject.Instantiate(prefab);
 			obj.name = typeof(TInstance).Name;
 			BindInstantiation(obj, MBInstantiationType.NewObject);
@@ -79,6 +85,8 @@ namespace MinDI.Binders {
 
 			destroyBehaviour = obj.AddComponent<DestroyBehaviour>();
 			destroyBehaviour.instantiationType = instantiation;
+
+			objectsHash.hash.Add(obj.GetInstanceID());
 		}
 
 	}

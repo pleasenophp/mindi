@@ -8,6 +8,7 @@ namespace MinDI.Context {
 			var bind = context.CreateBindHelper();
 			bind.singleton.BindInstance<ContextEnvironment>(ContextEnvironment.Normal);
 			bind.singleton.Bind<IActionQueue>(() => new ActionQueue());
+			bind.singleton.Bind<IRemoteObjectsHash>(() => new RemoteObjectsHash());
 		}
 		#endregion
 		
