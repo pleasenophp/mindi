@@ -32,9 +32,6 @@ namespace MinDI.Binders {
 
 
 		// TODO - add different binding types - for prefab, etc
-		// TODO - add resolution of the ContextType, and bind depending on it as DontDestroyOnLoad
-		// ContextType: Normal (not allowed to bind MB at all), UnityRoot (always create MB as DontDestroyOnLoad, 
-		// Unity - Create MB normally
 
 		public IBinding Bind<T, TInstance> (string name = null) 
 			where T:class where TInstance:MonoBehaviour, T
@@ -84,6 +81,11 @@ namespace MinDI.Binders {
 		}
 
 		private void BindInstantiation(GameObject obj, MBInstantiationType instantiation) {
+			MBLifeTime lifeTime = context.Resolve<MBLifeTime>();
+			if (lifeTime == MBLifeTime.Permanent) {
+				UnityEngine.Object.DontDestroyOnLoad(obj);
+			}
+				
 			DestroyBehaviour destroyBehaviour = obj.GetComponent<DestroyBehaviour>();
 			if (destroyBehaviour != null) {
 				destroyBehaviour.instantiationType = MBInstantiationType.ExistingObject;

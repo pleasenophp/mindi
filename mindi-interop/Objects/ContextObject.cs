@@ -60,7 +60,8 @@ namespace MinDI {
 			}
 		}
 
-		public virtual void AfterInjection() {
+		void IDIClosedContext.AfterInjection() {
+			OnInjected();
 		}
 
 		IDIContext IDIClosedContext.context {
@@ -79,5 +80,8 @@ namespace MinDI {
 		}
 			
 		#endregion
+
+		protected virtual void OnInjected() {
+		}
 	}
 }

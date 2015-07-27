@@ -44,6 +44,8 @@ namespace MinDI {
 		void IDIClosedContext.AfterInjection() {
 			IRemoteObjectsRecord remoteRecord = _context.Resolve<IRemoteObjectsRecord>();
 			remoteRecord.Register(this);
+
+			OnInjected();
 		}
 
 		IDIContext IDIClosedContext.context {
@@ -62,5 +64,8 @@ namespace MinDI {
 		}
 
 		#endregion
+
+		protected virtual void OnInjected() {
+		}
 	}
 }

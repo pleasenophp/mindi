@@ -1,10 +1,11 @@
 ﻿using System;
 
 namespace MinDI.StateObjects {
-	public enum MBInstantiationType {
-		None,
-		NewObject,
-		ExistingObject
+
+	public enum MBLifeTime {
+		DestroyWithScene,
+		Permanent
 	}
+
 }
 

@@ -18,7 +18,7 @@ namespace MinDI {
 	{
 		protected ContextEnvironment environment;
 
-		public override void AfterInjection() {
+		protected override void OnInjected() {
 			environment = context.Resolve<ContextEnvironment>();
 		}
 			
