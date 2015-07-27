@@ -6,10 +6,9 @@ namespace MinDI {
 	/// <summary>
 	/// A factory interface to produce objects
 	/// </summary>
-	public interface IDISceneFactory<T> : IDestroyingFactory where T:ISceneObject
+	public interface IDISceneFactory : IDestroyingFactory
 	{
-		T Create (string sceneName, string bindingName = null);
-		T Destroy(T instance);
+		T Create <T>(string sceneName, string bindingName = null) where T:class, ISceneObject;
 	}
 
 }

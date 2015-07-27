@@ -17,14 +17,16 @@ namespace MinDI.Context {
 	public static class ContextBuilder {
 		private static IDictionary<Type, List<IContextInitializer>> initializers = null;
 		
-		public static void Initialize<T>(IDIContext context, FilteredInitializerAttribute filter = null) where T:IContextInitializer {	
+		public static IList<T> Initialize<T>(IDIContext context, FilteredInitializerAttribute filter = null) where T:IContextInitializer {	
 			if (initializers == null) {
 				FetchInitializers();
 			}
 
+			IList<T> result = new List<T>();
+
 			List<IContextInitializer> instances;
 			if (!initializers.TryGetValue(typeof(T), out instances)) {
-				return;
+				return result;
 			}
 
 			foreach (IContextInitializer instance in instances) {
@@ -33,7 +35,9 @@ namespace MinDI.Context {
 				}
 
 				instance.Initialize(context);
+				result.Add((T)instance);
 			}
+			return result;
 		}
 
 
