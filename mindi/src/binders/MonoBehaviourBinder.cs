@@ -81,11 +81,6 @@ namespace MinDI.Binders {
 		}
 
 		private void BindInstantiation(GameObject obj, MBInstantiationType instantiation) {
-			MBLifeTime lifeTime = context.Resolve<MBLifeTime>();
-			if (lifeTime == MBLifeTime.Permanent) {
-				UnityEngine.Object.DontDestroyOnLoad(obj);
-			}
-				
 			DestroyBehaviour destroyBehaviour = obj.GetComponent<DestroyBehaviour>();
 			if (destroyBehaviour != null) {
 				destroyBehaviour.instantiationType = MBInstantiationType.ExistingObject;

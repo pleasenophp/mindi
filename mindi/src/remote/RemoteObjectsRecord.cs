@@ -6,22 +6,23 @@ using MinDI.Introspection;
 
 namespace MinDI.StateObjects {
 
-	public class RemoteObjectsRecord : OpenContextObject, IRemoteObjectsRecord {
+	public class RemoteObjectsRecord : RemoteObjectsRecordRoot {
 		private IList<object> objects;
 
 		public RemoteObjectsRecord() {
 			objects = new List<object>();
 		}
 
-		public void Register(object obj) {
+		public override void Register(object obj) {
 			if (obj == null) {
 				return;
 			}
+			base.Register(obj);
 			objects.Add(obj);
 		}
 
 		// TODO - make this method cleaner
-		public void DestroyAll() {
+		public override void DestroyAll() {
 			IRemoteObjectsHash objectsHash = context.Resolve<IRemoteObjectsHash>();
 
 			foreach (object o in objects) {

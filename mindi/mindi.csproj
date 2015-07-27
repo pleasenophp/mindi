@@ -61,12 +61,12 @@
     <Compile Include="src\remote\FactoryObjectRecord.cs" />
     <Compile Include="src\remote\MBInstantiationType.cs" />
     <Compile Include="src\remote\RemoteObjectsRecord.cs" />
-    <Compile Include="src\remote\RemoteObjectsRecordStub.cs" />
     <Compile Include="src\remote\RemoteObjectsHash.cs" />
     <Compile Include="src\remote\IRemoteObjectsHash.cs" />
     <Compile Include="src\factories\BaseDIFactory.cs" />
     <Compile Include="src\context\FilteredInitializerAttribute.cs" />
     <Compile Include="src\remote\MBLifeTime.cs" />
+    <Compile Include="src\remote\RemoteObjectsRecordRoot.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
