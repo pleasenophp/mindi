@@ -17,7 +17,7 @@ namespace MinDI.Context {
 	public static class ContextBuilder {
 		private static IDictionary<Type, List<IContextInitializer>> initializers = null;
 		
-		public static void Initialize<T>(IDIContext context) where T:IContextInitializer {	
+		public static void Initialize<T>(IDIContext context, FilteredInitializerAttribute filter = null) where T:IContextInitializer {	
 			if (initializers == null) {
 				FetchInitializers();
 			}
@@ -28,6 +28,10 @@ namespace MinDI.Context {
 			}
 
 			foreach (IContextInitializer instance in instances) {
+				if (filter != null && IsInstanceFiltered(instance, filter)) {
+					continue;
+				}
+
 				instance.Initialize(context);
 			}
 		}
@@ -40,6 +44,16 @@ namespace MinDI.Context {
 			}
 
 			initializer.Initialize(context);
+		}
+
+		private static bool IsInstanceFiltered(IContextInitializer instance, FilteredInitializerAttribute filter) {
+			object[] attributes = instance.GetType().GetCustomAttributes(filter.GetType(), true);
+			foreach (FilteredInitializerAttribute atr in attributes) {
+				if (atr.name == filter.name) {
+					return false;
+				}
+			}
+			return true;
 		}
 
 		private static void FetchInitializers() {

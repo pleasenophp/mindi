@@ -65,6 +65,7 @@
     <Compile Include="src\remote\RemoteObjectsHash.cs" />
     <Compile Include="src\remote\IRemoteObjectsHash.cs" />
     <Compile Include="src\factories\BaseDIFactory.cs" />
+    <Compile Include="src\context\FilteredInitializerAttribute.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
