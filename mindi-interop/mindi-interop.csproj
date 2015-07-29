@@ -58,7 +58,6 @@
     <Compile Include="objects\ContextObject.cs" />
     <Compile Include="objects\OpenContextObject.cs" />
     <Compile Include="objects\ContextMonoBehaviour.cs" />
-    <Compile Include="objects\IAutoDestructable.cs" />
     <Compile Include="Interfaces\IDIFactory.cs" />
     <Compile Include="Interfaces\IDISceneFactory.cs" />
     <Compile Include="Interfaces\ISceneObject.cs" />

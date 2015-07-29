@@ -16,10 +16,22 @@ namespace MinDI {
 		private IDIContext _context;
 
 		[NonSerialized]
+		private IDestroyingFactory _factory;
+
+		[NonSerialized]
 		private BindingDescriptor _descriptor = new BindingDescriptor();
 
 
 		#region IDIClosedContext implementation
+
+		IDestroyingFactory IDIClosedContext.factory {
+			get {
+				return _factory;
+			}
+			set {
+				_factory = value;
+			}
+		}
 
 
 		[Injection]

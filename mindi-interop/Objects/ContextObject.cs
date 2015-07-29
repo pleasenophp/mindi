@@ -7,7 +7,7 @@ namespace MinDI {
 
 
 	[Serializable]
-	public abstract class ContextObject : IDIClosedContext, IAutoDestructable {
+	public abstract class ContextObject : IDIClosedContext {
 		private DIState _state = DIState.NotResolved;
 
 		[NonSerialized]
@@ -19,9 +19,7 @@ namespace MinDI {
 		[NonSerialized]
 		private BindingDescriptor _descriptor = new BindingDescriptor();
 
-		#region IAutoDestructable implementation
-
-		public IDestroyingFactory factory {
+		IDestroyingFactory IDIClosedContext.factory {
 			get {
 				return _factory;
 			}
@@ -36,8 +34,7 @@ namespace MinDI {
 				queue.Enqueue(() => _factory.DestroyInstance(this));
 			}
 		}
-
-		#endregion
+			
 
 		[Injection]
 		public IDIContext contextInjection {

@@ -11,7 +11,7 @@ namespace MinDI {
 	/// Usually it's a factory that should have such a privilegy.
 	/// </summary>
 	[Serializable]
-	public class OpenContextObject : ContextObject {
+	public class OpenContextObject : ContextObject, IDIClosedContext {
 		[NonSerialized]
 		private IDIContext _contextCache = null;
 

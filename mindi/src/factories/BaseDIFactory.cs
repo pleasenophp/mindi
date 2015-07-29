@@ -45,6 +45,10 @@ namespace MinDI {
 						instance));
 			}
 
+			if (contextObject.factory != this) {
+				throw new MindiException(string.Format("The object {0} has not been created on this factory: {1}", instance, this));
+			}
+
 			if (contextObject.context == null) {
 				throw new MindiException(string.Format("Context is null for object {0}", instance));
 			}
@@ -63,9 +67,9 @@ namespace MinDI {
 				instance = context.Resolve<T>(name);
 			}
 
-			IAutoDestructable destructable = instance as IAutoDestructable;
-			if (destructable != null) {
-				destructable.factory = this;
+			IDIClosedContext contextObject = instance as IDIClosedContext;
+			if (contextObject != null) {
+				contextObject.factory = this;
 			}
 
 			return instance;

@@ -6,6 +6,8 @@ namespace MinDI.StateObjects {
 		IDIContext context { get; }
 		BindingDescriptor bindingDescriptor { get; set;}
 
+		IDestroyingFactory factory {get; set;}
+
 		DIState diState {get; set;}
 		void AfterInjection();
 	}
