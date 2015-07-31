@@ -20,7 +20,8 @@ namespace MinDI {
 			return context;
 
 		}
-			
+
+		/*
 		/// <summary>
 		/// Creates the bind helper to simplify binding syntax.
 		/// Extension of the IDIContext.
@@ -30,6 +31,7 @@ namespace MinDI {
 		public static BindHelper CreateBindHelper(this IDIContext context) {
 			return new BindHelper(context);
 		}
+		*/
 			
 		/// <summary>
 		/// Resolve an interface from the specified context with casting it to the instance.
@@ -54,8 +56,7 @@ namespace MinDI {
 		/// <typeparam name="T">The interface type parameter.</typeparam>
 		public static IDIContext Chain<T>(this IDIContext context) where T:class {
 			IDIContext newContext = CreateContext(context);
-			BindHelper bind = newContext.CreateBindHelper();
-			bind.singleton.Rebind<T>();
+			newContext.s().Rebind<T>();
 			return newContext;
 		}
 			

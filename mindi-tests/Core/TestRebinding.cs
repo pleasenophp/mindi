@@ -19,8 +19,7 @@ namespace MinDI.Tests
 		[Test]
 		public void TestRebindMultipleToSingleton() {
 			IDIContext context = ContextHelper.CreateContext();
-			var bind = context.CreateBindHelper();
-			bind.multiple.Bind<IMyClass>(()=>new MyClass());
+			context.m().Bind<IMyClass>(()=>new MyClass());
 
 			IDIContext childContext = ContextHelper.CreateContext(context);
 
@@ -28,8 +27,7 @@ namespace MinDI.Tests
 			Assert.AreEqual(InstantiationType.Abstract, d2.instantiationType);
 			Assert.AreEqual(context, d2.context);
 
-			bind = childContext.CreateBindHelper();
-			bind.singleton.Rebind<IMyClass>();
+			childContext.s().Rebind<IMyClass>();
 
 			IMyClass a1 = context.Resolve<IMyClass>();
 			IMyClass a2 = context.Resolve<IMyClass>();
@@ -52,12 +50,10 @@ namespace MinDI.Tests
 		[Test]
 		public void TestRebindSingletonToMultiple() {
 			IDIContext context = ContextHelper.CreateContext();
-			var bind = context.CreateBindHelper();
-			bind.singleton.Bind<IMyClass>(()=>new MyClass());
+			context.s().Bind<IMyClass>(()=>new MyClass());
 
 			IDIContext childContext = ContextHelper.CreateContext(context);
-			bind = childContext.CreateBindHelper();
-			bind.multiple.Rebind<IMyClass>();
+			childContext.m().Rebind<IMyClass>();
 
 			IMyClass a1 = context.Resolve<IMyClass>();
 			IMyClass a2 = context.Resolve<IMyClass>();
@@ -80,12 +76,11 @@ namespace MinDI.Tests
 		[Test]
 		public void TestRebindSingletonToSingleton() {
 			IDIContext context = ContextHelper.CreateContext();
-			var bind = context.CreateBindHelper();
-			bind.singleton.Bind<IMyClass>(()=>new MyClass());
+
+			context.s().Bind<IMyClass>(()=>new MyClass());
 
 			IDIContext childContext = ContextHelper.CreateContext(context);
-			bind = childContext.CreateBindHelper();
-			bind.singleton.Rebind<IMyClass>();
+			childContext.s().Rebind<IMyClass>();
 
 			IMyClass a1 = context.Resolve<IMyClass>();
 			IMyClass a2 = context.Resolve<IMyClass>();

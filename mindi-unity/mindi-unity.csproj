@@ -3,11 +3,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F2CFC484-A92C-44BE-90F4-898DDD0AD894}</ProjectGuid>
+    <ProjectGuid>{33C63225-4DA3-4745-B433-0FB65A4268FD}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>minditests</RootNamespace>
-    <AssemblyName>mindi-tests</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <RootNamespace>MinDI</RootNamespace>
+    <AssemblyName>mindi-unity</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -29,42 +29,39 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="nunit.framework">
-      <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEngine">
       <HintPath>..\lib\UnityEngine.dll</HintPath>
     </Reference>
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="src\objects\ContextMonoBehaviour.cs" />
+    <Compile Include="Interfaces\IDISceneFactory.cs" />
+    <Compile Include="src\mb\DestroyBehaviour.cs" />
+    <Compile Include="src\mb\MBInstantiationType.cs" />
+    <Compile Include="src\mb\MBLifeTime.cs" />
+    <Compile Include="src\mb\RemoteObjectsRecord.cs" />
+    <Compile Include="src\mb\RemoteObjectsRecordRoot.cs" />
+    <Compile Include="src\binders\MonoBehaviourMultipleBinder.cs" />
+    <Compile Include="src\binders\MonoBehaviourBinder.cs" />
+    <Compile Include="src\extensions\IDIContextUnityExtensions.cs" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <Compile Include="Core\TestBindings.cs" />
-    <Compile Include="MinIOC\MinIOC.cs" />
-    <Compile Include="MinIOC\MinIOCAdvancedTests.cs" />
-    <Compile Include="MinIOC\ContextChainingTests.cs" />
-    <Compile Include="MinIOC\StateSingletonTestClasses.cs" />
-    <Compile Include="Core\FixedBugs.cs" />
-    <Compile Include="Core\TestRebinding.cs" />
+    <Folder Include="src\" />
+    <Folder Include="src\objects\" />
+    <Folder Include="Interfaces\" />
+    <Folder Include="src\mb\" />
+    <Folder Include="src\binders\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\mindi-interop\mindi-interop.csproj">
-      <Project>{021BCAE4-375A-4581-92CD-7217F6D37BB8}</Project>
-      <Name>mindi-interop</Name>
-    </ProjectReference>
     <ProjectReference Include="..\mindi\mindi.csproj">
       <Project>{26DAE650-5AD8-42FB-B67E-C9ED91FD6B1A}</Project>
       <Name>mindi</Name>
     </ProjectReference>
-    <ProjectReference Include="..\minioc\minioc.csproj">
-      <Project>{EF726DF6-62BB-4D9E-8874-C7AD3C1C7C79}</Project>
-      <Name>minioc</Name>
+    <ProjectReference Include="..\mindi-interop\mindi-interop.csproj">
+      <Project>{021BCAE4-375A-4581-92CD-7217F6D37BB8}</Project>
+      <Name>mindi-interop</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Core\" />
-    <Folder Include="MinIOC\" />
   </ItemGroup>
 </Project>

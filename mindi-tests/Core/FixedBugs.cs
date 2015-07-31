@@ -21,9 +21,8 @@ namespace MinDI.Tests
 		[Test]
 		public void TestNullNameResolve() {
 			IDIContext context = ContextHelper.CreateContext();
-			var bind = context.CreateBindHelper();
 
-			bind.multiple.Bind<IApple>(() => new Apple());
+			context.m().Bind<IApple>(() => new Apple());
 
 			Apple appleInstance = context.Resolve<IApple, Apple>(null);
 			Assert.IsNotNull(appleInstance);

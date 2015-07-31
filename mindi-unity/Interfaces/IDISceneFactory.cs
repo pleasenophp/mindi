@@ -8,7 +8,7 @@ namespace MinDI {
 	/// </summary>
 	public interface IDISceneFactory : IDestroyingFactory
 	{
-		T Create <T>(string sceneName, string bindingName = null) where T:class, ISceneObject;
+		T Create <T>(string sceneName, bool destroyableObjects, string bindingName = null) where T:class, ISceneObject;
 	}
 
 }

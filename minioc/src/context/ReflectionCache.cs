@@ -9,7 +9,6 @@ using MinDI;
 namespace minioc.context {
 	internal class ReflectionCache {
 		private Dictionary<Type, InjectionStrategy> _injectionStrategies = new Dictionary<Type, InjectionStrategy>();
-		private Dictionary<Type, List<AutoInjectMember>> _autoInjectMembersByType = new Dictionary<Type, List<AutoInjectMember>>();
 
 		internal InjectionStrategy getInjectorStrategy(Type type) {
 			InjectionStrategy stategy;
@@ -95,28 +94,6 @@ namespace minioc.context {
 			InjectionMethodAttribute injectionMethodAttributeB = (InjectionMethodAttribute)b.GetCustomAttributes(typeof(InjectionMethodAttribute), false)[0];
 			return injectionMethodAttributeA.order.CompareTo(injectionMethodAttributeB.order);
 		}
-
-		public IEnumerable<AutoInjectMember> getAutoInjectMembers(Type type) {
-			List<AutoInjectMember> autoInjectMembers;
-			if (!_autoInjectMembersByType.TryGetValue(type, out autoInjectMembers)) {
-				autoInjectMembers = findAutoInjectMembers(type);
-				_autoInjectMembersByType[type] = autoInjectMembers;
-			}
-			return autoInjectMembers;
-		}
-
-		private List<AutoInjectMember> findAutoInjectMembers(Type type) {
-			MemberInfo[] members = type.FindMembers(MemberTypes.Field | MemberTypes.Property, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance, hasAutoInjectAttribute, null);
-			return members.Select<MemberInfo, AutoInjectMember>(createAutoInjectMember).ToList();
-			// return members.Select(createAutoInjectMember).ToList();
-		}
-
-		private AutoInjectMember createAutoInjectMember(MemberInfo x) {
-			return x.MemberType == MemberTypes.Field?(AutoInjectMember)new AutoInjectField((FieldInfo)x):new AutoInjectProperty((PropertyInfo)x);
-		}
-
-		private bool hasAutoInjectAttribute(MemberInfo m, object filtercriteria) {
-			return m.GetCustomAttributes(typeof(AutoInjectAttribute), true).Length == 1;
-		}
+			
 	}
 }

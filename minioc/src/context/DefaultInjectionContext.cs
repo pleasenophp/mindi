@@ -53,6 +53,8 @@ namespace minioc.context {
 				throw new MiniocException("Cannot inject dependencies on null value");
 			}
 		
+			// Auto inject feature is removed, as it is implemented better in MinDI
+			/*
 			IEnumerable<AutoInjectMember> autoInjectMembers = _reflectionCache.getAutoInjectMembers(instance.GetType());
 			foreach (AutoInjectMember autoInjectMember in autoInjectMembers) {
 				try {
@@ -62,6 +64,7 @@ namespace minioc.context {
 					throw new MiniocException("Unable to inject dependencies on " + autoInjectMember, e);
 				}
 			}
+			*/
         
 			InjectionStrategy injectionStrategy = getInjectionStrategy(instance.GetType());
 			if (injectionStrategy.type != InjectorStrategyType.CONSTRUCTOR) {

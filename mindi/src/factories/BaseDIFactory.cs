@@ -82,8 +82,7 @@ namespace MinDI {
 		}
 
 		protected void BindObjectsRecord(IDIContext context) {
-			var bind = context.CreateBindHelper();
-			bind.singleton.Bind<IRemoteObjectsRecord>(() => new RemoteObjectsRecord());
+			context.s().Rebind<IRemoteObjectsRecord>();
 		}
 	}
 }

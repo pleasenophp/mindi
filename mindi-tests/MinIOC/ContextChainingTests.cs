@@ -36,14 +36,12 @@ namespace MinDI.Tests.MinIOC
 		[Test]
 		public void TestParentContainerChildAdapter() {
 			IDIContext context = ContextHelper.CreateContext();
-			var bind = context.CreateBindHelper();
 
-			bind.multiple.Bind<IContainer>(() => new Container());
-			bind.multiple.Bind<IAdapter>(() => new DefaultAdapter());
+			context.m().Bind<IContainer>(() => new Container());
+			context.m().Bind<IAdapter>(() => new DefaultAdapter());
 
 			IDIContext childContext = ContextHelper.CreateContext(context);
-			var childBind = childContext.CreateBindHelper();
-			childBind.multiple.Bind<IAdapter>(() => new CustomAdapter());
+			childContext.m().Bind<IAdapter>(() => new CustomAdapter());
 		
 			// Resolving container from the parent context
 			// Expecting DefaultAdapter

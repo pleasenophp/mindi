@@ -1,10 +1,7 @@
 using System;
 using System.Collections;
-using minioc;
-using minioc.context.bindings;
-using minioc.resolution.instantiator;
-using UnityEngine;
 using MinDI.StateObjects;
+using UnityEngine;
 
 namespace MinDI.Binders {
 
@@ -17,14 +14,12 @@ namespace MinDI.Binders {
 
 		protected MonoBehaviourBinder(IDIContext context, InstantiationMode mode) {
 			this.contextInjection = context;
-
-			var b = context.CreateBindHelper();
-
+		
 			if (mode == InstantiationMode.SINGLETON) {
-				baseBinder = b.singleton;
+				baseBinder = context.s();
 			}
 			else if (mode == InstantiationMode.MULTIPLE) {
-				baseBinder = b.multiple;
+				baseBinder = context.m();
 			}
 
 			objectsHash = context.Resolve<IRemoteObjectsHash>();

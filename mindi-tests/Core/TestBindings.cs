@@ -24,13 +24,12 @@ namespace MinDI.Tests
 		[Test]
 		public void TestValueInstanceBinding() {
 			IDIContext context = ContextHelper.CreateContext();
-			var bind = context.CreateBindHelper();
-			bind.singleton.BindInstance<int>(5);
+			context.s().BindInstance<int>(5);
 
 			int i = context.Resolve<int>();
 			Assert.AreEqual(5, i);
 
-			bind.singleton.BindInstance<MyEnum>(MyEnum.Viktoria);
+			context.s().BindInstance<MyEnum>(MyEnum.Viktoria);
 			MyEnum name = context.Resolve<MyEnum>();
 			Assert.AreEqual(MyEnum.Viktoria, name);
 		}
@@ -40,8 +39,7 @@ namespace MinDI.Tests
 			MyClass obj = new MyClass();
 
 			IDIContext context = ContextHelper.CreateContext();
-			var bind = context.CreateBindHelper();
-			bind.singleton.BindInstance<IMyClass>(obj);
+			context.s().BindInstance<IMyClass>(obj);
 
 			IMyClass anotherObj = context.Resolve<IMyClass>();
 			Assert.AreSame(obj, anotherObj);
@@ -52,8 +50,7 @@ namespace MinDI.Tests
 			MyClass obj = new MyClass();
 
 			IDIContext context = ContextHelper.CreateContext();
-			var bind = context.CreateBindHelper();
-			bind.multiple.BindInstance<IMyClass>(obj);
+			context.m().BindInstance<IMyClass>(obj);
 
 			IMyClass anotherObj = context.Resolve<IMyClass>();
 			Assert.AreSame(obj, anotherObj);

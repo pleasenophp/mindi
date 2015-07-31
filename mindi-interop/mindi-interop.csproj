@@ -29,9 +29,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="UnityEngine">
-      <HintPath>..\lib\UnityEngine.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -46,9 +43,7 @@
     <Compile Include="bindings\InstantiationType.cs" />
     <Compile Include="Interfaces\IRemoteObjectsRecord.cs" />
     <Compile Include="Interfaces\IActionQueue.cs" />
-    <Compile Include="Interfaces\IDestroyingFactory.cs" />
     <Compile Include="exceptions\MindiException.cs" />
-    <Compile Include="attributes\AutoInjectAttribute.cs" />
     <Compile Include="attributes\InjectionConstructorAttribute.cs" />
     <Compile Include="attributes\InjectionMethodAttribute.cs" />
     <Compile Include="attributes\InjectionAttribute.cs" />
@@ -57,15 +52,15 @@
     <Compile Include="objects\IDIClosedContext.cs" />
     <Compile Include="objects\ContextObject.cs" />
     <Compile Include="objects\OpenContextObject.cs" />
-    <Compile Include="objects\ContextMonoBehaviour.cs" />
-    <Compile Include="Interfaces\IDIFactory.cs" />
-    <Compile Include="Interfaces\IDISceneFactory.cs" />
     <Compile Include="Interfaces\ISceneObject.cs" />
+    <Compile Include="Interfaces\factories\IDIFactory.cs" />
+    <Compile Include="Interfaces\factories\IDestroyingFactory.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Interfaces\" />
     <Folder Include="bindings\" />
+    <Folder Include="Interfaces\factories\" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>

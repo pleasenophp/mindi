@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace MinDI.StateObjects {
 	public class ActionQueue : ContextObject, IActionQueue {

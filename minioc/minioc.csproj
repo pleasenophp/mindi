@@ -29,9 +29,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="UnityEngine">
-      <HintPath>..\lib\UnityEngine.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -75,8 +72,6 @@
     <Compile Include="src\resolution\lifecylcle\providers\ExplicitValueProvider.cs" />
     <Compile Include="src\resolution\lifecylcle\providers\FactoryValueProvider.cs" />
     <Compile Include="src\resolution\lifecylcle\providers\TypeInstanceBoundValueProvider.cs" />
-    <Compile Include="src\unity\MonoBehaviourInstantiator.cs" />
-    <Compile Include="src\unity\PrefabInstantiator.cs" />
     <Compile Include="src\resolution\injection\PrimitiveInjectionStrategy.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
@@ -86,12 +81,6 @@
   <ItemGroup>
     <None Include="src\context\bindings.meta" />
     <None Include="src\minioc-license.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\mindi-interop\mindi-interop.csproj">
-      <Project>{021BCAE4-375A-4581-92CD-7217F6D37BB8}</Project>
-      <Name>mindi-interop</Name>
-    </ProjectReference>
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>
@@ -103,4 +92,10 @@
       </Properties>
     </MonoDevelop>
   </ProjectExtensions>
+  <ItemGroup>
+    <ProjectReference Include="..\mindi-interop\mindi-interop.csproj">
+      <Project>{021BCAE4-375A-4581-92CD-7217F6D37BB8}</Project>
+      <Name>mindi-interop</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>
