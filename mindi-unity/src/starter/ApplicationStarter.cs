@@ -125,7 +125,7 @@ namespace MinDI
  * 
  * v 4.9) Move the related objects to the library.
  * 
- * 4.10) Add missing bindings to MB binder.
+ * v 4.10) Add missing bindings to MB binder.
  * 
  * v 5) Sort out the ContextObject. Make the common ContextObject with state available in minioc
  *   Maybe allow to inject dependencies only on context object, but the usual object can still be resolved (if it doesn't have any dependencies).
@@ -134,12 +134,15 @@ namespace MinDI
  * 
  * v 7) Solve the singleton subjectivisation problem
  * 
+ * 7.5) Sort out context monobehaviours requirement
  * 
  * 8) Sort out other TODOs
  * 
  * 9) Default-resolution of the generic factories (maybe the whole new feature - binding generics with default resolution)
  * 
- * 10) Make internal documentation
+ * 10) Make internal documentation and object diagrams
+ * 
+ * 10.5) Sort out the lifetime control when resolving the mono behaviours to existing objects
  * 
  * 11) Make programmer documentation and TODOs for the further guides
  * 
