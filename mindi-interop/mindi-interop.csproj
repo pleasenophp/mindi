@@ -52,7 +52,6 @@
     <Compile Include="objects\IDIClosedContext.cs" />
     <Compile Include="objects\ContextObject.cs" />
     <Compile Include="objects\OpenContextObject.cs" />
-    <Compile Include="Interfaces\ISceneObject.cs" />
     <Compile Include="Interfaces\factories\IDIFactory.cs" />
     <Compile Include="Interfaces\factories\IDestroyingFactory.cs" />
   </ItemGroup>

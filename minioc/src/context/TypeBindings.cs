@@ -57,8 +57,8 @@ namespace minioc.context {
 			}
 
 			BindingImpl binding;
-			if ((_namedBindings == null) || !_namedBindings.TryGetValue(name, out binding)) {
-				throw new MiniocException(string.Format("No Binding with name '{0}' found for type {1}", name, _default.type));
+			if (_namedBindings == null || !_namedBindings.TryGetValue(name, out binding)) {
+				return null;
 			}
 
 			return binding.descriptor;

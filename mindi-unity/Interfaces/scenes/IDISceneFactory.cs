@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 
-namespace MinDI {
+namespace MinDI.Unity {
 
 	/// <summary>
 	/// A factory interface to produce objects

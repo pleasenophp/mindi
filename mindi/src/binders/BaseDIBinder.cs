@@ -86,6 +86,7 @@ namespace MinDI.Binders {
 				throw new MindiException("Called Rebind, but the parent context is null");
 			}
 
+
 			BindingDescriptor descriptor = context.Introspect<T>(resolutionName);
 			if (descriptor.bindingType == BindingType.None) {
 				throw new MindiException("Called Rebind, but no existing binding found for type "+typeof(T)+" for name "+resolutionName);

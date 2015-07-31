@@ -7,8 +7,6 @@ namespace MinDI.Context {
 		public void Initialize(IDIContext context) {
 			context.s().BindInstance<ContextEnvironment>(ContextEnvironment.Normal);
 			context.s().Bind<IActionQueue>(() => new ActionQueue());
-			context.s().Bind<IRemoteObjectsHash>(() => new RemoteObjectsHash());
-			context.m().Bind<IRemoteObjectsRecord>(() => new RemoteObjectsRecordStub());
 		}
 		#endregion
 		

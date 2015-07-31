@@ -82,7 +82,7 @@ namespace MinDI {
 		}
 
 		protected void BindObjectsRecord(IDIContext context) {
-			context.s().Rebind<IRemoteObjectsRecord>();
+			context.s().Rebind<IRemoteObjectsRecord>(null, "factory");
 		}
 	}
 }

@@ -48,22 +48,20 @@
     <Compile Include="src\remote\ActionQueue.cs" />
     <Compile Include="src\remote\FactoryObjectRecord.cs" />
     <Compile Include="src\factories\BaseDIFactory.cs" />
-    <Compile Include="Context\ContextBuilder.cs" />
-    <Compile Include="Context\ContextEnvironment.cs" />
-    <Compile Include="Context\FilteredInitializerAttribute.cs" />
-    <Compile Include="Context\IApplicationContextInitializer.cs" />
-    <Compile Include="Context\IContextInitializer.cs" />
-    <Compile Include="Context\IGlobalContextInitializer.cs" />
-    <Compile Include="Context\MindiContextInitializer.cs" />
-    <Compile Include="src\remote\RemoteObjectsHash.cs" />
-    <Compile Include="src\remote\IRemoteObjectsHash.cs" />
-    <Compile Include="src\remote\RemoteObjectsRecordStub.cs" />
     <Compile Include="src\extensions\IDIContextExtensions.cs" />
+    <Compile Include="src\context\ContextBuilder.cs" />
+    <Compile Include="src\context\ContextEnvironment.cs" />
+    <Compile Include="src\context\FilteredInitializerAttribute.cs" />
+    <Compile Include="src\context\IApplicationContextInitializer.cs" />
+    <Compile Include="src\context\IContextInitializer.cs" />
+    <Compile Include="src\context\IGlobalContextInitializer.cs" />
+    <Compile Include="Context\MindiContextInitializer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="src\" />
     <Folder Include="src\extensions\" />
+    <Folder Include="Context\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="LICENSE-SGI.txt" />
