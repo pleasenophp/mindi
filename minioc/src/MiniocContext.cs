@@ -12,11 +12,12 @@ using MinDI.Introspection;
 
 namespace minioc
 {
-	// TODO - check thread safety of calling Resolve
 	public class MiniocContext : DependencyResolver, IDIContext {
 		private MiniocBindings _bindings = new MiniocBindings ();
 		private InjectionContext _injectionContext;
 		private IDIContext _parentContext;
+
+		private object locker = new object();
 
 		/*
 		~MiniocContext ()
@@ -88,32 +89,8 @@ namespace minioc
 		/// <returns></returns>
 		public object Resolve (Type type, string name=null, bool omitInjectDependencies = false)
 		{
-			try {
-				if (_parentContext != null) {
-					object result;
-
-					if (_bindings.tryResolve (type, name, _injectionContext, out result)) {
-						if (!omitInjectDependencies) {
-							this.InjectDependencies(result);
-						}
-						return result;
-					} else {
-						result = _parentContext.Resolve (type, name, true);
-
-						if (!omitInjectDependencies) {
-							this.InjectDependencies(result);
-						}
-						return result;
-					}
-				} else {
-					object result = _bindings.resolve (type, name, _injectionContext);
-					if (!omitInjectDependencies) {
-						this.InjectDependencies(result);
-					}
-					return result;
-				}
-			} catch (MiniocException e) {
-				throw new MiniocException (string.Format ("Unable to resolve instance of '{0}' named '{1}'", type, name), e);
+			lock (locker) {
+				return ResolveInternal(type, name, omitInjectDependencies);
 			}
 		}
 
@@ -122,17 +99,20 @@ namespace minioc
 		}
 
 		public BindingDescriptor Introspect(Type type, string name=null) {
-			BindingDescriptor descriptor = _bindings.Introspect(type, name);
+			lock (locker) {
 
-			if (descriptor == null && _parentContext != null) {
-				return _parentContext.Introspect(type, name);
-			}
+				BindingDescriptor descriptor = _bindings.Introspect(type, name);
 
-			if (descriptor == null) {
-				descriptor = new BindingDescriptor();
-			}
+				if (descriptor == null && _parentContext != null) {
+					return _parentContext.Introspect(type, name);
+				}
+
+				if (descriptor == null) {
+					descriptor = new BindingDescriptor();
+				}
 	
-			return descriptor;
+				return descriptor;
+			}
 		}
 
 		/// <summary>
@@ -141,6 +121,63 @@ namespace minioc
 		/// <param name="instance"></param>
 		/// <param name="dependencies"></param>
 		public void InjectDependencies (object instance, IList<IDependency> dependencies = null)
+		{
+			lock (locker) {
+				InjectDependenciesInternal(instance, dependencies);
+			}
+		}
+			
+		public void RemoveBinding (IBinding binding)
+		{
+			lock (locker) {
+				_bindings.remove(binding);
+			}
+		}
+
+		public string name { get; private set;}
+
+		public IDIContext parent {
+			get {
+				return _parentContext;
+			}
+		}
+
+		private object ResolveInternal(Type type, string name=null, bool omitInjectDependencies = false)
+		{
+			try {
+				if (_parentContext != null) {
+					object result;
+
+					if (_bindings.tryResolve(type, name, _injectionContext, out result)) {
+						if (!omitInjectDependencies) {
+							this.InjectDependenciesInternal(result);
+						}
+						return result;
+					}
+					else {
+						result = _parentContext.Resolve(type, name, true);
+
+						if (!omitInjectDependencies) {
+							this.InjectDependenciesInternal(result);
+						}
+						return result;
+					}
+				}
+				else {
+					object result = _bindings.resolve(type, name, _injectionContext);
+					if (!omitInjectDependencies) {
+						this.InjectDependenciesInternal(result);
+					}
+					return result;
+				}
+			}
+			catch (MiniocException e) {
+				throw new MiniocException(string.Format("Unable to resolve instance of '{0}' named '{1}'", type, name), e);
+			}
+
+		}
+
+		private void InjectDependenciesInternal (object instance, IList<IDependency> dependencies = null)
 		{
 			// Not injecting any dependencies if the object is not context object
 			IDIClosedContext stateInstance = instance as IDIClosedContext;
@@ -159,7 +196,7 @@ namespace minioc
 				descriptor.context.InjectDependencies(instance, dependencies);
 				return;
 			}
-				
+
 			if (stateInstance.diState == DIState.NotResolved) {
 				stateInstance.diState = DIState.Resolving;
 				_injectionContext.injectDependencies(instance, dependencies);
@@ -169,22 +206,9 @@ namespace minioc
 			}
 		}
 			
-		public void RemoveBinding (IBinding binding)
-		{
-			_bindings.remove (binding);
-		}
-
-		public string name { get; private set;}
-
-		public IDIContext parent {
-			get {
-				return _parentContext;
-			}
-		}
-			
 		private void RegisterRemoteObject(object instance) {
 			if (RemoteObjectsHelper.IsRemoteObject(instance)) {
-				IRemoteObjectsRecord remoteRecord = this.Resolve<IRemoteObjectsRecord>();
+				IRemoteObjectsRecord remoteRecord = (IRemoteObjectsRecord)this.ResolveInternal(typeof(IRemoteObjectsRecord), null, false);
 				remoteRecord.Register(instance);
 			}
 		}
