@@ -27,7 +27,6 @@ namespace MinDI {
 			return null;
 		}
 			
-		// TODO - after destroying an instance - remove it from the remote objects record
 		public void DestroyInstance(object instance) {
 			if (instance == null) {
 				return;
@@ -55,6 +54,8 @@ namespace MinDI {
 
 			IRemoteObjectsRecord ror = contextObject.context.Resolve<IRemoteObjectsRecord>();
 			ror.DestroyAll();
+
+			RegisterDestruction(instance);
 		}
 			
 		protected T Create(IDIContext context, string name) {
@@ -75,10 +76,16 @@ namespace MinDI {
 			return instance;
 		}
 
-		// Register creation of an instance on this factory in the parent ROR
+		// Register creation of an instance made on this factory in the parent ROR
 		protected void RegisterCreation(T instance) {
 			IRemoteObjectsRecord ror = this.context.Resolve<IRemoteObjectsRecord>();
 			ror.Register(new FactoryObjectRecord(this, instance));
+		}
+
+		// Register destruction of an instance made on this factory in the parent ROR
+		protected void RegisterDestruction(object instance) {
+			IRemoteObjectsRecord ror = this.context.Resolve<IRemoteObjectsRecord>();
+			ror.DestroyByType<FactoryObjectRecord>((f) => f.instance == instance && f.factory == this);
 		}
 
 		protected void BindObjectsRecord(IDIContext context) {

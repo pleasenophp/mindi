@@ -8,9 +8,11 @@ namespace MinDI.StateObjects {
 
 	public class RemoteObjectsRecord : RemoteObjectsRecordRoot {
 		private IList<object> objects;
+		private IDictionary<Type, IList<object>> typedObjects;
 
 		public RemoteObjectsRecord() {
 			objects = new List<object>();
+			typedObjects = new Dictionary<Type, IList<object>>();
 		}
 
 		public override void Register(object obj) {
@@ -20,6 +22,8 @@ namespace MinDI.StateObjects {
 				
 			base.Register(obj);
 			objects.Add(obj);
+
+			RegisterTypedObject(obj);
 		}
 			
 		public override void DestroyAll() {
@@ -30,6 +34,39 @@ namespace MinDI.StateObjects {
 			}
 
 			objects.Clear();
+			typedObjects.Clear();
+		}
+
+		public override void DestroyByType<T>(Func<T, bool> condition) {
+			IRemoteObjectsHash objectsHash = null;
+
+			IList<object> typedList;
+			typedObjects.TryGetValue(typeof(T), out typedList);
+			if (typedList == null) {
+				return;
+			}
+
+			foreach (T obj in new List<object>(typedList)) {
+				if (!condition(obj)) {
+					continue;
+				}
+
+				if (objectsHash == null) {
+					objectsHash = context.Resolve<IRemoteObjectsHash>();
+				}
+				typedList.Remove(obj);
+				DestroyObject(obj, objectsHash);
+			}
+		}
+
+		private void RegisterTypedObject(object obj) {
+			IList<object> typedList;
+			Type type = obj.GetType();
+			if (!typedObjects.TryGetValue(type, out typedList)) {
+				typedList = new List<object>();
+			}
+			typedList.Add(obj);
+			typedObjects[type] = typedList;
 		}
 
 		private void DestroyObject(object o, IRemoteObjectsHash objectsHash) {
@@ -53,7 +90,6 @@ namespace MinDI.StateObjects {
 		private void DestroyMB(MonoBehaviour mb, IRemoteObjectsHash objectsHash) {
 			DestroyBehaviour destroyBehaviour = mb.GetComponent<DestroyBehaviour>();
 			if (destroyBehaviour == null || destroyBehaviour.instantiationType == MBInstantiationType.ExistingObject) {
-
 				GameObject.Destroy(mb);
 			}
 			else if (destroyBehaviour.instantiationType == MBInstantiationType.NewObject) {
@@ -70,6 +106,7 @@ namespace MinDI.StateObjects {
 			objectsHash.hash.Remove(obj.GetInstanceID());
 			UnityEngine.Object.Destroy(obj);
 		}
+
 
 	}
 }

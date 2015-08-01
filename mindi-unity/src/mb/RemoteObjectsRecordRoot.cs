@@ -28,6 +28,9 @@ namespace MinDI.StateObjects {
 			}
 		}
 
+		public virtual void DestroyByType<T>(Func<T, bool> condition) where T : class {
+		}
+			
 		public virtual void DestroyAll() {
 		}
 
