@@ -139,7 +139,7 @@ namespace MinDI
  * 
  * v 7.5) Sort out context monobehaviours requirement
  * 
- * 8) Sort out other TODOs
+ * v 8) Sort out other TODOs
  * 
  * 9) Default-resolution of the generic factories (maybe the whole new feature - binding generics with default resolution)
  * 
