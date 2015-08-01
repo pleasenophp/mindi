@@ -31,11 +31,7 @@ namespace MinDI.Binders {
 		{
 			return baseBinder.Bind<T>(() => this.Resolve<T, TInstance>(null), name);
 		}
-
-		// TODO - see if there should be a requirement to have a context MB when binding
-		// As they are always registered on ROR only if they are context
-		// Can also add this to the main context in minioc to handle the registration on ror
-
+			
 		// TODO - when binding to existing game object, need to check that the lifetime of this object
 		// is greater or equal than the lifetime of our mono behaviour. Else - refuse to bind.
 		// If the GO is in the ROR that is higher or equal than this ROR in the tree then it's ok

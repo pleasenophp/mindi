@@ -54,6 +54,9 @@
     <Compile Include="objects\OpenContextObject.cs" />
     <Compile Include="Interfaces\factories\IDIFactory.cs" />
     <Compile Include="Interfaces\factories\IDestroyingFactory.cs" />
+    <Compile Include="objects\ContextEnvironment.cs" />
+    <Compile Include="objects\RemoteObjectsHelper.cs" />
+    <Compile Include="objects\IRemoteObjectsValidator.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

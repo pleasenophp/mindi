@@ -50,7 +50,6 @@
     <Compile Include="src\factories\BaseDIFactory.cs" />
     <Compile Include="src\extensions\IDIContextExtensions.cs" />
     <Compile Include="src\context\ContextBuilder.cs" />
-    <Compile Include="src\context\ContextEnvironment.cs" />
     <Compile Include="src\context\FilteredInitializerAttribute.cs" />
     <Compile Include="src\context\IApplicationContextInitializer.cs" />
     <Compile Include="src\context\IContextInitializer.cs" />

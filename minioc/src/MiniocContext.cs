@@ -145,6 +145,7 @@ namespace minioc
 			// Not injecting any dependencies if the object is not context object
 			IDIClosedContext stateInstance = instance as IDIClosedContext;
 			if (stateInstance == null) {
+				RegisterRemoteObject(instance);
 				return;
 			}
 
@@ -158,17 +159,13 @@ namespace minioc
 				descriptor.context.InjectDependencies(instance, dependencies);
 				return;
 			}
-
-			if (stateInstance == null) {
-				_injectionContext.injectDependencies (instance, dependencies);
-			}
-			else {
-				if (stateInstance.diState == DIState.NotResolved) {
-					stateInstance.diState = DIState.Resolving;
-					_injectionContext.injectDependencies(instance, dependencies);
-					stateInstance.AfterInjection();
-					stateInstance.diState = DIState.Resolved;
-				}
+				
+			if (stateInstance.diState == DIState.NotResolved) {
+				stateInstance.diState = DIState.Resolving;
+				_injectionContext.injectDependencies(instance, dependencies);
+				RegisterRemoteObject(instance);
+				stateInstance.AfterInjection();
+				stateInstance.diState = DIState.Resolved;
 			}
 		}
 			
@@ -182,6 +179,13 @@ namespace minioc
 		public IDIContext parent {
 			get {
 				return _parentContext;
+			}
+		}
+			
+		private void RegisterRemoteObject(object instance) {
+			if (RemoteObjectsHelper.IsRemoteObject(instance)) {
+				IRemoteObjectsRecord remoteRecord = this.Resolve<IRemoteObjectsRecord>();
+				remoteRecord.Register(instance);
 			}
 		}
 	}

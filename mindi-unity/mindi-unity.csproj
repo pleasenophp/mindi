@@ -65,6 +65,7 @@
     <Compile Include="Interfaces\scenes\ISceneObject.cs" />
     <Compile Include="Interfaces\scenes\IDISceneFactory.cs" />
     <Compile Include="Interfaces\scenes\IAdditiveSceneLoader.cs" />
+    <Compile Include="src\starter\UnityRemoteObjectsValidator.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

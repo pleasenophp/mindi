@@ -51,6 +51,9 @@ namespace MinDI
 				throw new MindiException("UnityContextStart or any inherited component not found on the _starter object !");
 			}
 
+			// Adding remote objects validator
+			RemoteObjectsHelper.AddValidator(new UnityRemoteObjectsValidator());
+
 			// Creating context
 			RootContainer.context = init.CreateContext();
 
@@ -134,7 +137,7 @@ namespace MinDI
  * 
  * v 7) Solve the singleton subjectivisation problem
  * 
- * 7.5) Sort out context monobehaviours requirement
+ * v 7.5) Sort out context monobehaviours requirement
  * 
  * 8) Sort out other TODOs
  * 

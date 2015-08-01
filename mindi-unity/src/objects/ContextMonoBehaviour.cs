@@ -54,11 +54,6 @@ namespace MinDI {
 		}
 
 		void IDIClosedContext.AfterInjection() {
-
-			// TODO - consider moving it to minioc, so non-context mono behaviours can be also injected
-			IRemoteObjectsRecord remoteRecord = _context.Resolve<IRemoteObjectsRecord>();
-			remoteRecord.Register(this);
-
 			OnInjected();
 		}
 

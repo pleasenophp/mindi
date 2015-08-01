@@ -37,7 +37,7 @@ namespace MinDI.StateObjects {
 				if (mb != null) {
 					DestroyBehaviour destroyBehaviour = mb.GetComponent<DestroyBehaviour>();
 					if (destroyBehaviour == null || destroyBehaviour.instantiationType == MBInstantiationType.ExistingObject) {
-						Debug.LogWarning("DESTROYING MB ITSELF");
+						
 						GameObject.Destroy(mb);
 					}
 					else if (destroyBehaviour.instantiationType == MBInstantiationType.NewObject) {
