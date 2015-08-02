@@ -31,6 +31,10 @@ namespace MinDI.Binders {
 		{
 			return baseBinder.Bind<T>(() => this.Resolve<T, TInstance>(null), name);
 		}
+
+		public IBinding Bind<TInstance> (string name = null) where TInstance:MonoBehaviour {
+			return Bind<TInstance, TInstance>(name);
+		}
 			
 		// TODO - when binding to existing game object, need to check that the lifetime of this object
 		// is greater or equal than the lifetime of our mono behaviour. Else - refuse to bind.
@@ -44,6 +48,13 @@ namespace MinDI.Binders {
 		{
 			return baseBinder.Bind<T>(() => this.Resolve<T, TInstance>(objectLocator), name);
 		}
+
+		public IBinding BindToGameObject<TInstance> (Func<GameObject> objectLocator, string name = null)
+			where TInstance:MonoBehaviour
+		{
+			return BindToGameObject<TInstance, TInstance>(objectLocator, name);
+		}
+
 			
 		public IBinding BindToExisting<T> (Func<GameObject> objectLocator, string name = null) 
 			where T:class
@@ -59,6 +70,12 @@ namespace MinDI.Binders {
 			return baseBinder.Bind<T>(() => ResolvePrefab<T, TInstance>(prefabLocator), bindingName);
 		}
 
+		public IBinding BindPrefab<TInstance> (Func<GameObject> prefabLocator, string bindingName = null) 
+			where TInstance:MonoBehaviour 
+		{
+			return BindPrefab<TInstance, TInstance>(prefabLocator, bindingName);
+		}
+
 		public IBinding BindResource<T, TInstance> (string resourceName, string bindingName = null) 
 			where T:class where TInstance:MonoBehaviour, T
 
@@ -66,6 +83,11 @@ namespace MinDI.Binders {
 			return baseBinder.Bind<T>(() => ResolveResource<T, TInstance>(resourceName), bindingName);
 		}
 
+		public IBinding BindResource<TInstance> (string resourceName, string bindingName = null) 
+			where TInstance:MonoBehaviour 
+		{
+			return BindResource<TInstance, TInstance>(resourceName, bindingName);
+		}
 			
 		private T Resolve<T, TInstance> (Func<GameObject> objectLocator) 
 			where T:class where TInstance:MonoBehaviour, T
