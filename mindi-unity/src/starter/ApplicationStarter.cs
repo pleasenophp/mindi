@@ -143,7 +143,7 @@ namespace MinDI
  * 
  * v 9) Default-resolution of the generic factories (maybe the whole new feature - binding generics with default resolution)
  * 
- * 9.5) Make the generic factories bindable on singletone (maybe rework singletone into minioc)
+ * v 9.5) Make the generic factories bindable on singletone (maybe rework singletone into minioc)
  * 
  * 10) Make internal documentation and object diagrams
  * 
@@ -151,11 +151,22 @@ namespace MinDI
  * 
  * 11) Make programmer documentation and TODOs for the further guides
  * 
- * 12) Add better code to coroutine manager
+ * 12) Make singleton sorted in Minioc
  * 
- * 13) Add some editor helper scripts
+ * 13) Add better code to coroutine manager
  * 
- * 14) Sort the version numbers and other release prepare things
+ * 14) Add some editor helper scripts
+ * 
+ * 15) Sort the version numbers and other release prepare things
+ * 
+ * 
+ * Features to add later:
+ * 
+ * 1) Serialization feature
+ * 
+ * 2) Context profiler feature
+ * 
+ * 3) Maybe - IDE built in resolution lookup
  * 
  * 
  * 

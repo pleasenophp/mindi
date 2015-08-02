@@ -30,7 +30,7 @@ namespace minioc.context.bindings {
 		public BindingDescriptor descriptor { get; private set; }
 
 		private BoundValueProvider _valueProvider = BoundValueProviderNotSet.INSTANCE;
-		// private InstantiationMode _instantiationMode = InstantiationMode.SINGLETON;
+		private InstantiationMode _instantiationMode = InstantiationMode.MULTIPLE;
 
 		private BoundInstanceFactory _boundInstanceFactory;
 
@@ -45,8 +45,11 @@ namespace minioc.context.bindings {
 
 		public void InitFromGeneric(BindingImpl genericBinding, Func<object> factory) {
 			this._dependencies = genericBinding._dependencies;
-			this.ImplementedBy(factory);
 			this.descriptor.InitFromGeneric(genericBinding.descriptor, factory);
+			this.ImplementedBy(factory);
+			if (this.descriptor.instantiationType == InstantiationType.Concrete) {
+				this.SetInstantiationMode(InstantiationMode.SINGLETON);
+			}
 		}
 
 		public IBinding ImplementedBy<T>() {
@@ -85,12 +88,12 @@ namespace minioc.context.bindings {
 			}
 		}
 
-		/*
-		public IBinding SetInstantiationMode(InstantiationMode instantiationMode) {
+
+		private IBinding SetInstantiationMode(InstantiationMode instantiationMode) {
 			_instantiationMode = instantiationMode;
 			return this;
 		}
-		*/
+
 
 		public IBinding SetDescriptor(IDIContext context, InstantiationType instantiation, BindingType type, Func<object> factory) {
 			this.descriptor.context = context;
@@ -116,17 +119,15 @@ namespace minioc.context.bindings {
 		}
 
 		internal object getInstance(InjectionContext injectionContext) {
-			// NOTE - as we use outside binders, can instantiate in always multiple mode here
+			// NOTE - we use ST now for generics only. For everything else it's multiple mode
+			// Might be reworked completely soon
 			if (_boundInstanceFactory == null) {
-				_boundInstanceFactory = new MultipleInstanceFactory(_valueProvider);
-				/*
 				if (_instantiationMode == InstantiationMode.SINGLETON) {
 					_boundInstanceFactory = new SingletonFactory(_valueProvider);
 				}
 				else {
 					_boundInstanceFactory = new MultipleInstanceFactory(_valueProvider);
 				}
-				*/
 			}
 
 			object instance = _boundInstanceFactory.getInstance(_dependencies, injectionContext);

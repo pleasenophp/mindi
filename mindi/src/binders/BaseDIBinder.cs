@@ -103,6 +103,36 @@ namespace MinDI.Binders {
 			return this.Bind<T> (() => descriptor.factory() as T, name, configure);
 		}
 
+		/// <summary>
+		/// Binds the generic type definition.
+		/// </summary>
+		/// <returns>The generic.</returns>
+		/// <param name="types">Types.</param>
+		public IBinding BindGeneric(Type interfaceType, Type resolutionType, string name = null, Action<IBinding> configure = null) {
+			if (!interfaceType.IsGenericTypeDefinition) {
+				throw new MindiException(string.Format("The type {0} expected to be a generic type definition", interfaceType));
+			}
+
+			if (!resolutionType.IsGenericTypeDefinition) {
+				throw new MindiException(string.Format("The type {0} expected to be a generic type definition", resolutionType));
+			}
+
+
+			IBinding binding = InternalBindGeneric(interfaceType, resolutionType, name);
+			return RegisterBinding(binding, configure);
+
+		}
+
+		private IBinding InternalBindGeneric(Type interfaceType, Type resolutionType, string name) {
+			if (string.IsNullOrEmpty(name)) {
+				name = BindHelper.GetDefaultBindingName(interfaceType, context);
+			}
+
+			GenericTypeResolver resolver = new GenericTypeResolver(interfaceType, resolutionType);
+			return Bindings.ForType(interfaceType, name).ImplementedByInstance(resolver, true)
+				.SetDescriptor(this.context, this.instantiationType, BindingType.Instance, null);
+		}
+
 		protected virtual void ConfigureBinding (IBinding binding)
 		{
 		}

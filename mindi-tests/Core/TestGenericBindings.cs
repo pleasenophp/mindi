@@ -100,9 +100,7 @@ namespace MinDI.Tests
 			Assert.AreEqual(InstantiationType.Concrete, desc.instantiationType);
 			Assert.AreEqual(childContext, desc.context);
 		}
-
-		// TODO - make it work when singletone generic binding is allowed
-		/*
+			
 		[Test]
 		public void TestGenericSBinding() {
 			IDIContext context = ContextHelper.CreateContext();
@@ -124,7 +122,7 @@ namespace MinDI.Tests
 			Assert.AreSame(obj1.chainFactory, obj2.chainFactory);
 
 		}
-		*/
+
 
 
     }
