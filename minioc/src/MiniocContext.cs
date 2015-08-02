@@ -101,7 +101,7 @@ namespace minioc
 		public BindingDescriptor Introspect(Type type, string name=null) {
 			lock (locker) {
 
-				BindingDescriptor descriptor = _bindings.Introspect(type, name);
+				BindingDescriptor descriptor = _bindings.introspect(type, name);
 
 				if (descriptor == null && _parentContext != null) {
 					return _parentContext.Introspect(type, name);

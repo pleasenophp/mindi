@@ -23,51 +23,16 @@ namespace minioc.context {
 			typeBindings.addBinding(impl);
 		}
 
-		public T resolveDefault<T>(InjectionContext injectionContext) {
-			return (T)resolveDefault(typeof(T), injectionContext);
-		}
-
-		public object resolveDefault(Type type, InjectionContext injectionContext) {
-			TypeBindings typeBindings;
-			if (!_bindings.TryGetValue(type, out typeBindings)) {
-				throw new MiniocException("No Binding exist for type : " + type);
-			}
-			return typeBindings.resolveDefault(injectionContext);
-		}
-
-
-		public bool tryResolveDefault(Type type, InjectionContext injectionContext, out object result) {
-			TypeBindings typeBindings;
-			if (!_bindings.TryGetValue(type, out typeBindings)) {
-				result = null;
-				return false;
-			}
-			result = typeBindings.resolveDefault(injectionContext);
-			return true;
-		}
-
-
-		public T resolve<T>(string name, InjectionContext injectionContext) {
-			return (T)resolve(typeof(T), name, injectionContext);
-		}
-
 		public object resolve(Type type, string name, InjectionContext injectionContext) {
-			if (string.IsNullOrEmpty(name)) {
-				return resolveDefault(type, injectionContext);
+			object obj;
+			bool result = tryResolve(type, name, injectionContext, out obj);
+			if (!result) {
+				return null;
 			}
-
-			TypeBindings typeBindings;
-			if (!_bindings.TryGetValue(type, out typeBindings)) {
-				throw new MiniocException("No Binding exist for type : " + type);
-			}
-			return typeBindings.resolve(name, injectionContext);
+			return obj;
 		}
 
 		public bool tryResolve(Type type, string name, InjectionContext injectionContext, out object result) {
-			if (string.IsNullOrEmpty(name)) {
-				return tryResolveDefault(type, injectionContext, out result);
-			}
-
 			TypeBindings typeBindings;
 			if (!_bindings.TryGetValue(type, out typeBindings)) {
 				result = null;
@@ -77,7 +42,7 @@ namespace minioc.context {
 			return true;
 		}
 
-		public BindingDescriptor Introspect(Type type, string name) {
+		public BindingDescriptor introspect(Type type, string name) {
 			TypeBindings typeBindings;
 			if (!_bindings.TryGetValue(type, out typeBindings)) {
 				return null;

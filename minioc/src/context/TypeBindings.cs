@@ -37,15 +37,24 @@ namespace minioc.context {
 			}
 		}
 
-		internal T resolveDefault<T>(InjectionContext injectionContext) {
-			return (T)_default.getInstance(injectionContext);
-		}
-
-		internal object resolveDefault(InjectionContext injectionContext) {
+		private object resolveDefault(InjectionContext injectionContext) {
 			if (_default == null) {
 				throw new MiniocException("No default Binding set for type " + _namedBindings.Values.First().type);
 			}
 			return _default.getInstance(injectionContext);
+		}
+
+
+		internal object resolve(string name, InjectionContext injectionContext) {
+			if (string.IsNullOrEmpty(name)) {
+				return resolveDefault(injectionContext);
+			}
+
+			BindingImpl binding;
+			if ((_namedBindings == null) || !_namedBindings.TryGetValue(name, out binding)) {
+				throw new MiniocException(string.Format("No Binding with name '{0}' found for type {1}", name, _default.type));
+			}
+			return binding.getInstance(injectionContext);
 		}
 
 		internal BindingDescriptor introspect(string name) {
@@ -62,14 +71,6 @@ namespace minioc.context {
 			}
 
 			return binding.descriptor;
-		}
-
-		internal object resolve(string name, InjectionContext injectionContext) {
-			BindingImpl binding;
-			if ((_namedBindings == null) || !_namedBindings.TryGetValue(name, out binding)) {
-				throw new MiniocException(string.Format("No Binding with name '{0}' found for type {1}", name, _default.type));
-			}
-			return binding.getInstance(injectionContext);
 		}
 
 		internal void removeBinding(BindingImpl bindingImpl) {

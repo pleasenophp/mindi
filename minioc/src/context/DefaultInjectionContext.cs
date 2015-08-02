@@ -23,11 +23,7 @@ namespace minioc.context {
 			return _reflectionCache.getInjectorStrategy(type);
 		}
 
-		internal object resolve(Type type) {
-			return _bindings.resolveDefault(type, this);
-		}
-
-		internal object resolve(Type type, string name) {
+		internal object resolve(Type type, string name = null) {
 			return _bindings.resolve(type, name, this);
 		}
 
