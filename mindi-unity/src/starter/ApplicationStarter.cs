@@ -141,7 +141,9 @@ namespace MinDI
  * 
  * v 8) Sort out other TODOs
  * 
- * 9) Default-resolution of the generic factories (maybe the whole new feature - binding generics with default resolution)
+ * v 9) Default-resolution of the generic factories (maybe the whole new feature - binding generics with default resolution)
+ * 
+ * 9.5) Make the generic factories bindable on singletone (maybe rework singletone into minioc)
  * 
  * 10) Make internal documentation and object diagrams
  * 

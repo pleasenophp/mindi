@@ -60,8 +60,7 @@ namespace MinDI.Tests
 			Assert.That(obj1.factory is ContextFactory<IOtherClass>);
 			Assert.That(obj1.chainFactory is ContextChainFactory<IOtherClass, IGlobalContextInitializer>);
 		}
-
-		// TODO - see why this doesn't work
+			
 		[Test]
 		public void TestGenericRebinding() {
 			IDIContext context = ContextHelper.CreateContext();
@@ -71,13 +70,7 @@ namespace MinDI.Tests
 
 			IDIContext childContext = ContextHelper.CreateContext(context);
 			childContext.m().Bind<IMyClass>(() => new MyClass());
-			childContext.s().Rebind<IDIFactory<IMyClass>>();
-
-			BindingDescriptor desc = childContext.Introspect<IDIFactory<IMyClass>>();
-			Assert.AreEqual(BindingType.Factory, desc.bindingType);
-			Assert.AreEqual(InstantiationType.Concrete, desc.instantiationType);
-			Assert.AreEqual(childContext, desc.context);
-
+			childContext.s().Rebind<IDIFactory<IOtherClass>>();
 
 			MyClass obj1 = childContext.Resolve<IMyClass, MyClass>();
 			Assert.That(obj1.factory is ContextFactory<IOtherClass>);
@@ -89,6 +82,23 @@ namespace MinDI.Tests
 
 			Assert.AreSame(obj1.factory, obj2.factory);
 			Assert.AreNotSame(obj1.chainFactory, obj2.chainFactory);
+		}
+
+		[Test]
+		public void TestGenericIntrospect() {
+			IDIContext context = ContextHelper.CreateContext();
+			context.s().BindInstance<ContextEnvironment>(ContextEnvironment.Normal);
+			context.m().BindGeneric(typeof(IDIFactory<>), typeof(ContextFactory<>));
+			context.m().BindGeneric(typeof(IDIChainFactory<,>), typeof(ContextChainFactory<,>));
+
+			IDIContext childContext = ContextHelper.CreateContext(context);
+			childContext.m().Bind<IMyClass>(() => new MyClass());
+			childContext.s().Rebind<IDIFactory<IOtherClass>>();
+
+			BindingDescriptor desc = childContext.Introspect<IDIFactory<IOtherClass>>();
+			Assert.AreEqual(BindingType.Factory, desc.bindingType);
+			Assert.AreEqual(InstantiationType.Concrete, desc.instantiationType);
+			Assert.AreEqual(childContext, desc.context);
 		}
 
 		// TODO - make it work when singletone generic binding is allowed
