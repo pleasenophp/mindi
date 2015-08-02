@@ -15,7 +15,7 @@ namespace MinDI {
 		/// </summary>
 		/// <param name="type"></param>
 		/// <returns></returns>
-		IBinding ImplementedByInstance(object instance);
+		IBinding ImplementedByInstance(object instance, bool omitTypeCheck = false);
 
 		/// <summary>
 		/// Binding will return value returned by factory when resolved

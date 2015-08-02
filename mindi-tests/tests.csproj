@@ -45,6 +45,7 @@
     <Compile Include="MinIOC\StateSingletonTestClasses.cs" />
     <Compile Include="Core\FixedBugs.cs" />
     <Compile Include="Core\TestRebinding.cs" />
+    <Compile Include="Core\TestGenericBindings.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\mindi-interop\mindi-interop.csproj">

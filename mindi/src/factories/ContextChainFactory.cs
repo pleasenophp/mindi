@@ -11,7 +11,7 @@ namespace MinDI {
 	/// <summary>
 	/// A factory that chains context when creating a new object
 	/// </summary>
-	public class ContextChainFactory<T, TInitializer> : BaseDIFactory<T>, IDIFactory<T> 
+	public class ContextChainFactory<T, TInitializer> : BaseDIFactory<T>, IDIChainFactory<T, TInitializer> 
 	where T:class where TInitializer:IContextInitializer
 	{
 		public T Create (string name = null)

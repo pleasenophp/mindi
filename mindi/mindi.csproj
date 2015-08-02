@@ -51,9 +51,6 @@
     <Compile Include="src\extensions\IDIContextExtensions.cs" />
     <Compile Include="src\context\ContextBuilder.cs" />
     <Compile Include="src\context\FilteredInitializerAttribute.cs" />
-    <Compile Include="src\context\IApplicationContextInitializer.cs" />
-    <Compile Include="src\context\IContextInitializer.cs" />
-    <Compile Include="src\context\IGlobalContextInitializer.cs" />
     <Compile Include="Context\MindiContextInitializer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

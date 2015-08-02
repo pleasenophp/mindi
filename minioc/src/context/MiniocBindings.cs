@@ -56,6 +56,11 @@ namespace minioc.context {
 		public BindingDescriptor introspect(Type type, string name) {
 			TypeBindings typeBindings;
 			if (!_bindings.TryGetValue(type, out typeBindings)) {
+				// Resolving generic type from the definition binding, if the type binding is not found
+				if (type.IsGenericType) {
+					return tryIntrospectGeneric(type, name);
+				}
+
 				return null;
 
 			}
@@ -80,26 +85,38 @@ namespace minioc.context {
 			typeBindings.removeBinding(impl);
 		}
 
-		private bool tryResolveGeneric(Type type, string name, InjectionContext injectionContext, out object result) {
-			result = null;
+		private bool tryInstantiateGeneric(Type type, string name) {
 			Type definition = type.GetGenericTypeDefinition();
-
 			TypeBindings typeBindings;
 			if (!_bindings.TryGetValue(definition, out typeBindings)) {
 				return false;
 			}
 
-
-			GenericTypeResolver resolver = typeBindings.resolve(name, injectionContext) as GenericTypeResolver;
+			GenericTypeResolver resolver = typeBindings.resolve(name, null) as GenericTypeResolver;
 			if (resolver == null) {
 				return false;
 			}
 
 			BindingImpl genericBinding = typeBindings.introspect(name);
 			BindingImpl binding = resolver.CreateBinding(type, genericBinding);
-
 			binding.verifyIntegrity();
 			this.add(binding);
+			return true;
+		}
+
+		private BindingDescriptor tryIntrospectGeneric(Type type, string name) {
+			if (!tryInstantiateGeneric(type, name)) {
+				return null;
+			}
+
+			return introspect(type, name);
+		}
+
+		private bool tryResolveGeneric(Type type, string name, InjectionContext injectionContext, out object result) {
+			if (!tryInstantiateGeneric(type, name)) {
+				result = null;
+				return false;
+			}
 			return tryResolve(type, name, injectionContext, out result);
 		}
 	}

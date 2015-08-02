@@ -36,7 +36,6 @@ namespace MinDI.Binders {
 			return RegisterBinding(binding, configure);
 		}
 			
-
 		public void BindMany<T1, T2> (Func<object> create, string name = null, Action<IBinding> configure = null) 
 		where T1:class where T2:class
 		{
@@ -129,7 +128,7 @@ namespace MinDI.Binders {
 				.SetDescriptor(this.context, this.instantiationType, BindingType.Instance, null);
 		}
 
-		private IBinding RegisterBinding(IBinding binding, Action<IBinding> configure) {
+		protected IBinding RegisterBinding(IBinding binding, Action<IBinding> configure) {
 			this.ConfigureBinding (binding);
 			if (configure != null) {
 				configure (binding);

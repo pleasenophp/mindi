@@ -11,7 +11,7 @@ using MinDI.Introspection;
 using MinDI.StateObjects;
 
 namespace minioc.context.bindings {
-	internal class BindingImpl : IBinding, BindingStub {
+	public class BindingImpl : IBinding, BindingStub {
 		public const string UNNAMED_BINDING = "__$UNNAMED__";
 
 		public Type type { get; private set; }
@@ -64,9 +64,9 @@ namespace minioc.context.bindings {
 			return this;
 		}
 
-		public IBinding ImplementedByInstance(object instance) {
+		public IBinding ImplementedByInstance(object instance, bool omitTypeCheck = false) {
 			checkIsValueProviderSet();
-			if (!type.IsInstanceOfType(instance)) {
+			if (!omitTypeCheck && !type.IsInstanceOfType(instance)) {
 				throw new MiniocException(string.Format("object {0} cannot be used as implementation of {1}", instance, type));
 			}
 			_valueProvider = new ExplicitValueProvider(instance);

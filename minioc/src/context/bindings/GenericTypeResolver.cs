@@ -8,7 +8,7 @@ using MinDI.Introspection;
 
 namespace minioc.context.bindings {
 
-	internal class GenericTypeResolver
+	public class GenericTypeResolver
 	{
 		private Type baseTypeDefinition;
 		private Type resolutionTypeDefinition;
@@ -24,7 +24,7 @@ namespace minioc.context.bindings {
 			}
 
 			Type resolutionType = resolutionTypeDefinition.MakeGenericType(baseType.GetGenericArguments());
-			BindingImpl binding = new BindingImpl(resolutionType, genericBinding.name);
+			BindingImpl binding = new BindingImpl(baseType, genericBinding.name);
 			Func<object> factory = () => Activator.CreateInstance(resolutionType);
 			binding.InitFromGeneric(genericBinding, factory);
 			return binding;
