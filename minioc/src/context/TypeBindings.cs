@@ -57,12 +57,12 @@ namespace minioc.context {
 			return binding.getInstance(injectionContext);
 		}
 
-		internal BindingDescriptor introspect(string name) {
+		internal BindingImpl introspect(string name) {
 			if (string.IsNullOrEmpty(name)) {
 				if (_default == null) {
 					throw new MiniocException("No default Binding set for type " + _namedBindings.Values.First().type);
 				}
-				return _default.descriptor;
+				return _default;
 			}
 
 			BindingImpl binding;
@@ -70,7 +70,7 @@ namespace minioc.context {
 				return null;
 			}
 
-			return binding.descriptor;
+			return binding;
 		}
 
 		internal void removeBinding(BindingImpl bindingImpl) {

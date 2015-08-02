@@ -11,14 +11,11 @@ namespace MinDI {
 	public static class ContextHelper {
 		public static IDIContext CreateContext(IDIContext parent = null, string name = null) {
 			IDIContext context = new MiniocContext(parent, name);
-			
+
 			// Binding context itself
-			context.Register(Bindings
-			                 .ForType<IDIContext>()
-			                 .ImplementedByInstance(context).SetInstantiationMode(InstantiationMode.SINGLETON));
+			context.s().BindInstance<IDIContext>(context);
 
 			return context;
-
 		}
 
 		/*

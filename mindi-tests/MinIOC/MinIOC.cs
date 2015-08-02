@@ -28,12 +28,12 @@ namespace MinDI.Tests.MinIOC
 			public string tag {get; set;}
 		}
 
-		class GreenApple : IApple {
+		class GreenApple : ContextObject, IApple {
 			[Injection]
-			public MiniocContext context {get; set;}
+			public MiniocContext testContext {get; set;}
 
 			public void TestContext(MiniocContext cont) {
-				Assert.AreSame(context, cont);
+				Assert.AreSame(cont, testContext);
 			}
 
 		}
@@ -53,13 +53,11 @@ namespace MinDI.Tests.MinIOC
 		[Test]
 		public void MultipleSameContextTest()
 		{
-			MiniocContext context = new MiniocContext();
-			
+			IDIContext context = new MiniocContext();
+
 			context.Register(Bindings
 			                 .ForType<IOrange>()
-			                 .ImplementedBy<RedOrange>()
-			                 .SetInstantiationMode(InstantiationMode.MULTIPLE)
-			                 );
+			                 .ImplementedBy<RedOrange>());
 			
 			
 			IOrange orange1 = context.Resolve<IOrange>();
@@ -75,13 +73,7 @@ namespace MinDI.Tests.MinIOC
         public void SingletoneSameContextTest()
         {
 			MiniocContext context = new MiniocContext();
-
-			context.Register(Bindings
-			                 .ForType<IOrange>()
-			                 .ImplementedBy<RedOrange>()
-			                 .SetInstantiationMode(InstantiationMode.SINGLETON)
-			                 );
-
+			context.s().Bind<IOrange>(() => new RedOrange());
 
 			IOrange orange1 = context.Resolve<IOrange>();
 			IOrange orange2 = context.Resolve<IOrange>();
@@ -96,19 +88,9 @@ namespace MinDI.Tests.MinIOC
 		public void SingletoneFactorySameContextTest() {
 			MiniocContext context = new MiniocContext();
 
-			context.Register(Bindings
-			                 .ForType<MiniocContext>()
-			                 .ImplementedByInstance(context)
-			                 .SetInstantiationMode(InstantiationMode.SINGLETON)
-			                 );
+			context.s().BindInstance<MiniocContext>(context);
+			context.s().Bind<IApple>(()=>new GreenApple());
 
-			context.Register(Bindings
-			                 .ForType<IApple>()
-			                 .ImplementedBy(()=>new GreenApple())
-			                 .SetInstantiationMode(InstantiationMode.SINGLETON)
-			                 );
-			
-			
 			IApple apple1 = context.Resolve<IApple>();
 			IApple apple2 = context.Resolve<IApple>();
 			
@@ -122,20 +104,12 @@ namespace MinDI.Tests.MinIOC
 		public void SingletoneDifferentContextTest()
 		{
 			MiniocContext context1 = new MiniocContext();
-			
-			context1.Register(Bindings
-			                 .ForType<IOrange>()
-			                 .ImplementedBy<RedOrange>()
-			                 .SetInstantiationMode(InstantiationMode.SINGLETON)
-			                 );
+
+			context1.s().Bind<IOrange>(() => new RedOrange());
 
 			MiniocContext context2 = new MiniocContext();
-			
-			context2.Register(Bindings
-			                 .ForType<IOrange>()
-			                 .ImplementedBy<RedOrange>()
-			                 .SetInstantiationMode(InstantiationMode.SINGLETON)
-			                 );
+		
+			context2.s().Bind<IOrange>(() => new RedOrange());
 			
 			
 			IOrange orange1 = context1.Resolve<IOrange>();
@@ -151,22 +125,12 @@ namespace MinDI.Tests.MinIOC
 		public void SingletoneFactoryDifferentContextTest()
 		{
 			MiniocContext context1 = new MiniocContext();
-			
-			context1.Register(Bindings
-			                  .ForType<IOrange>()
-			                  .ImplementedBy(()=>new RedOrange())
-			                  .SetInstantiationMode(InstantiationMode.SINGLETON)
-			                  );
+
+			context1.s().Bind<IOrange>(() => new RedOrange());
 			
 			MiniocContext context2 = new MiniocContext();
-			
-			context2.Register(Bindings
-			                  .ForType<IOrange>()
-			                  .ImplementedBy(()=>new RedOrange())
-			                  .SetInstantiationMode(InstantiationMode.SINGLETON)
-			                  );
-			
-			
+			context2.s().Bind<IOrange>(() => new RedOrange());
+
 			IOrange orange1 = context1.Resolve<IOrange>();
 			IOrange orange2 = context2.Resolve<IOrange>();
 			
@@ -180,12 +144,9 @@ namespace MinDI.Tests.MinIOC
 		public void SingletoneChainedContextTest()
 		{
 			MiniocContext context1 = new MiniocContext();
-			
-			context1.Register(Bindings
-			                  .ForType<IOrange>()
-			                  .ImplementedBy<RedOrange>()
-			                  .SetInstantiationMode(InstantiationMode.SINGLETON)
-			                  );
+
+
+			context1.s().Bind<IOrange>(() => new RedOrange());
 			
 			MiniocContext context2 = new MiniocContext(context1);
 
@@ -197,11 +158,7 @@ namespace MinDI.Tests.MinIOC
 			
 			Assert.AreSame(orange1, orange2);
 
-			context2.Register(Bindings
-			                  .ForType<IOrange>()
-			                  .ImplementedBy(()=>new RedOrange())
-			                  .SetInstantiationMode(InstantiationMode.SINGLETON)
-			                  );
+			context2.s().Bind<IOrange>(() => new RedOrange());
 
 			orange2 = context2.Resolve<IOrange>();
 			Assert.That(orange2 is RedOrange);
@@ -211,19 +168,9 @@ namespace MinDI.Tests.MinIOC
 		[Test]
 		public void TestContextSelf() {
 			MiniocContext context = new MiniocContext();
-			
-			context.Register(Bindings
-			                 .ForType<MiniocContext>()
-			                 .ImplementedByInstance(context)
-			                 .SetInstantiationMode(InstantiationMode.SINGLETON)
-			                 );
 
-
-			context.Register(Bindings
-			                 .ForType<IApple>()
-			                 .ImplementedBy<YellowApple>()
-			                 .SetInstantiationMode(InstantiationMode.SINGLETON)
-			                 );
+			context.s().BindInstance<MiniocContext>(context);
+			context.s().Bind<IApple>(() => new YellowApple());
 
 			IApple apple = context.Resolve<IApple>();
 			Assert.That(apple is YellowApple);
@@ -234,11 +181,8 @@ namespace MinDI.Tests.MinIOC
 		[Test]
 		public void TestSingletonPersistance() {
 			MiniocContext context = new MiniocContext();
-			context.Register(Bindings
-			                 .ForType<IOrange>()
-			                 .ImplementedBy<BlueOrange>()
-			                 .SetInstantiationMode(InstantiationMode.SINGLETON)
-			                 );
+		
+			context.s().Bind<IOrange>(() => new BlueOrange());
 
 			SingletoneCreation(context);
 
@@ -250,33 +194,6 @@ namespace MinDI.Tests.MinIOC
 			IOrange orange = context.Resolve<IOrange>();
 			Assert.That(orange is BlueOrange);
 			orange.tag = "my_test_orange";
-		}
-
-		// This is a limitation that might be fixed in future version
-		[Test]
-		public void Test2InterfacesBindingLimitation() {
-			MiniocContext context = new MiniocContext();
-			
-			context.Register(Bindings
-			                 .ForType<IModelRead>()
-			                 .ImplementedBy<Model>()
-			                 .SetInstantiationMode(InstantiationMode.SINGLETON)
-			                 );
-			
-			context.Register(Bindings
-			                 .ForType<IModelWrite>()
-			                 .ImplementedBy<Model>()
-			                 .SetInstantiationMode(InstantiationMode.SINGLETON)
-			                 );
-			
-			IModelRead read = context.Resolve<IModelRead>();
-			IModelWrite write = context.Resolve<IModelWrite>();
-			
-			Assert.That(read is Model);
-			Assert.That(write is Model);
-			
-			// When fixed it must be the same
-			Assert.AreNotSame(read, write);			
 		}
     }
 }

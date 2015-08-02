@@ -5,12 +5,6 @@ namespace MinDI {
 	public interface IBinding {
 		BindingDescriptor descriptor {get; }
 
-		/// <summary>
-		/// Specify if the Binding uses the same instance for each 'Resolve' call or if a new instance is created each time
-		/// </summary>
-		/// <param name="instantiationMode"></param>
-		/// <returns></returns>
-		IBinding SetInstantiationMode(InstantiationMode instantiationMode);
 
 		/// <summary>
 		/// Specify the class used to create the instance 

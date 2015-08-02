@@ -30,7 +30,7 @@ namespace minioc.context.bindings {
 		public BindingDescriptor descriptor { get; private set; }
 
 		private BoundValueProvider _valueProvider = BoundValueProviderNotSet.INSTANCE;
-		private InstantiationMode _instantiationMode = InstantiationMode.SINGLETON;
+		// private InstantiationMode _instantiationMode = InstantiationMode.SINGLETON;
 
 		private BoundInstanceFactory _boundInstanceFactory;
 
@@ -41,6 +41,12 @@ namespace minioc.context.bindings {
 			this.type = type;
 			this.descriptor = new BindingDescriptor();
 			this.descriptor.name = name == null?UNNAMED_BINDING:name;
+		}
+
+		public void InitFromGeneric(BindingImpl genericBinding, Func<object> factory) {
+			this._dependencies = genericBinding._dependencies;
+			this.ImplementedBy(factory);
+			this.descriptor.InitFromGeneric(genericBinding.descriptor, factory);
 		}
 
 		public IBinding ImplementedBy<T>() {
@@ -79,10 +85,12 @@ namespace minioc.context.bindings {
 			}
 		}
 
+		/*
 		public IBinding SetInstantiationMode(InstantiationMode instantiationMode) {
 			_instantiationMode = instantiationMode;
 			return this;
 		}
+		*/
 
 		public IBinding SetDescriptor(IDIContext context, InstantiationType instantiation, BindingType type, Func<object> factory) {
 			this.descriptor.context = context;
@@ -108,18 +116,21 @@ namespace minioc.context.bindings {
 		}
 
 		internal object getInstance(InjectionContext injectionContext) {
-
 			// NOTE - as we use outside binders, can instantiate in always multiple mode here
 			if (_boundInstanceFactory == null) {
+				_boundInstanceFactory = new MultipleInstanceFactory(_valueProvider);
+				/*
 				if (_instantiationMode == InstantiationMode.SINGLETON) {
 					_boundInstanceFactory = new SingletonFactory(_valueProvider);
 				}
 				else {
 					_boundInstanceFactory = new MultipleInstanceFactory(_valueProvider);
 				}
+				*/
 			}
 
 			object instance = _boundInstanceFactory.getInstance(_dependencies, injectionContext);
+
 			IDIClosedContext mindiInstance = instance as IDIClosedContext;
 			if (mindiInstance != null) {
 				mindiInstance.bindingDescriptor = this.descriptor;

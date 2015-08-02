@@ -73,6 +73,7 @@
     <Compile Include="src\resolution\lifecylcle\providers\FactoryValueProvider.cs" />
     <Compile Include="src\resolution\lifecylcle\providers\TypeInstanceBoundValueProvider.cs" />
     <Compile Include="src\resolution\injection\PrimitiveInjectionStrategy.cs" />
+    <Compile Include="src\context\bindings\GenericTypeResolver.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

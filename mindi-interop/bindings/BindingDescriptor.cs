@@ -14,6 +14,15 @@ namespace MinDI.Introspection {
 			instantiationType = InstantiationType.None;
 			isDefault = false;
 		}
+
+		public void InitFromGeneric(BindingDescriptor descriptor, Func<object> factory) {
+			this.bindingType = descriptor.bindingType;
+			this.instantiationType = descriptor.instantiationType;
+			this.name = descriptor.name;
+			this.isDefault = descriptor.isDefault;
+			this.context = descriptor.context;
+			this.factory = factory;
+		}
 	}
 }
 

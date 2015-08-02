@@ -106,8 +106,6 @@ namespace MinDI.Binders {
 
 		protected virtual void ConfigureBinding (IBinding binding)
 		{
-			// Setting Multiple as default instantiation mode
-			binding.SetInstantiationMode (InstantiationMode.MULTIPLE);
 		}
 
 		private IBinding InternalBind<T> (Func<T> create, string name=null) where T:class

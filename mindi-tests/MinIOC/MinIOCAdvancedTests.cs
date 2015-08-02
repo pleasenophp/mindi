@@ -20,11 +20,7 @@ namespace MinDI.Tests.MinIOC
 			IDIContext context = ContextHelper.CreateContext();
 
 			// Let's bind a test type using a usual new
-			context.Register(Bindings
-			                 .ForType<IDependencyTest>()
-			                 .ImplementedBy(()=>new DependencyTest())
-			                 .SetInstantiationMode(InstantiationMode.SINGLETON)
-			                 );
+			context.s().Bind<IDependencyTest>(()=>new DependencyTest());
 
 			// Let's see that the dependencies are now injected - we have changed MinIOC. In original version this would fail
 			IDependencyTest test = context.Resolve<IDependencyTest>();
