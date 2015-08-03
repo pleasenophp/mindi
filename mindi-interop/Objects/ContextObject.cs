@@ -28,12 +28,15 @@ namespace MinDI {
 			}
 		}
 
+		// TODO - remove - it's quite dangerous and useless feature
+		/*
 		~ContextObject() {
 			if (_factory != null) {
 				IActionQueue queue = _context.Resolve<IActionQueue>();
 				queue.Enqueue(() => _factory.DestroyInstance(this));
 			}
 		}
+		*/
 			
 
 		[Injection]

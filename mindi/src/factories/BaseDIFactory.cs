@@ -39,18 +39,15 @@ namespace MinDI {
 			// Getting context of the object
 			IDIClosedContext contextObject = instance as IDIClosedContext;
 			if (contextObject == null) {
+				// TODO - for simple mono behaviours created on factory can support auto-destroying them here
+				// For the other objects - might as well ignore and not give any exception
 				throw new MindiException(
 					string.Format("Called Destroy on object {0} that doesn't implement IDIClosedContext. Consider deriving the object from the ContextObject",
 						instance));
 			}
 
-			if (contextObject.factory != this) {
-				throw new MindiException(string.Format("The object {0} has not been created on this factory: {1}", instance, this));
-			}
 
-			if (contextObject.context == null) {
-				throw new MindiException(string.Format("Context is null for object {0}", instance));
-			}
+			VerifyObjectDestruction(contextObject);
 
 			IRemoteObjectsRecord ror = contextObject.context.Resolve<IRemoteObjectsRecord>();
 			ror.DestroyAll();
@@ -59,20 +56,8 @@ namespace MinDI {
 		}
 			
 		protected T Create(IDIContext context, string name) {
-			T instance = null;
-
-			if (string.IsNullOrEmpty(name)) {
-				instance = context.Resolve<T>();
-			}
-			else {
-				instance = context.Resolve<T>(name);
-			}
-
-			IDIClosedContext contextObject = instance as IDIClosedContext;
-			if (contextObject != null) {
-				contextObject.factory = this;
-			}
-
+			T instance = context.Resolve<T>(name);
+			VerifyObjectCreation(name, instance, context);
 			return instance;
 		}
 
@@ -90,6 +75,42 @@ namespace MinDI {
 
 		protected void BindObjectsRecord(IDIContext context) {
 			context.s().Rebind<IRemoteObjectsRecord>(null, "factory");
+		}
+
+		protected void VerifyObjectCreation (string name, object instance, IDIContext resolutionContext) {
+
+			// TODO - can make it faster if instance is IDIClosedContext
+			BindingDescriptor desc = resolutionContext.Introspect<T>(name);
+			if (desc.instantiationType == InstantiationType.Concrete && desc.context != resolutionContext) {
+				throw new MindiException(string.Format("Cannot instantiate an object {0} on factory {1}, because it is already a singleton on different context, than the one, this factory resolves objects on. " +
+					"Consider making object multiple, or rebind it as singletone on this factory chaining context.", instance, this));
+			}
+
+			IDIClosedContext contextObject = instance as IDIClosedContext;
+			if (contextObject == null) {
+				// TODO - allow this with special limitations
+				return;
+			}
+
+
+			if (contextObject != null) {
+				if (contextObject.factory != null) {
+					throw new MindiException("Attempting to create an already created object on factory: "+this+". Object: "+instance+". If the object is bound as singleton, you cannot create it on the factory again !");
+				}
+
+				contextObject.factory = this;
+			}
+		}
+
+		protected void VerifyObjectDestruction(IDIClosedContext contextObject) {
+			if (contextObject.factory != this) {
+				throw new MindiException(string.Format("The object {0} has not been created on this factory: {1}", contextObject, this));
+			}
+
+			if (contextObject.context == null) {
+				throw new MindiException(string.Format("Context is null for object {0}", contextObject));
+			}
+
 		}
 	}
 }

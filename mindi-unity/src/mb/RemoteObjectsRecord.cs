@@ -19,11 +19,25 @@ namespace MinDI.StateObjects {
 			if (obj == null) {
 				return;
 			}
+
+			/*
+			if (CheckObjectFactoryExists(obj)) {
+				return;
+			}
+			*/
 				
 			base.Register(obj);
 			objects.Add(obj);
-
 			RegisterTypedObject(obj);
+
+			/*
+			Debug.LogWarning("REGISTERED OBJECT: "+obj);
+			UnityEngine.Object uobj = obj as UnityEngine.Object;
+			if (uobj != null) {
+				Debug.LogWarning("Name: "+uobj.name);
+			}
+			*/
+
 		}
 			
 		public override void DestroyAll() {
@@ -59,6 +73,27 @@ namespace MinDI.StateObjects {
 			}
 		}
 
+		private bool CheckObjectFactoryExists(object obj) {
+			FactoryObjectRecord fobj = obj as FactoryObjectRecord;
+			if (fobj == null) {
+				return false;
+			}
+
+			IList<object> typedList;
+			typedObjects.TryGetValue(typeof(FactoryObjectRecord), out typedList);
+			if (typedList == null) {
+				return false;
+			}
+
+			foreach (FactoryObjectRecord factoryRecord in typedList) {
+				if (factoryRecord.instance == fobj.instance && factoryRecord.factory == fobj.factory) {
+					return true;
+				}
+			}
+
+			return false;
+		}
+
 		private void RegisterTypedObject(object obj) {
 			IList<object> typedList;
 			Type type = obj.GetType();
@@ -70,19 +105,26 @@ namespace MinDI.StateObjects {
 		}
 
 		private void DestroyObject(object o, IRemoteObjectsHash objectsHash) {
+			// Debug.LogWarning("DESTROYING OBJECT FROM ROR: "+o);
+
 			MonoBehaviour mb = o as MonoBehaviour;
 			if (mb != null) {
+				// Debug.LogWarning("DESTROYING MB: "+mb.name);
+
 				DestroyMB(mb, objectsHash);
 				return;
 			}
 
 			FactoryObjectRecord fobj = o as FactoryObjectRecord;
 			if (fobj != null) {
+				// Debug.LogWarning("DESTROYING FACTORY: "+fobj.factory+ " "+ fobj.instance);
 				DestroyFactoryObject(fobj);
 			}
 
 			UnityEngine.Object obj = o as UnityEngine.Object;
 			if (obj != null) {
+				// Debug.LogWarning("DESTROYING UNITY OBJECT "+obj.name);
+
 				DestroyDefault(obj, objectsHash);
 			}
 		}

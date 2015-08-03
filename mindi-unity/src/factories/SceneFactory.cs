@@ -47,13 +47,10 @@ namespace MinDI.Unity {
 			if (instance == null) {
 				throw new MindiException("Scene object is expected to be inherited from SceneObject");
 			}
+
+			VerifyObjectCreation(bindingName, instance, sceneContext);
+
 			instance.name = sceneName;
-
-			IDIClosedContext destructable = instance as IDIClosedContext;
-			if (destructable != null) {
-				destructable.factory = this;
-			}
-
 			RegisterCreation(instance);
 
 			return instance as T;

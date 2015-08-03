@@ -22,7 +22,13 @@ namespace MinDI {
 				BindObjectsRecord(newContext);
 			}
 
-			return Create(newContext, name);
+			T instance = Create(newContext, name);
+
+			if (environment == ContextEnvironment.RemoteObjects) {
+				RegisterCreation(instance);
+			}
+
+			return instance;
 		}
 	}
 
