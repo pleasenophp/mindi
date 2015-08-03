@@ -10,6 +10,7 @@ namespace MinDI.Context {
 			context.s().BindInstance<ContextEnvironment>(ContextEnvironment.RemoteObjects, "unity", (b) => b.MakeDefault());
 			context.s().Bind<IRemoteObjectsRecord>(() => new RemoteObjectsRecordRoot());
 			context.m().Bind<IRemoteObjectsRecord>(() => new RemoteObjectsRecord(), "factory");
+			context.s().Bind<IRemoteObjectsDestroyer>(() => new RemoteObjectsDestroyer());
 
 			context.s().Bind<RootSceneFactory>(() => new RootSceneFactory());
 

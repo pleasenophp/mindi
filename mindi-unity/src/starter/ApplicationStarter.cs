@@ -145,13 +145,15 @@ namespace MinDI
  * 
  * v 9.5) Make the generic factories bindable on singletone (maybe rework singletone into minioc)
  * 
- * 9.6) Allow creation and destruction of non-context objects on factories, with some limitations
+ * v 9.6) Allow creation and destruction of non-context objects on factories, with some limitations
  * 
- * 9.7) Create derived classes for unity, so objects can be copied
+ * v 9.7) Create derived classes for unity, so objects can be copied
  * 
  * 10) Make internal documentation and object diagrams
  * 
  * 10.5) Sort out the lifetime control when resolving the mono behaviours to existing objects
+ * 
+ * 10.6) Make the binding to existing MB not allowed to resolve on factory
  * 
  * 11) Make programmer documentation and TODOs for the further guides
  * 

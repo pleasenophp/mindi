@@ -24,10 +24,6 @@ namespace MinDI {
 
 			T instance = Create(newContext, name);
 
-			if (environment == ContextEnvironment.RemoteObjects) {
-				RegisterCreation(instance);
-			}
-
 			return instance;
 		}
 	}

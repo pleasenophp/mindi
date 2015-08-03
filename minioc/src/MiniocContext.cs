@@ -182,6 +182,7 @@ namespace minioc
 			// Not injecting any dependencies if the object is not context object
 			IDIClosedContext stateInstance = instance as IDIClosedContext;
 			if (stateInstance == null) {
+				RegisterRemoteObject(instance, true);
 				return;
 			}
 
@@ -205,10 +206,17 @@ namespace minioc
 			}
 		}
 			
-		private void RegisterRemoteObject(object instance) {
+		private void RegisterRemoteObject(object instance, bool hashOnly = false) {
 			if (RemoteObjectsHelper.IsRemoteObject(instance)) {
 				IRemoteObjectsRecord remoteRecord = (IRemoteObjectsRecord)this.ResolveInternal(typeof(IRemoteObjectsRecord), null, false);
-				remoteRecord.Register(instance);
+
+				if (!hashOnly) {
+					remoteRecord.Register(instance);
+				}
+				else {
+					IRemoteObjectsHash hash = (IRemoteObjectsHash)this.ResolveInternal(typeof(IRemoteObjectsHash), null, false);
+					hash.Register(instance);
+				}
 			}
 		}
 	}

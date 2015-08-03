@@ -44,7 +44,6 @@
     <Compile Include="src\binders\MonoBehaviourMultipleBinder.cs" />
     <Compile Include="src\binders\MonoBehaviourBinder.cs" />
     <Compile Include="src\extensions\IDIContextUnityExtensions.cs" />
-    <Compile Include="Interfaces\IRemoteObjectsHash.cs" />
     <Compile Include="Context\MindiUnityContextInitializer.cs" />
     <Compile Include="src\starter\ApplicationStarter.cs" />
     <Compile Include="src\starter\StarterBehaviour.cs" />
@@ -66,6 +65,7 @@
     <Compile Include="Interfaces\scenes\IDISceneFactory.cs" />
     <Compile Include="Interfaces\scenes\IAdditiveSceneLoader.cs" />
     <Compile Include="src\starter\UnityRemoteObjectsValidator.cs" />
+    <Compile Include="src\mb\RemoteObjectsDestroyer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

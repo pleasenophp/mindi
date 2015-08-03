@@ -8,6 +8,13 @@ namespace MinDI.StateObjects {
 		public RemoteObjectsHash() {
 			hash = new HashSet<int>();
 		}
+
+		public void Register(object instance) {
+			UnityEngine.Object obj = instance as UnityEngine.Object;
+			if (obj != null) {
+				hash.Add(obj.GetInstanceID());
+			}
+		}
 	}
 }
 

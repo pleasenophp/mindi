@@ -61,6 +61,8 @@
     <Compile Include="Interfaces\context\IContextInitializer.cs" />
     <Compile Include="Interfaces\context\IGlobalContextInitializer.cs" />
     <Compile Include="Interfaces\context\IApplicationContextInitializer.cs" />
+    <Compile Include="Interfaces\IRemoteObjectsDestroyer.cs" />
+    <Compile Include="Interfaces\IRemoteObjectsHash.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

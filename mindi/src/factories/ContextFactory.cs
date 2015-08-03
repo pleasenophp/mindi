@@ -22,7 +22,6 @@ namespace MinDI {
 				IDIContext newContext = ContextHelper.CreateContext(this.context);
 				BindObjectsRecord(newContext);
 				T instance = Create(newContext, name);
-				RegisterCreation(instance);
 				return instance;
 			}
 			else {
