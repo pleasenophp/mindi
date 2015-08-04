@@ -27,7 +27,12 @@ namespace minioc.context {
 			object obj;
 			bool result = tryResolve(type, name, injectionContext, out obj);
 			if (!result) {
-				return null;
+				if (string.IsNullOrEmpty(name)) {
+					throw new MiniocException(string.Format("No default binding exists for type {0}", type));
+				}
+				else {
+					throw new MiniocException(string.Format("No binding exists for type {0} with name {1}", type, name));
+				}
 			}
 			return obj;
 		}

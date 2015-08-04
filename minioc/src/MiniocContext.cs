@@ -183,6 +183,10 @@ namespace minioc
 
 		private void InjectDependenciesInternal (object instance, IList<IDependency> dependencies = null)
 		{
+			if (instance == null) {
+				return;
+			}
+
 			// Not injecting any dependencies if the object is not context object
 			IDIClosedContext stateInstance = instance as IDIClosedContext;
 			if (stateInstance == null) {
