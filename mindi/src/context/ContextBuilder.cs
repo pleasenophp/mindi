@@ -6,8 +6,9 @@ using minioc;
 using minioc.context.bindings;
 using minioc.resolution.instantiator;
 using System.Reflection;
+using MinDI.Context;
 
-namespace MinDI.Context {
+namespace MinDI {
 	/// <summary>
 	/// Context builder.
 	/// This class is responsible for finding all the populators and call them to populate context
@@ -17,7 +18,7 @@ namespace MinDI.Context {
 	public static class ContextBuilder {
 		private static IDictionary<Type, List<IContextInitializer>> initializers = null;
 		
-		public static IList<T> Initialize<T>(IDIContext context, FilteredInitializerAttribute filter = null) where T:IContextInitializer {	
+		public static IList<T> Initialize<T>(this IDIContext context, FilteredInitializerAttribute filter = null) where T:IContextInitializer {	
 			if (initializers == null) {
 				FetchInitializers();
 			}
@@ -41,7 +42,7 @@ namespace MinDI.Context {
 		}
 
 
-		public static void InitSingle<T>(IDIContext context) where T:IContextInitializer {
+		public static void InitSingle<T>(this IDIContext context) where T:IContextInitializer {
 			IContextInitializer initializer = Activator.CreateInstance<T>();
 			if (initializer == null) {
 				throw new MindiException("Couldn't create an initializer instance for type "+typeof(T).FullName);

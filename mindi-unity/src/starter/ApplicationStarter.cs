@@ -122,7 +122,7 @@ namespace MinDI
  * 
  * v 4.6) Make the scene auto-load work
  * 
- * v 4.7) MaKe the callback for non-additive scene work
+ * v 4.7) Make the callback for non-additive scene work
  * 
  * v 4.8) Additive scene factory should obey the general MB lifetime rule, so if it's created in permanent context, it also creates the things permanently
  * 
@@ -149,7 +149,7 @@ namespace MinDI
  * 
  * v 9.7) Create derived classes for unity, so objects can be copied
  * 
- * v 9.8) No meaningfull exception bug when something is not resolved
+ * v 9.8) No exception bug when something is not resolved
  * 
  * 10) Make internal documentation and object diagrams
  * 
@@ -170,11 +170,17 @@ namespace MinDI
  * 
  * Features to add later:
  * 
- * 1) Serialization feature
+ * - write more tests for factories
  * 
- * 2) Context profiler feature
+ * - Serialization feature
  * 
- * 3) Maybe - IDE built in resolution lookup
+ * - See how to easily see context of each providing library (context initializers observaton)
+ * 
+ * - Context profiler feature
+ * 
+ * - Maybe - IDE built in resolution lookup
+ * 
+ * 
  * 
  * 
  * 

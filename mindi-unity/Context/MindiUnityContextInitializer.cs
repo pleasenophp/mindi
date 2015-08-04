@@ -12,8 +12,7 @@ namespace MinDI.Context {
 			context.m().Bind<IRemoteObjectsRecord>(() => new RemoteObjectsRecord(), "factory");
 			context.s().Bind<IRemoteObjectsDestroyer>(() => new RemoteObjectsDestroyer());
 
-			// TODO - should bind as multiple
-			context.s().Bind<RootSceneFactory>(() => new RootSceneFactory());
+			context.m().Bind<RootSceneFactory>(() => new RootSceneFactory());
 
 			context.s().BindInstance<MBLifeTime>(MBLifeTime.Permanent);
 

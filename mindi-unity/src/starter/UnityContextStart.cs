@@ -9,7 +9,7 @@ namespace MinDI {
 
 		public virtual IDIContext CreateContext() {
 			IDIContext context = ContextHelper.CreateContext ();
-			ContextBuilder.Initialize<IGlobalContextInitializer> (context);
+			context.Initialize<IGlobalContextInitializer>();
 			return context;
 		}
 

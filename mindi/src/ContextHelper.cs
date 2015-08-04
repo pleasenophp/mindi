@@ -5,30 +5,20 @@ using minioc.context.bindings;
 using minioc.resolution.instantiator;
 using MinDI.Binders;
 using minioc.resolution.dependencies;
+using MinDI.Context;
 
 
 namespace MinDI {
 	public static class ContextHelper {
 		public static IDIContext CreateContext(IDIContext parent = null, string name = null) {
-			IDIContext context = new MiniocContext(parent, name);
+			return InternalCreateContext(parent, name); 
+		}
 
-			// Binding context itself
-			context.s().BindInstance<IDIContext>(context);
-
+		public static IDIContext CreateContext<T>(IDIContext parent = null, string name = null) where T:IContextInitializer {
+			IDIContext context = InternalCreateContext(parent, name); 
+			context.Initialize<T>();
 			return context;
 		}
-
-		/*
-		/// <summary>
-		/// Creates the bind helper to simplify binding syntax.
-		/// Extension of the IDIContext.
-		/// </summary>
-		/// <returns>The bind helper.</returns>
-		/// <param name="context">Context.</param>
-		public static BindHelper CreateBindHelper(this IDIContext context) {
-			return new BindHelper(context);
-		}
-		*/
 			
 		/// <summary>
 		/// Resolve an interface from the specified context with casting it to the instance.
@@ -44,6 +34,15 @@ namespace MinDI {
 			return context.Resolve<TInterface>(name) as TInstance;
 		}
 
+		public static IDIContext Chain(this IDIContext parent, string contextName = null) {
+			return CreateContext(parent, contextName);
+		}
+
+		public static IDIContext Chain<T>(this IDIContext parent, string contextName = null) where T:IContextInitializer {
+			return CreateContext<T>(parent, contextName);
+		}
+
+		/*
 		/// <summary>
 		/// Chains an interface on the new context, rebinding it as a singletone
 		/// This is usefull to build complex hierarchy of the objects
@@ -55,6 +54,16 @@ namespace MinDI {
 			IDIContext newContext = CreateContext(context);
 			newContext.s().Rebind<T>();
 			return newContext;
+		}
+		*/
+
+		private static IDIContext InternalCreateContext(IDIContext parent, string name) {
+			IDIContext context = new MiniocContext(parent, name);
+
+			// Binding context itself
+			context.s().BindInstance<IDIContext>(context);
+
+			return context;
 		}
 			
 	}
