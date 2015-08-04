@@ -5,6 +5,7 @@ using NUnit.Framework;
 using UnityEngine;
 using minioc;
 using minioc.context.bindings;
+using minioc.misc;
 
 namespace MinDI.Tests.MinIOC
 {
@@ -13,7 +14,7 @@ namespace MinDI.Tests.MinIOC
     internal class MinIOC
     {
 		interface IApple {
-			void TestContext(MiniocContext context);
+			void TestContext(IDIContext context);
 		}
 
 		interface IOrange {
@@ -30,9 +31,9 @@ namespace MinDI.Tests.MinIOC
 
 		class GreenApple : ContextObject, IApple {
 			[Injection]
-			public MiniocContext testContext {get; set;}
+			public IDIContext testContext {get; set;}
 
-			public void TestContext(MiniocContext cont) {
+			public void TestContext(IDIContext cont) {
 				Assert.AreSame(cont, testContext);
 			}
 
@@ -86,9 +87,9 @@ namespace MinDI.Tests.MinIOC
 
 		[Test]
 		public void SingletoneFactorySameContextTest() {
-			MiniocContext context = new MiniocContext();
+			IDIContext context = new MiniocContext();
 
-			context.s().BindInstance<MiniocContext>(context);
+			context.s().BindInstance<IDIContext>(context);
 			context.s().Bind<IApple>(()=>new GreenApple());
 
 			IApple apple1 = context.Resolve<IApple>();
@@ -124,11 +125,11 @@ namespace MinDI.Tests.MinIOC
 		[Test]
 		public void SingletoneFactoryDifferentContextTest()
 		{
-			MiniocContext context1 = new MiniocContext();
+			IDIContext context1 = new MiniocContext();
 
 			context1.s().Bind<IOrange>(() => new RedOrange());
 			
-			MiniocContext context2 = new MiniocContext();
+			IDIContext context2 = new MiniocContext();
 			context2.s().Bind<IOrange>(() => new RedOrange());
 
 			IOrange orange1 = context1.Resolve<IOrange>();
@@ -167,9 +168,9 @@ namespace MinDI.Tests.MinIOC
 
 		[Test]
 		public void TestContextSelf() {
-			MiniocContext context = new MiniocContext();
+			IDIContext context = new MiniocContext();
 
-			context.s().BindInstance<MiniocContext>(context);
+			context.s().BindInstance<IDIContext>(context);
 			context.s().Bind<IApple>(() => new YellowApple());
 
 			IApple apple = context.Resolve<IApple>();
@@ -194,6 +195,23 @@ namespace MinDI.Tests.MinIOC
 			IOrange orange = context.Resolve<IOrange>();
 			Assert.That(orange is BlueOrange);
 			orange.tag = "my_test_orange";
+		}
+
+
+		[Test]
+		public void TestNotBindedException()
+		{
+			MiniocContext context = new MiniocContext();
+
+			Assert.Throws<MiniocException>(() => {
+				context.Resolve<IOrange>();	
+			});
+
+			MiniocContext childContext = new MiniocContext(context);
+			Assert.Throws<MiniocException>(() => {
+				childContext.Resolve<IOrange>();	
+			});
+
 		}
     }
 }

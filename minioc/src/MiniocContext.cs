@@ -90,7 +90,11 @@ namespace minioc
 		public object Resolve (Type type, string name=null, bool omitInjectDependencies = false)
 		{
 			lock (locker) {
-				return ResolveInternal(type, name, omitInjectDependencies);
+				object result = ResolveInternal(type, name, omitInjectDependencies);
+				if (result == null) {
+					throw new MiniocException(string.Format("Unable to resolve instance of '{0}' named '{1}'", type, name));
+				}
+				return result;
 			}
 		}
 
