@@ -16,8 +16,8 @@ namespace MinDI.Unity {
 				throw new MindiException("RootSceneFactory can only work in the Remote objects environment");
 			}
 
-			IList<ISceneContextInitializer> initializers = ContextBuilder.Initialize<ISceneContextInitializer>(context, new SceneContextAttribute(sceneName));
-			return CreateScene<T>(context, initializers, sceneName, bindingName);
+			IList<ISceneContextInitializer> initializers = ContextBuilder.Initialize<ISceneContextInitializer>(RootContainer.context, new SceneContextAttribute(sceneName));
+			return CreateScene<T>(RootContainer.context, initializers, sceneName, bindingName);
 		}
 
 	}

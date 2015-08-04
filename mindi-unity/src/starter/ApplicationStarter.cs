@@ -149,6 +149,8 @@ namespace MinDI
  * 
  * v 9.7) Create derived classes for unity, so objects can be copied
  * 
+ * 9.8) No meaningfull exception bug when something is not resolved
+ * 
  * 10) Make internal documentation and object diagrams
  * 
  * 10.5) Sort out the lifetime control when resolving the mono behaviours to existing objects

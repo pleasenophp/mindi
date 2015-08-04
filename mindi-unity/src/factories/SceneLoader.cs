@@ -70,7 +70,9 @@ namespace MinDI.Unity {
 			}
 
 			if (loading == null || loading.loadingLevelName != Application.loadedLevelName) {
-				Debug.LogError("The level "+Application.loadedLevelName+" was loaded incorrectly. Please use ISceneLoader to load the level with MinDI.");
+				// TODO - fix it - gives a wrong message from the start scene
+
+				// Debug.LogError("The level "+Application.loadedLevelName+" was loaded incorrectly. Please use ISceneLoader to load the level with MinDI.");
 			}
 
 			if (loading != null) {
