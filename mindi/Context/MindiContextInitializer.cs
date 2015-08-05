@@ -1,7 +1,7 @@
 ﻿using System;
 using MinDI.StateObjects;
 
-namespace MinDI.Context {
+namespace MinDI.Context.Internal {
 	public class MindiContextInitializer : IGlobalContextInitializer {
 		#region IContextInitializer implementation
 		public void Initialize(IDIContext context) {
@@ -9,7 +9,7 @@ namespace MinDI.Context {
 			context.s().Bind<IActionQueue>(() => new ActionQueue());
 
 			context.m().BindGeneric(typeof(IDIFactory<>), typeof(ContextFactory<>));
-			context.m().BindGeneric(typeof(IDIChainFactory<,>), typeof(ContextChainFactory<,>));
+			context.m().BindGeneric(typeof(IDIRFactory<,>), typeof(ReproduceContextFactory<,>));
 		}
 		#endregion
 		

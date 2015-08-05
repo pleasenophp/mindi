@@ -40,18 +40,19 @@
     <Compile Include="src\ContextHelper.cs" />
     <Compile Include="src\binders\BaseDIBinder.cs" />
     <Compile Include="src\binders\MultipleBinder.cs" />
-    <Compile Include="src\factories\ContextChainFactory.cs" />
     <Compile Include="src\factories\ContextFactory.cs" />
     <Compile Include="src\binders\BindHelper.cs" />
     <Compile Include="src\binders\SingletonBinder.cs" />
     <Compile Include="src\binders\IDIBinder.cs" />
     <Compile Include="src\remote\ActionQueue.cs" />
     <Compile Include="src\remote\FactoryObjectRecord.cs" />
-    <Compile Include="src\factories\BaseDIFactory.cs" />
     <Compile Include="src\extensions\IDIContextExtensions.cs" />
     <Compile Include="src\context\ContextBuilder.cs" />
     <Compile Include="src\context\FilteredInitializerAttribute.cs" />
     <Compile Include="Context\MindiContextInitializer.cs" />
+    <Compile Include="src\factories\ReproduceContextFactory.cs" />
+    <Compile Include="src\factories\BaseFactory.cs" />
+    <Compile Include="src\factories\BaseContextFactory.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

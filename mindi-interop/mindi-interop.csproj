@@ -57,12 +57,12 @@
     <Compile Include="objects\ContextEnvironment.cs" />
     <Compile Include="objects\RemoteObjectsHelper.cs" />
     <Compile Include="objects\IRemoteObjectsValidator.cs" />
-    <Compile Include="Interfaces\factories\IDIChainFactory.cs" />
     <Compile Include="Interfaces\context\IContextInitializer.cs" />
     <Compile Include="Interfaces\context\IGlobalContextInitializer.cs" />
     <Compile Include="Interfaces\context\IApplicationContextInitializer.cs" />
     <Compile Include="Interfaces\IRemoteObjectsDestroyer.cs" />
     <Compile Include="Interfaces\IRemoteObjectsHash.cs" />
+    <Compile Include="Interfaces\factories\IDIRFactory.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

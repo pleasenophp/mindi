@@ -9,11 +9,11 @@ using MinDI.StateObjects;
 using MinDI.Introspection;
 
 
-namespace MinDI {
+namespace MinDI.Factories {
 	/// <summary>
 	/// Standard factory to resolve an object from context
 	/// </summary>
-	public abstract class BaseDIFactory<T> : OpenContextObject, IDestroyingFactory
+	public abstract class BaseFactory<T> : OpenContextObject, IDestroyingFactory
 		where T:class
 	{
 		protected ContextEnvironment environment;
@@ -21,7 +21,7 @@ namespace MinDI {
 		protected override void OnInjected() {
 			environment = context.Resolve<ContextEnvironment>();
 		}
-			
+
 		public T Destroy(T instance) {
 			DestroyInstance(instance);
 			return null;
@@ -39,17 +39,6 @@ namespace MinDI {
 			VerifyObjectDestruction(instance);
 			DestroyRemoteObjects(instance);
 			RegisterDestruction(instance);
-		}
-			
-		protected T Create(IDIContext context, string name) {
-			T instance = context.Resolve<T>(name);
-			VerifyObjectCreation(name, instance, context);
-
-			if (environment == ContextEnvironment.RemoteObjects) {
-				RegisterCreation(instance);
-			}
-
-			return instance;
 		}
 
 		// Register creation of an instance made on this factory in the parent ROR

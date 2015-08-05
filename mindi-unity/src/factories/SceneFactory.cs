@@ -6,10 +6,11 @@ using MinDI.StateObjects;
 using MinDI.Introspection;
 using MinDI.UnityEditor;
 using System.Collections.Generic;
+using MinDI.Factories;
 
 namespace MinDI.Unity {
 
-	public class SceneFactory : BaseDIFactory<ISceneObject>, IDISceneFactory {
+	public class SceneFactory : BaseFactory<ISceneObject>, IDISceneFactory {
 
 		[Injection]
 		public IEditorPrefabFilter editorPrefabFilter { get; set; }

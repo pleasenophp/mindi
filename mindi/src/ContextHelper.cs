@@ -34,11 +34,11 @@ namespace MinDI {
 			return context.Resolve<TInterface>(name) as TInstance;
 		}
 
-		public static IDIContext Chain(this IDIContext parent, string contextName = null) {
+		public static IDIContext Reproduce(this IDIContext parent, string contextName = null) {
 			return CreateContext(parent, contextName);
 		}
 
-		public static IDIContext Chain<T>(this IDIContext parent, string contextName = null) where T:IContextInitializer {
+		public static IDIContext Reproduce<T>(this IDIContext parent, string contextName = null) where T:IContextInitializer {
 			return CreateContext<T>(parent, contextName);
 		}
 
