@@ -150,8 +150,10 @@ namespace MinDI
  * v 9.7) Create derived classes for unity, so objects can be copied
  * 
  * v 9.8) No exception bug when something is not resolved
- * 
+ *  
  * 10) Make internal documentation and object diagrams
+ * 
+ * 10.1) Add a way to pass the manual dependencies to the object (construction dependencies). Refactor a factory to easyly create custom factories, that control RC
  * 
  * 10.5) Sort out the lifetime control when resolving the mono behaviours to existing objects
  * 
