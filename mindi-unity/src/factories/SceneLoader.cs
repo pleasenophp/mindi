@@ -59,9 +59,9 @@ namespace MinDI.Unity {
 		}
 
 		void OnLevelWasLoaded(int level) {
-			// Debug.LogWarning("CALLED LEVEL WAS LOADED "+Application.loadedLevelName);
+			string loadedLevelName = Application.loadedLevelName.ToLower();
 
-			if (Application.loadedLevelName == ApplicationStarter.RootSceneName) {
+			if (loadedLevelName == ApplicationStarter.RootSceneName.ToLower()) {
 				if (RootContainer.loadingRoot) {
 					RootContainer.loadingRoot = false;
 					return;
@@ -71,10 +71,13 @@ namespace MinDI.Unity {
 				}
 			}
 
-			if (loading == null || loading.loadingLevelName != Application.loadedLevelName) {
-				// TODO - fix it - gives sometimes a wrong message from the start scene
-
+			if (loading == null || loading.loadingLevelName.ToLower() != loadedLevelName) {
 				Debug.LogError("The level "+Application.loadedLevelName+" was loaded incorrectly. Please use ISceneLoader to load the level with MinDI.");
+
+				if (loading != null) {
+					Debug.LogWarning("Loading level was set to: "+loading.loadingLevelName);
+				}
+
 			}
 
 			if (loading != null) {
