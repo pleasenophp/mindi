@@ -150,14 +150,24 @@ namespace MinDI
  * v 9.7) Create derived classes for unity, so objects can be copied
  * 
  * v 9.8) No exception bug when something is not resolved
+ * 
+ * 9.9) Add a way to pass the manual dependencies to the object (construction dependencies).
+ * 		[Injection] - tryes to inject the property from context
+ * 		[SoftInjection] - tryes to inject the property from context, but doesn't throw exception if it cannot
+ * 		[Requirement] - tryes to inject the property from the construction expression
+ * 		[SoftRequirement] - tries to inject the property from the construction expression, but doesn't throw exception if it cannot
+ * 		[RequirementInjection] - first try to inject from construction, then from injection context
+ * 		[SoftRequirementInjection] - the same as above, without exception
+ * 
+ * 		+ See how these things work on methods injection - maybe it's good to leave injection methods here
+ * 
+ * 9.9.1) Version number to DLLs and other release prepare things - going to beta stage
  *  
  * 10) Make internal documentation and object diagrams
  * 
- * 10.1) Add a way to pass the manual dependencies to the object (construction dependencies). Refactor a factory to easyly create custom factories, that control RC
- * 
  * 10.5) Sort out the lifetime control when resolving the mono behaviours to existing objects
  * 
- * 10.6) Make the binding to existing MB not allowed to resolve on factory
+ * 10.6) Make the binding to existing MB not allowed to resolve on factory. Also see if we can add additional control for the construction dependencies for the same thing
  * 
  * 11) Make programmer documentation and TODOs for the further guides
  * 
@@ -167,7 +177,6 @@ namespace MinDI
  * 
  * 14) Add some editor helper scripts
  * 
- * 15) Sort the version numbers and other release prepare things
  * 
  * 
  * Features to add later:
