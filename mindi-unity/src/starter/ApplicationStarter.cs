@@ -153,6 +153,7 @@ namespace MinDI
  * 
  * 9.8.1) Check why the not context monobehaviour is not spawning from resources when injected
  * 
+ * 
  * 9.9) Add a way to pass the manual dependencies to the object (construction dependencies).
  * 		[Injection] - tryes to inject the property from context
  * 		[SoftInjection] - tryes to inject the property from context, but doesn't throw exception if it cannot
@@ -167,7 +168,12 @@ namespace MinDI
  * 
  * 		+ See how these things work on methods injection - maybe it's good to leave injection methods here
  * 
- * 9.9.1) Version number to DLLs and other release prepare things - going to beta stage
+ * 
+ * 9.9.1) Check when an object has at least one Injection attribute, but is not IDIClosedContext - throw exception
+ * 
+ * 9.9.2) Make the scene loader accept the custom parameters
+ * 
+ * 9.9.9) Version number to DLLs and other release prepare things - going to beta stage
  *  
  * 10) Make internal documentation and object diagrams
  * 
