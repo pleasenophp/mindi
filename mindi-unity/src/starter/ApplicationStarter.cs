@@ -151,6 +151,8 @@ namespace MinDI
  * 
  * v 9.8) No exception bug when something is not resolved
  * 
+ * 9.8.1) Check why the not context monobehaviour is not spawning from resources when injected
+ * 
  * 9.9) Add a way to pass the manual dependencies to the object (construction dependencies).
  * 		[Injection] - tryes to inject the property from context
  * 		[SoftInjection] - tryes to inject the property from context, but doesn't throw exception if it cannot
@@ -158,6 +160,10 @@ namespace MinDI
  * 		[SoftRequirement] - tries to inject the property from the construction expression, but doesn't throw exception if it cannot
  * 		[RequirementInjection] - first try to inject from construction, then from injection context
  * 		[SoftRequirementInjection] - the same as above, without exception
+ * 
+ * 		+ base fields injection with type reassigning can be usefull. 
+ * 			[InjectBaseField<BaseViewHandler>((s) => s.vistraEvent]
+ *			public PlaceOperation placeOperation { get; }
  * 
  * 		+ See how these things work on methods injection - maybe it's good to leave injection methods here
  * 
