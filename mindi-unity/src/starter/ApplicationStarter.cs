@@ -172,9 +172,10 @@ namespace MinDI
  * 
  * v 9.8) No exception bug when something is not resolved
  * 
- * 9.8.1) Check why the not context monobehaviour is not spawning from resources when injected
+ * v 9.8.1) Check why the not context monobehaviour is not spawning from resources when injected
  * 
- * 
+ * 9.8.2 - Sort factories overload methods, and check that initializer can be just used without interface in the reproduce factory
+ *  
  * 9.9) Add a way to pass the manual dependencies to the object (construction dependencies).
  * 		[Injection] - tryes to inject the property from context
  * 		[SoftInjection] - tryes to inject the property from context, but doesn't throw exception if it cannot
@@ -194,15 +195,19 @@ namespace MinDI
  * 
  * 9.9.2) Make the scene loader accept the custom parameters
  * 
+ * 9.9.3) Make the non-context mono behaviour work with a custom wrapper
+ * 
  * 9.9.9) Version number to DLLs and other release prepare things - going to beta stage
  *  
  * 10) Make internal documentation and object diagrams
+ * 
+ * 10.4) Make instance binder, instead use c.s().BindInstance<> use c.i().Bind<>, c.mbi().Bind<>
  * 
  * 10.5) Sort out the lifetime control when resolving the mono behaviours to existing objects
  * 
  * 10.6) Make the binding to existing MB not allowed to resolve on factory. Also see if we can add additional control for the construction dependencies for the same thing
  * 
- * 11) Make programmer documentation and TODOs for the further guides
+  * 11) Make programmer documentation and TODOs for the further guides
  * 
  * 12) Make singleton sorted in Minioc. For the generic binding allow to use multiple binding as well.
  * 
@@ -215,6 +220,8 @@ namespace MinDI
  * Features to add later:
  * 
  * - write more tests for factories
+ * 
+ * - think about interface access management (might need a post processor). Interface should have an access rights, with a defined group. Some interfaces can be declared as having access to them.
  * 
  * - Serialization feature
  * 
