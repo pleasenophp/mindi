@@ -20,15 +20,11 @@ namespace MinDI
 		[Injection]
 		public ISceneLoader sceneLoader {get; set;}
 
-
 		private UnityContextStart init;
 
 		private bool ready = false;
 
-
-		// The very first awake in the application
-		void Awake ()
-		{
+		void Awake() {
 			this.gameObject.name = StarterObjectName;
 			GameObject existingStarter = GameObject.Find(StarterObjectName);
 
@@ -36,7 +32,17 @@ namespace MinDI
 				Destroy(this.gameObject);
 				return;
 			}
-		
+
+			// The case where we loading directly from root scene
+			DoInitialization();
+		}
+
+		void DoInitialization() {
+			// If we loading the root scene from another scene, skip it here
+			if (RootContainer.loadingRoot) {
+				return;
+			}
+
 			if (RootContainer.context != null) {
 				return;
 			}
@@ -67,7 +73,22 @@ namespace MinDI
 			// Loading auto start scene
 			LoadAutoStartScene();
 
-			ready = true;
+			ready = true;	
+		}
+
+		IEnumerator OnLevelWasLoaded(int levelId) {
+			yield return 1;
+
+			if (Application.loadedLevelName != RootSceneName) {
+				yield break;
+			}
+
+			if (!RootContainer.loadingRoot) {
+				throw new MindiException(string.Format("The {0} scene should never be loaded manually !", ApplicationStarter.RootSceneName));
+			}
+
+			RootContainer.loadingRoot = false;
+			DoInitialization();
 		}
 
 		private void LoadRootScene() {

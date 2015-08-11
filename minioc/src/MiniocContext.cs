@@ -187,6 +187,9 @@ namespace minioc
 				return;
 			}
 
+			// TODO - if it's not context mono behaviour, can still allow to use it by adding a state object for this MB together when instantiating.
+			// Then just query for the state object that is IDIClosedContext
+
 			// Not injecting any dependencies if the object is not context object
 			IDIClosedContext stateInstance = instance as IDIClosedContext;
 			if (stateInstance == null) {
@@ -199,7 +202,7 @@ namespace minioc
 				throw new MindiException("Called inject dependencies on an instance that has no binding descriptor set: "+instance);
 			}
 
-			// If this instance is concrete on another layer, we inject dependencies on its own layer only to avoid subjectivization
+			// If this instance is concrete on another layer, we inject dependencies on its own layer only, to avoid subjectivization
 			if (descriptor.instantiationType == InstantiationType.Concrete && descriptor.context != this) {
 				descriptor.context.InjectDependencies(instance, dependencies);
 				return;

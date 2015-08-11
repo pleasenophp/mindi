@@ -143,10 +143,10 @@ namespace MinDI.Binders {
 				where T:class where TInstance:MonoBehaviour, T
 		{
 			GameObject prefab = Resources.Load<GameObject>(path);
+
 			if (prefab == null) {
 				throw new MindiException("Cannot load the resource by path "+path);
 			}
-
 			return ResolveFromPrefab<T, TInstance>(prefab);
 		}
 
@@ -170,6 +170,7 @@ namespace MinDI.Binders {
 
 			GameObject obj = (GameObject)GameObject.Instantiate(prefab);
 			obj.name = typeof(TInstance).Name;
+
 			BindInstantiation(obj, MBInstantiationType.NewObject);
 			TInstance instance = obj.GetComponent<TInstance>();
 

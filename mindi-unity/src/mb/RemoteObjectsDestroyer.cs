@@ -8,7 +8,6 @@ namespace MinDI.StateObjects {
 
 	public class RemoteObjectsDestroyer : IRemoteObjectsDestroyer {
 		public void Destroy(object o, IRemoteObjectsHash objectsHash) {
-
 			MonoBehaviour mb = o as MonoBehaviour;
 			if (mb != null) {
 				DestroyMB(mb, objectsHash);
