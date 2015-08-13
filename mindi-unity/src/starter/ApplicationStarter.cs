@@ -174,7 +174,7 @@ namespace MinDI
  * 
  * v 9.8.1) Check why the not context monobehaviour is not spawning from resources when injected
  * 
- * 9.8.2 - Sort factories overload methods, and check that initializer can be just used without interface in the reproduce factory
+ * v 9.8.2 - Sort factories overload methods, and check that initializer can be just used without interface in the reproduce factory
  *  
  * 9.9) Add a way to pass the manual dependencies to the object (construction dependencies).
  * 		[Injection] - tryes to inject the property from context
@@ -194,8 +194,6 @@ namespace MinDI
  * 9.9.1) Check when an object has at least one Injection attribute, but is not IDIClosedContext - throw exception
  * 
  * 9.9.2) Make the scene loader accept the custom parameters
- * 
- * 9.9.3) Make the non-context mono behaviour work with a custom wrapper
  * 
  * 9.9.9) Version number to DLLs and other release prepare things - going to beta stage
  *  

@@ -19,7 +19,12 @@ namespace MinDI {
 		}
 
 		protected override void InitNewContext(IDIContext context) {
-			context.Initialize<TInitializer>();
+			if (typeof(TInitializer).IsInterface) {
+				context.Initialize<TInitializer>();
+			}
+			else {
+				context.InitSingle<TInitializer>();
+			}
 		}
 	}
 
