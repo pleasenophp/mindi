@@ -64,6 +64,7 @@
     <Compile Include="Interfaces\IRemoteObjectsHash.cs" />
     <Compile Include="Interfaces\factories\IDIRFactory.cs" />
     <Compile Include="helpers\BindingName.cs" />
+    <Compile Include="Interfaces\context\ICustomContextInitializer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

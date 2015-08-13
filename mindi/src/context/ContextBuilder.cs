@@ -19,6 +19,13 @@ namespace MinDI {
 		private static IDictionary<Type, List<IContextInitializer>> initializers = null;
 		
 		public static IList<T> Initialize<T>(this IDIContext context, FilteredInitializerAttribute filter = null) where T:IContextInitializer {	
+			if (typeof(T) == typeof(ICustomContextInitializer)) {
+				throw new MindiException(string.Format(
+					"{0} can only be used for single-class context initializers !", 
+					typeof(ICustomContextInitializer)
+				));
+			}
+
 			if (initializers == null) {
 				FetchInitializers();
 			}
