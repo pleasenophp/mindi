@@ -1,7 +1,7 @@
 using System;
 
 namespace minioc.resolution.dependencies {
-	public interface DependencyResolver {
+	public interface IDependencyResolver {
 		T Resolve<T>(bool omitInjectDependencies = false);
 
 		T Resolve<T>(string name, bool omitInjectDependencies = false);

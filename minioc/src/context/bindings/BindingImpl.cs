@@ -95,10 +95,9 @@ namespace minioc.context.bindings {
 		}
 
 
-		public IBinding SetDescriptor(IDIContext context, InstantiationType instantiation, BindingType type, Func<object> factory) {
+		public IBinding SetDescriptor(IDIContext context, InstantiationType instantiation, Func<object> factory) {
 			this.descriptor.context = context;
 			this.descriptor.instantiationType = instantiation;
-			this.descriptor.bindingType = type;
 			this.descriptor.factory = factory;
 			return this;
 		}

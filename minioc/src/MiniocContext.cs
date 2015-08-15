@@ -12,7 +12,7 @@ using MinDI.Introspection;
 
 namespace minioc
 {
-	public class MiniocContext : DependencyResolver, IDIContext {
+	public class MiniocContext : IDependencyResolver, IDIContext {
 		private MiniocBindings _bindings = new MiniocBindings ();
 		private InjectionContext _injectionContext;
 		private IDIContext _parentContext;

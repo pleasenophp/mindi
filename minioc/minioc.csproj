@@ -47,7 +47,6 @@
     <Compile Include="src\context\bindings\GenericBindingStub.cs" />
     <Compile Include="src\misc\MiniocException.cs" />
     <Compile Include="src\resolution\core\InjectionContext.cs" />
-    <Compile Include="src\resolution\dependencies\DependencyResolver.cs" />
     <Compile Include="src\resolution\dependencies\DependencyStub.cs" />
     <Compile Include="src\resolution\dependencies\DependencyTarget.cs" />
     <Compile Include="src\resolution\dependencies\ExplicitDependency.cs" />
@@ -74,6 +73,7 @@
     <Compile Include="src\resolution\lifecylcle\providers\TypeInstanceBoundValueProvider.cs" />
     <Compile Include="src\resolution\injection\PrimitiveInjectionStrategy.cs" />
     <Compile Include="src\context\bindings\GenericTypeResolver.cs" />
+    <Compile Include="src\resolution\dependencies\IDependencyResolver.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

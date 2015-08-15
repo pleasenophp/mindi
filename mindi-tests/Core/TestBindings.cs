@@ -43,17 +43,6 @@ namespace MinDI.Tests
 
 			IMyClass anotherObj = context.Resolve<IMyClass>();
 			Assert.AreSame(obj, anotherObj);
-		}
-
-		[Test]
-		public void TestInstanceBindingMP() {
-			MyClass obj = new MyClass();
-
-			IDIContext context = ContextHelper.CreateContext();
-			context.m().BindInstance<IMyClass>(obj);
-
-			IMyClass anotherObj = context.Resolve<IMyClass>();
-			Assert.AreSame(obj, anotherObj);
 
 			IMyClass oneMorerObj = context.Resolve<IMyClass>();
 			Assert.AreSame(obj, oneMorerObj);

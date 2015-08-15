@@ -2,7 +2,6 @@
 
 namespace MinDI.Introspection {
 	public class BindingDescriptor {
-		public BindingType bindingType { get; set; }
 		public InstantiationType instantiationType { get; set; }
 		public string name { get; set; }
 		public bool isDefault { get; set; }
@@ -10,7 +9,6 @@ namespace MinDI.Introspection {
 		public Func<object> factory { get; set;}
 
 		public BindingDescriptor() {
-			bindingType = BindingType.None;
 			instantiationType = InstantiationType.None;
 			isDefault = false;
 		}
@@ -20,8 +18,6 @@ namespace MinDI.Introspection {
 			this.name = descriptor.name;
 			this.isDefault = descriptor.isDefault;
 			this.context = descriptor.context;
-
-			this.bindingType = BindingType.Factory;
 			this.factory = factory;
 		}
 	}

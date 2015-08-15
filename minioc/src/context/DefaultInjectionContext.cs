@@ -11,9 +11,9 @@ namespace minioc.context {
 	internal class DefaultInjectionContext : InjectionContext {
 		private MiniocBindings _bindings;
 		private ReflectionCache _reflectionCache;
-		private readonly DependencyResolver _dependencyResolver;
+		private readonly IDependencyResolver _dependencyResolver;
 
-		internal DefaultInjectionContext(MiniocBindings bindings, ReflectionCache reflectionCache, DependencyResolver dependencyResolver) {
+		internal DefaultInjectionContext(MiniocBindings bindings, ReflectionCache reflectionCache, IDependencyResolver dependencyResolver) {
 			_bindings = bindings;
 			_reflectionCache = reflectionCache;
 			_dependencyResolver = dependencyResolver;

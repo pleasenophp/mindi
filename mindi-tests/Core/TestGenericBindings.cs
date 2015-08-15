@@ -96,7 +96,6 @@ namespace MinDI.Tests
 			childContext.s().Rebind<IDIFactory<IOtherClass>>();
 
 			BindingDescriptor desc = childContext.Introspect<IDIFactory<IOtherClass>>();
-			Assert.AreEqual(BindingType.Factory, desc.bindingType);
 			Assert.AreEqual(InstantiationType.Concrete, desc.instantiationType);
 			Assert.AreEqual(childContext, desc.context);
 		}

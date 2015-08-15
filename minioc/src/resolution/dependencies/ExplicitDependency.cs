@@ -25,7 +25,7 @@ namespace minioc.resolution.dependencies {
 			_target = dependencyTarget;
 		}
 
-		public bool tryResolveDependency(Type type, string name, out object value, DependencyResolver dependencyResolver) {
+		public bool tryResolveDependency(Type type, string name, out object value, IDependencyResolver dependencyResolver) {
 			if (_target.accept(type, name)) {
 				value = _resolver.resolve(type, dependencyResolver);
 				return true;

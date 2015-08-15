@@ -15,7 +15,7 @@ namespace minioc.resolution.injection {
 
 		public InjectorStrategyType type { get { return InjectorStrategyType.PROPERTIES; } }
 
-		public void inject(object instance, DependencyResolver dependencyResolver, IList<IDependency> dependencies) {
+		public void inject(object instance, IDependencyResolver dependencyResolver, IList<IDependency> dependencies) {
 			foreach (PropertyInfo propertyInfo in _properties) {
 				object value = null;
 
@@ -33,13 +33,15 @@ namespace minioc.resolution.injection {
 						propertyInfo.Name, propertyInfo.DeclaringType), e);
 				}
 
-				// NOTE - this can be removed if the TODO in MiniocContext - so we workaround non-context monobehaviours
-				if (RemoteObjectsHelper.IsRemoteObject(value) && !(value is IDIClosedContext)) {
-					throw new MiniocException("Injecting a remote object that doesn't implement IDIClosedContext is not allowed ! Tried to inject object "+value+" into property "+propertyInfo.Name+" of the object "+instance);
-				}
-
-
+				ControlRemoteObject(instance, value, propertyInfo);
 				propertyInfo.SetValue(instance, value, null);
+			}
+		}
+
+		private void ControlRemoteObject(object instance, object value, PropertyInfo propertyInfo) {
+			// NOTE - this can be removed if the TODO in MiniocContext is done - so we workaround non-context monobehaviours
+			if (RemoteObjectsHelper.IsRemoteObject(value) && !(value is IDIClosedContext)) {
+				throw new MiniocException("Injecting a remote object that doesn't implement IDIClosedContext is not allowed ! Tried to inject object "+value+" into property "+propertyInfo.Name+" of the object "+instance);
 			}
 		}
 	}

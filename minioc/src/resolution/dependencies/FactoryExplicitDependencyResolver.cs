@@ -8,7 +8,7 @@ internal class FactoryExplicitDependencyResolver : ExplicitDependencyResolver {
         _factory = factory;
     }
 
-    public object resolve(Type type, DependencyResolver dependencyResolver) {
+    public object resolve(Type type, IDependencyResolver dependencyResolver) {
         return _factory();
     }
 }

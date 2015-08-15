@@ -1,6 +1,7 @@
 using System;
 using MinDI;
 
+// TODO - remove the whole dependencies folder as it seems to be not used anymore
 namespace minioc.resolution.dependencies {
 	public interface DependencyStub {
 		/// <summary>

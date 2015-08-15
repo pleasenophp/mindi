@@ -42,17 +42,6 @@ namespace minioc.context {
 			return injectionStrategy;
 		}
 			
-
-		private InjectionStrategy tryInjectMethod(Type type) {
-			List<MethodInfo> methodInfos = type.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
-				.Where(m => m.GetCustomAttributes(typeof(InjectionMethodAttribute), false).Any()).ToList();
-			if (methodInfos.Count > 0) {
-				methodInfos.Sort(injectionOrderSorter);
-				return new MethodInjectionStrategy(methodInfos);
-			}
-			return null;
-		}
-
 		private static InjectionStrategy tryInjectProperties(Type type) {
 			PropertyInfo[] properties =
 				type.GetProperties(BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
@@ -60,6 +49,16 @@ namespace minioc.context {
 				properties.Where(p => p.GetCustomAttributes(typeof(InjectionAttribute), false).Any()).ToArray();
 			if (injectedProperties.Length > 0) {
 				return new PropertiesInjectionStrategy(injectedProperties);
+			}
+			return null;
+		}
+
+		private InjectionStrategy tryInjectMethod(Type type) {
+			List<MethodInfo> methodInfos = type.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
+				.Where(m => m.GetCustomAttributes(typeof(InjectionMethodAttribute), false).Any()).ToList();
+			if (methodInfos.Count > 0) {
+				methodInfos.Sort(injectionOrderSorter);
+				return new MethodInjectionStrategy(methodInfos);
 			}
 			return null;
 		}

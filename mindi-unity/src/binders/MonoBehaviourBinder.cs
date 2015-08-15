@@ -6,7 +6,7 @@ using UnityEngine;
 namespace MinDI.Binders {
 
 	public class MonoBehaviourBinder : OpenContextObject {
-		private IDIBinder baseBinder;
+		private BaseDIBinder baseBinder;
 		private IRemoteObjectsHash objectsHash;
 
 		public MonoBehaviourBinder(IDIContext context) : this (context, InstantiationMode.SINGLETON) {

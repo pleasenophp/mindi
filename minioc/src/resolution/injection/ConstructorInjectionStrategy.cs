@@ -12,7 +12,7 @@ namespace minioc.resolution.injection {
 			_constructorInfo = constructorInfo;
 		}
 
-		public object createInstance(DependencyResolver dependencyResolver, IList<IDependency> dependencies) {
+		public object createInstance(IDependencyResolver dependencyResolver, IList<IDependency> dependencies) {
 			ParameterInfo[] parameterInfos = _constructorInfo.GetParameters();
 			object[] parameterValues = new object[parameterInfos.Length];
 
@@ -38,7 +38,7 @@ namespace minioc.resolution.injection {
 
 		public InjectorStrategyType type { get { return InjectorStrategyType.CONSTRUCTOR; } }
 
-		public void inject(object instance, DependencyResolver dependencyResolver, IList<IDependency> dependencies) {
+		public void inject(object instance, IDependencyResolver dependencyResolver, IList<IDependency> dependencies) {
 			throw new System.NotImplementedException();
 		}
 	}

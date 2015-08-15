@@ -8,7 +8,7 @@ internal class ValueExplicitDependencyResolver : ExplicitDependencyResolver {
         _value = value;
     }
 
-    public object resolve(Type type, DependencyResolver dependencyResolver) {
+    public object resolve(Type type, IDependencyResolver dependencyResolver) {
         return _value;
     }
 }

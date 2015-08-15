@@ -7,7 +7,7 @@ using MinDI.Introspection;
 
 namespace MinDI.Binders {
 
-	public abstract class BaseDIBinder : OpenContextObject, IDIBinder
+	public abstract class BaseDIBinder : OpenContextObject
 	{
 		protected InstantiationType instantiationType;
 
@@ -27,12 +27,6 @@ namespace MinDI.Binders {
 		public IBinding Bind<T> (Func<T> create, string name = null, Action<IBinding> configure = null) where T:class
 		{
 			IBinding binding = InternalBind<T> (create, name);
-			return RegisterBinding(binding, configure);
-		}
-
-
-		public IBinding BindInstance<T> (T instance, string name = null, Action<IBinding> configure = null) {
-			IBinding binding = InternalBindInstance<T>(instance, name);
 			return RegisterBinding(binding, configure);
 		}
 			
@@ -87,11 +81,11 @@ namespace MinDI.Binders {
 
 
 			BindingDescriptor descriptor = context.Introspect<T>(resolutionName);
-			if (descriptor.bindingType == BindingType.None) {
+			if (descriptor.instantiationType == InstantiationType.None) {
 				throw new MindiException("Called Rebind, but no existing binding found for type "+typeof(T)+" for name "+resolutionName);
 			}
 
-			if (descriptor.bindingType == BindingType.Instance) {
+			if (descriptor.instantiationType == InstantiationType.Instance) {
 				throw new MindiException("Cannot rebind an instance binding. Type: "+typeof(T));
 			}
 
@@ -130,7 +124,8 @@ namespace MinDI.Binders {
 
 			GenericTypeResolver resolver = new GenericTypeResolver(interfaceType, resolutionType);
 			return Bindings.ForType(interfaceType, name).ImplementedByInstance(resolver, true)
-				.SetDescriptor(this.context, this.instantiationType, BindingType.Instance, null);
+				.SetDescriptor(this.context, InstantiationType.Instance, null);
+			// TODO - might need to pass inner instantiation type to recognize it on resolving
 		}
 
 		protected virtual void ConfigureBinding (IBinding binding)
@@ -145,17 +140,7 @@ namespace MinDI.Binders {
 				
 			return Bindings.ForType<T>(name)
 				.ImplementedBy(() => this.Resolve<T>(create))
-				.SetDescriptor(this.context, this.instantiationType, BindingType.Factory, () => create());
-		}
-
-		private IBinding InternalBindInstance<T> (T instance, string name=null)
-		{
-			if (string.IsNullOrEmpty(name)) {
-				name = BindHelper.GetDefaultBindingName<T>(context);
-			}
-
-			return Bindings.ForType<T> (name).ImplementedByInstance(instance)
-				.SetDescriptor(this.context, this.instantiationType, BindingType.Instance, null);
+				.SetDescriptor(this.context, this.instantiationType, () => create());
 		}
 
 		protected IBinding RegisterBinding(IBinding binding, Action<IBinding> configure) {
