@@ -102,6 +102,14 @@ namespace minioc.context.bindings {
 			return this;
 		}
 
+		public IBinding SetGenericDescriptor(IDIContext context, InstantiationType instantiation, InstantiationType genericInstantiation) {
+			this.descriptor.context = context;
+			this.descriptor.instantiationType = instantiation;
+			this.descriptor.factory = null;
+			this.descriptor.genericInstantiation = genericInstantiation;
+			return this;
+		}
+
 		public IBinding InstanciatedBy(Instantiator instantiator) {
 			_valueProvider.setInstantiator(instantiator);
 			return this;

@@ -124,8 +124,7 @@ namespace MinDI.Binders {
 
 			GenericTypeResolver resolver = new GenericTypeResolver(interfaceType, resolutionType);
 			return Bindings.ForType(interfaceType, name).ImplementedByInstance(resolver, true)
-				.SetDescriptor(this.context, InstantiationType.Instance, null);
-			// TODO - might need to pass inner instantiation type to recognize it on resolving
+				.SetGenericDescriptor(this.context, InstantiationType.Instance, this.instantiationType);
 		}
 
 		protected virtual void ConfigureBinding (IBinding binding)

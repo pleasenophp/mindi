@@ -31,6 +31,9 @@ namespace MinDI {
 		/// <param name="factory">Factory.</param>
 		IBinding SetDescriptor(IDIContext context, InstantiationType instantiation, Func<object> factory);
 
+		// For generic binding
+		IBinding SetGenericDescriptor(IDIContext context, InstantiationType instantiation, InstantiationType genericInstantiation);
+
 		/// <summary>
 		/// Make this binding the default binding for the bound type
 		/// </summary>
