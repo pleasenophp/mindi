@@ -7,5 +7,7 @@ namespace minioc.resolution.dependencies {
 		T Resolve<T>(string name, bool omitInjectDependencies = false);
 
 		object Resolve(Type type, string name =null, bool omitInjectDependencies = false);
+
+		object TryResolve(Type type, string name = null, bool omitInjectDependencies = false);
 	}
 }

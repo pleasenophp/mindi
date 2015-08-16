@@ -182,18 +182,22 @@ namespace MinDI
  * 		[Requirement] - tryes to inject the property from the construction expression
  * 		[SoftRequirement] - tries to inject the property from the construction expression, but doesn't throw exception if it cannot
  * 		[RequirementInjection] - first try to inject from construction, then from injection context
- * 		[SoftRequirementInjection] - the same as above, without exception
+ * 		[SoftRequirementInjection] - the same as above, without exception	
  * 
- * 		+ base fields injection with type reassigning can be usefull. 
+ * 9.9.1) Sort other TODOs
+ * 
+ * 9.9.2) See how these things work on methods injection - maybe it's good to leave injection methods here 
+ * 
+ * 9.9.3) In the binders remove the configuration delegte and allow to configure MakeDefault through signature
+ * 
+ * 9.9.4) Base fields injection with type reassigning can be usefull. 
  * 			[InjectBaseField<BaseViewHandler>((s) => s.vistraEvent]
  *			public PlaceOperation placeOperation { get; }
  * 
- * 		+ See how these things work on methods injection - maybe it's good to leave injection methods here
  * 
+ * 9.9.5) Check when an object has at least one Injection attribute, but is not IDIClosedContext - throw exception
  * 
- * 9.9.1) Check when an object has at least one Injection attribute, but is not IDIClosedContext - throw exception
- * 
- * 9.9.2) Make the scene loader accept the custom parameters
+ * 9.9.6) Make the scene loader accept the custom parameters
  * 
  * 9.9.9) Version number to DLLs and other release prepare things - going to beta stage
  *  
@@ -205,7 +209,7 @@ namespace MinDI
  * 
  * 10.6) Make the binding to existing MB not allowed to resolve on factory. Also see if we can add additional control for the construction dependencies for the same thing
  * 
-  * 11) Make programmer documentation and TODOs for the further guides
+ * 11) Make programmer documentation and TODOs for the further guides
  * 
  * 12) Make singleton sorted in Minioc. For the generic binding allow to use multiple binding as well.
  * 
@@ -228,23 +232,6 @@ namespace MinDI
  * - Context profiler feature
  * 
  * - Maybe - IDE built in resolution lookup
- * 
- * 
- * 
- * 
- * 
- *
- * 
- * 
- * 
- * NOTES
- * INTROSPECTION feature:
- * - Knowing the type of the object interface, we can get the context that has the resolver for this binding.
- * - We can also find the type of binding, that exists for this context. There is also possible to find a factory type if we somehow communicate this information.
- * - If this is done, then there is no need to keep the singleton context state on the object itself
- * 
- * - Context that starts in Unity is marked as UnityRoot. It means that it can create MonoBehaviours and they will become permanent
- * - Context that starts in the SceneFactory is marked as UnityUser. It can create mono behaviours but they are not understroyable
  * 
  * 
  * 

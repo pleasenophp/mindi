@@ -8,7 +8,7 @@ namespace minioc.resolution.injection {
 	internal class PrimitiveInjectionStrategy : InjectionStrategy {
 		public InjectorStrategyType type { get { return InjectorStrategyType.PRIMITIVE; } }
 
-	    public void inject(object instance, IDependencyResolver dependencyResolver, IList<IDependency> dependencies) {
+		public void inject(object instance, IDependencyResolver dependencyResolver, IDependencyResolver explicitDependencies) {
 	    }
 	}
 }

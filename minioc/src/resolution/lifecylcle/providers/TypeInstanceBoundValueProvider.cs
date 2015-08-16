@@ -6,22 +6,22 @@ using minioc.resolution.core;
 using MinDI;
 
 namespace minioc.resolution.lifecycle.providers {
-internal class TypeInstanceBoundValueProvider : BoundValueProvider {
-    private Type _type;
-    private Instantiator _instantiator = ConstructorInstantiator.INSTANCE;
+	internal class TypeInstanceBoundValueProvider : BoundValueProvider {
+		private Type _type;
+		private Instantiator _instantiator = ConstructorInstantiator.INSTANCE;
 
-    public TypeInstanceBoundValueProvider(Type type) {
-        _type = type;
-    }
+		public TypeInstanceBoundValueProvider(Type type) {
+			_type = type;
+		}
 
-    public bool isSet { get {return true;} }
+		public bool isSet { get { return true; } }
 
-    public void setInstantiator(Instantiator instantiator) {
-        _instantiator = instantiator;
-    }
+		public void setInstantiator(Instantiator instantiator) {
+			_instantiator = instantiator;
+		}
 
-    public object createInstance(InjectionContext injectionContext, List<IDependency> dependencies) {
-        return injectionContext.createInstance(_type, _instantiator, dependencies);
-    }
-}
+		public object createInstance(InjectionContext injectionContext, List<IDependency> dependencies) {
+			return injectionContext.createInstance(_type, _instantiator, dependencies);
+		}
+	}
 }

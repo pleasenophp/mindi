@@ -52,6 +52,7 @@ namespace minioc.context.bindings {
 			}
 		}
 
+		// TODO - remove and remove TypeInstanceBoundValueProvider
 		public IBinding ImplementedBy<T>() {
 			checkIsValueProviderSet();
 			_valueProvider = new TypeInstanceBoundValueProvider(typeof(T));

@@ -31,6 +31,9 @@ namespace minioc.context {
 			}
 
 			InjectionStrategy injectionStrategy = tryInjectProperties(type);
+
+			// TODO - add method
+			/*
 			if (injectionStrategy == null) {
 				injectionStrategy = tryInjectMethod(type);
 			}
@@ -38,6 +41,7 @@ namespace minioc.context {
 				List<ConstructorInfo> constructors = type.GetConstructors().ToList();
 				injectionStrategy = tryInjectUnTaggedConstructor(type, constructors);
 			}
+			*/
 
 			return injectionStrategy;
 		}
@@ -45,14 +49,22 @@ namespace minioc.context {
 		private static InjectionStrategy tryInjectProperties(Type type) {
 			PropertyInfo[] properties =
 				type.GetProperties(BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+
 			PropertyInfo[] injectedProperties =
-				properties.Where(p => p.GetCustomAttributes(typeof(InjectionAttribute), false).Any()).ToArray();
+				properties.Where(p => p.GetCustomAttributes(typeof(InjectionAttribute), true).Any()).ToArray();
+
+			/*
 			if (injectedProperties.Length > 0) {
 				return new PropertiesInjectionStrategy(injectedProperties);
 			}
 			return null;
+			*/
+
+			return new PropertiesInjectionStrategy(injectedProperties);
 		}
 
+		// TODO - reenable
+		/*
 		private InjectionStrategy tryInjectMethod(Type type) {
 			List<MethodInfo> methodInfos = type.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
 				.Where(m => m.GetCustomAttributes(typeof(InjectionMethodAttribute), false).Any()).ToList();
@@ -62,7 +74,10 @@ namespace minioc.context {
 			}
 			return null;
 		}
+		*/
 
+		// TODO - remove
+		/*
 		private static InjectionStrategy tryInjectUnTaggedConstructor(Type type, List<ConstructorInfo> constructors) {
 			if (constructors.Count == 0) {
 				throw new MiniocException(
@@ -72,6 +87,7 @@ namespace minioc.context {
 			constructors.Sort((a, b) => a.GetParameters().Length.CompareTo(b.GetParameters().Length));
 			return new ConstructorInjectionStrategy(constructors[0]);
 		}
+		*/
 
 		// Don't wanna allow to inject constructors as it will not work with the current implementation and design
 		/*

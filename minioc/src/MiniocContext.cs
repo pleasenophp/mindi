@@ -15,7 +15,7 @@ namespace minioc
 	public class MiniocContext : IDependencyResolver, IDIContext {
 		private MiniocBindings _bindings = new MiniocBindings ();
 		private InjectionContext _injectionContext;
-		private IDIContext _parentContext;
+		private MiniocContext _parentContext;
 
 		private object locker = new object();
 
@@ -40,9 +40,9 @@ namespace minioc
 
 		public MiniocContext (IDIContext parentContext, string name)
 		{
-			_parentContext = parentContext;
+			_parentContext = parentContext as MiniocContext;
 			this.name = name;
-			_injectionContext = new DefaultInjectionContext (_bindings, new ReflectionCache (), this);
+			_injectionContext = new DefaultInjectionContext (new ReflectionCache (), this);
 			// Debug.LogWarning ("CREATED CONTEXT: " + name);
 		}
 
@@ -98,6 +98,12 @@ namespace minioc
 			}
 		}
 
+		public object TryResolve(Type type, string name=null, bool omitInjectDependencies = false) {
+			lock (locker) {
+				return ResolveInternal(type, name, omitInjectDependencies);
+			}
+		}
+
 		public BindingDescriptor Introspect<T>(string name=null) {
 			return Introspect(typeof(T), name);
 		}
@@ -145,40 +151,24 @@ namespace minioc
 				return _parentContext;
 			}
 		}
-
+			
 		private object ResolveInternal(Type type, string name=null, bool omitInjectDependencies = false)
 		{
-			try {
+			object result;
+			if (!_bindings.tryResolve(type, name, _injectionContext, out result)) {
 				if (_parentContext != null) {
-					object result;
-
-					if (_bindings.tryResolve(type, name, _injectionContext, out result)) {
-						if (!omitInjectDependencies) {
-							this.InjectDependenciesInternal(result);
-						}
-						return result;
-					}
-					else {
-						result = _parentContext.Resolve(type, name, true);
-
-						if (!omitInjectDependencies) {
-							this.InjectDependenciesInternal(result);
-						}
-						return result;
-					}
-				}
-				else {
-					object result = _bindings.resolve(type, name, _injectionContext);
-					if (!omitInjectDependencies) {
-						this.InjectDependenciesInternal(result);
-					}
-					return result;
+					result = _parentContext.TryResolve(type, name, true);
 				}
 			}
-			catch (MiniocException e) {
-				throw new MiniocException(string.Format("Unable to resolve instance of '{0}' named '{1}'", type, name), e);
+
+			if (result == null) {
+				return null;
 			}
 
+			if (!omitInjectDependencies) {
+				this.InjectDependenciesInternal(result);
+			}
+			return result;
 		}
 
 		private void InjectDependenciesInternal (object instance, IList<IDependency> dependencies = null)

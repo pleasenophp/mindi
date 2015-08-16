@@ -9,12 +9,10 @@ using MinDI;
 
 namespace minioc.context {
 	internal class DefaultInjectionContext : InjectionContext {
-		private MiniocBindings _bindings;
 		private ReflectionCache _reflectionCache;
 		private readonly IDependencyResolver _dependencyResolver;
 
-		internal DefaultInjectionContext(MiniocBindings bindings, ReflectionCache reflectionCache, IDependencyResolver dependencyResolver) {
-			_bindings = bindings;
+		internal DefaultInjectionContext(ReflectionCache reflectionCache, IDependencyResolver dependencyResolver) {
 			_reflectionCache = reflectionCache;
 			_dependencyResolver = dependencyResolver;
 		}
@@ -23,14 +21,16 @@ namespace minioc.context {
 			return _reflectionCache.getInjectorStrategy(type);
 		}
 
-		internal object resolve(Type type, string name = null) {
-			return _bindings.resolve(type, name, this);
-		}
-
+		// TODO - check the dependencies don't need to be passed here
 		public object createInstance(Type type, Instantiator instantiator, IList<IDependency> dependencies) {
 			InjectionStrategy injectionStrategy = getInjectionStrategy(type);
 			object instance = null;
 		
+			instance = instantiator.CreateInstance(type);
+			// TODO - pass explicit injection context or just null if dependencies are not passed
+			injectionStrategy.inject(instance, _dependencyResolver, null);
+
+			/*
 			// NOTE - this is needed for the class that has no injectors marked. Can inject through default constructor
 			// Should be used only as a fail-safe measure
 			if (injectionStrategy.type == InjectorStrategyType.CONSTRUCTOR) {
@@ -40,6 +40,7 @@ namespace minioc.context {
 				instance = instantiator.CreateInstance(type);
 				injectionStrategy.inject(instance, _dependencyResolver, dependencies);
 			}
+			*/
 
 			return instance;
 		}
@@ -64,7 +65,8 @@ namespace minioc.context {
         
 			InjectionStrategy injectionStrategy = getInjectionStrategy(instance.GetType());
 			if (injectionStrategy.type != InjectorStrategyType.CONSTRUCTOR) {
-				injectionStrategy.inject(instance, _dependencyResolver, dependencies);
+				// TODO - pass explicit context
+				injectionStrategy.inject(instance, _dependencyResolver, null);
 			}
 		}
 	}

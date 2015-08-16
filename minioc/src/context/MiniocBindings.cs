@@ -23,6 +23,7 @@ namespace minioc.context {
 			typeBindings.addBinding(impl);
 		}
 
+		// TODO - remove as it seems to be not used
 		public object resolve(Type type, string name, InjectionContext injectionContext) {
 			object obj;
 			bool result = tryResolve(type, name, injectionContext, out obj);
@@ -36,7 +37,7 @@ namespace minioc.context {
 			}
 			return obj;
 		}
-
+			
 		public bool tryResolve(Type type, string name, InjectionContext injectionContext, out object result) {
 			if (type.IsGenericTypeDefinition) {
 				throw new MiniocException("Generic type definitions may not be resolved ! Passed type: "+type);
