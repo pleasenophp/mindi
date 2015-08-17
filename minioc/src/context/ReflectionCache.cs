@@ -32,7 +32,7 @@ namespace minioc.context {
 
 			InjectionStrategy injectionStrategy = tryInjectProperties(type);
 
-			// TODO - add method
+			// TODO - add method injection
 			/*
 			if (injectionStrategy == null) {
 				injectionStrategy = tryInjectMethod(type);

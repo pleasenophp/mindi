@@ -23,21 +23,6 @@ namespace minioc.context {
 			typeBindings.addBinding(impl);
 		}
 
-		// TODO - remove as it seems to be not used
-		public object resolve(Type type, string name, InjectionContext injectionContext) {
-			object obj;
-			bool result = tryResolve(type, name, injectionContext, out obj);
-			if (!result) {
-				if (string.IsNullOrEmpty(name)) {
-					throw new MiniocException(string.Format("No default binding exists for type {0}", type));
-				}
-				else {
-					throw new MiniocException(string.Format("No binding exists for type {0} with name {1}", type, name));
-				}
-			}
-			return obj;
-		}
-			
 		public bool tryResolve(Type type, string name, InjectionContext injectionContext, out object result) {
 			if (type.IsGenericTypeDefinition) {
 				throw new MiniocException("Generic type definitions may not be resolved ! Passed type: "+type);

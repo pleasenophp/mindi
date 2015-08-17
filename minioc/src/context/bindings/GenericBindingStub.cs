@@ -9,25 +9,7 @@ namespace minioc.context.bindings {
 		internal GenericBindingStub(string name) {
 			_name = name;
 		}
-
-		/// <summary>
-		/// Binding will create an instance of type U when resolved
-		/// </summary>
-		/// <typeparam name="U"></typeparam>
-		/// <returns></returns>
-		public IBinding ImplementedBy<U>() where U : T {
-			return new BindingImpl(typeof(T), _name).ImplementedBy<U>();
-		}
-
-		/// <summary>
-		/// Binding will create an instance of given type when resolved.
-		/// Usage of this method is discouraged unless you are already manipulating Type objects
-		/// </summary>
-		/// <param name="type"></param>
-		/// <returns></returns>
-		public IBinding ImplementedBy(Type type) {
-			return new BindingImpl(typeof(T), _name).ImplementedBy(type);
-		}
+			
 
 		/// <summary>
 		/// Binding will return given instance when resolved

@@ -176,13 +176,11 @@ namespace MinDI
  * 
  * v 9.8.2 - Sort factories overload methods, and check that initializer can be just used without interface in the reproduce factory
  *  
- * 9.9) Add a way to pass the manual dependencies to the object (construction dependencies).
- * 		[Injection] - tryes to inject the property from context
- * 		[SoftInjection] - tryes to inject the property from context, but doesn't throw exception if it cannot
+ * v 9.9) Add a way to pass the manual dependencies to the object (construction dependencies).
+ * 		[Injection] - tryes to inject the property from requirement and then from context
+ * 		[SoftInjection] - tryes to inject the property from requirement and then from context, but doesn't throw exception if it cannot
  * 		[Requirement] - tryes to inject the property from the construction expression
  * 		[SoftRequirement] - tries to inject the property from the construction expression, but doesn't throw exception if it cannot
- * 		[RequirementInjection] - first try to inject from construction, then from injection context
- * 		[SoftRequirementInjection] - the same as above, without exception	
  * 
  * 9.9.1) Sort other TODOs
  * 
@@ -230,6 +228,8 @@ namespace MinDI
  * - See how to easily see context of each providing library (context initializers observaton)
  * 
  * - Context profiler feature
+ * 
+ * - Might want to make it possible to inject non-context monobehaviours by adding a service context object near on the GO
  * 
  * - Maybe - IDE built in resolution lookup
  * 

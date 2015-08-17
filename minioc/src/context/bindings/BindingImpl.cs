@@ -52,22 +52,6 @@ namespace minioc.context.bindings {
 			}
 		}
 
-		// TODO - remove and remove TypeInstanceBoundValueProvider
-		public IBinding ImplementedBy<T>() {
-			checkIsValueProviderSet();
-			_valueProvider = new TypeInstanceBoundValueProvider(typeof(T));
-			return this;
-		}
-
-		public IBinding ImplementedBy(Type instanceType) {
-			checkIsValueProviderSet();
-			if (!type.IsAssignableFrom(instanceType)) {
-				throw new MiniocException(string.Format("Type {0} cannot be used as implementation of {1}", instanceType, type));
-			}
-			_valueProvider = new TypeInstanceBoundValueProvider(instanceType);
-			return this;
-		}
-
 		public IBinding ImplementedByInstance(object instance, bool omitTypeCheck = false) {
 			checkIsValueProviderSet();
 			if (!omitTypeCheck && !type.IsInstanceOfType(instance)) {

@@ -73,7 +73,9 @@ namespace minioc.resolution.injection {
 
 
 		private void ControlRemoteObject(object instance, object value, PropertyInfo propertyInfo) {
-			// NOTE - this can be removed if the TODO in MiniocContext is done - so we workaround non-context monobehaviours
+			// Not letting mono behaviours to be injected if they are not IDIClosedContext
+			// (because we cannot control their lifetime)
+
 			if (RemoteObjectsHelper.IsRemoteObject(value) && !(value is IDIClosedContext)) {
 				throw new MiniocException("Injecting a remote object that doesn't implement IDIClosedContext is not allowed ! Tried to inject object "+value+" into property "+propertyInfo.Name+" of the object "+instance);
 			}

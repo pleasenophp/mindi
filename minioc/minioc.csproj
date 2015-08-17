@@ -33,9 +33,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="src\Bindings.cs" />
-    <Compile Include="src\Dependencies.cs" />
     <Compile Include="src\MiniocContext.cs" />
-    <Compile Include="src\MiniocHelper.cs" />
     <Compile Include="src\context\AutoInjectField.cs" />
     <Compile Include="src\context\AutoInjectMember.cs" />
     <Compile Include="src\context\AutoInjectProperty.cs" />
@@ -47,17 +45,7 @@
     <Compile Include="src\context\bindings\GenericBindingStub.cs" />
     <Compile Include="src\misc\MiniocException.cs" />
     <Compile Include="src\resolution\core\InjectionContext.cs" />
-    <Compile Include="src\resolution\dependencies\DependencyStub.cs" />
-    <Compile Include="src\resolution\dependencies\DependencyTarget.cs" />
-    <Compile Include="src\resolution\dependencies\ExplicitDependency.cs" />
-    <Compile Include="src\resolution\dependencies\ExplicitDependencyResolver.cs" />
-    <Compile Include="src\resolution\dependencies\FactoryExplicitDependencyResolver.cs" />
-    <Compile Include="src\resolution\dependencies\NameDependencyTarget.cs" />
-    <Compile Include="src\resolution\dependencies\NamedExplicitDependencyResolver.cs" />
-    <Compile Include="src\resolution\dependencies\TypeDependencyTarget.cs" />
-    <Compile Include="src\resolution\dependencies\ValueExplicitDependencyResolver.cs" />
     <Compile Include="src\resolution\injection\ConstructorInjectionStrategy.cs" />
-    <Compile Include="src\resolution\injection\DependencyResolverHelper.cs" />
     <Compile Include="src\resolution\injection\InjectionStrategy.cs" />
     <Compile Include="src\resolution\injection\InjectorStrategyType.cs" />
     <Compile Include="src\resolution\injection\MethodInjectionStrategy.cs" />
@@ -70,7 +58,6 @@
     <Compile Include="src\resolution\lifecylcle\providers\BoundValueProviderNotSet.cs" />
     <Compile Include="src\resolution\lifecylcle\providers\ExplicitValueProvider.cs" />
     <Compile Include="src\resolution\lifecylcle\providers\FactoryValueProvider.cs" />
-    <Compile Include="src\resolution\lifecylcle\providers\TypeInstanceBoundValueProvider.cs" />
     <Compile Include="src\resolution\injection\PrimitiveInjectionStrategy.cs" />
     <Compile Include="src\context\bindings\GenericTypeResolver.cs" />
   </ItemGroup>
