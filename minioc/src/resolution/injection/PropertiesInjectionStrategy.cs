@@ -44,7 +44,7 @@ namespace minioc.resolution.injection {
 			}
 
 			if (value == null && order == ResolutionOrder.FirstExplicitThanContext) {
-				value = resolver.TryResolve(type); 
+				value = resolver.TryResolve(type, null, false); 
 			}
 
 			if (value == null) {
@@ -57,12 +57,10 @@ namespace minioc.resolution.injection {
 		}
 
 		private object TryResolveExplicitDependency(Type type, string name, IDependencyResolver explicitResolver) {
-			// First try to resolve with the name of property
-			object value = explicitResolver.TryResolve(type, name);
-
-			// Then try resolve by type
+			// First try to resolve property-named, and then default
+			object value = explicitResolver.TryResolve(type, name, true);
 			if (value == null) {
-				value = explicitResolver.TryResolve(type);
+				value = explicitResolver.TryResolve(type, null, true);
 			}
 
 			return value;

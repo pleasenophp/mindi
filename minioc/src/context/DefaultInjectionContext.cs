@@ -6,6 +6,7 @@ using minioc.resolution.injection;
 using minioc.resolution.instantiator;
 using minioc.resolution.core;
 using MinDI;
+using MinDI.Resolution;
 
 namespace minioc.context {
 	internal class DefaultInjectionContext : InjectionContext {
@@ -21,6 +22,7 @@ namespace minioc.context {
 			return _reflectionCache.getInjectorStrategy(type);
 		}
 
+		// TODO - check if we need to remove it - if type instance bound value provider should be removed
 		// TODO - check the dependencies don't need to be passed here
 		public object createInstance(Type type, Instantiator instantiator, IList<IDependency> dependencies) {
 			InjectionStrategy injectionStrategy = getInjectionStrategy(type);
@@ -45,28 +47,14 @@ namespace minioc.context {
 			return instance;
 		}
 
-		public void injectDependencies(object instance, IList<IDependency> dependencies) {
+		public void injectDependencies(object instance, IConstruction construction) {
 			if (instance == null) {
 				throw new MiniocException("Cannot inject dependencies on null value");
 			}
-		
-			// Auto inject feature is removed, as it is implemented better in MinDI
-			/*
-			IEnumerable<AutoInjectMember> autoInjectMembers = _reflectionCache.getAutoInjectMembers(instance.GetType());
-			foreach (AutoInjectMember autoInjectMember in autoInjectMembers) {
-				try {
-					injectDependencies(autoInjectMember.getValue(instance), dependencies);
-				}
-				catch (Exception e) {
-					throw new MiniocException("Unable to inject dependencies on " + autoInjectMember, e);
-				}
-			}
-			*/
         
 			InjectionStrategy injectionStrategy = getInjectionStrategy(instance.GetType());
 			if (injectionStrategy.type != InjectorStrategyType.CONSTRUCTOR) {
-				// TODO - pass explicit context
-				injectionStrategy.inject(instance, _dependencyResolver, null);
+				injectionStrategy.inject(instance, _dependencyResolver, construction!=null?construction.GetExplicitContext():null);
 			}
 		}
 	}

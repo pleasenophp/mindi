@@ -9,6 +9,7 @@ using MinDI;
 // using UnityEngine;
 using MinDI.StateObjects;
 using MinDI.Introspection;
+using MinDI.Resolution;
 
 namespace minioc
 {
@@ -58,39 +59,45 @@ namespace minioc
 			_bindings.add (impl);
 		}
 
-
-		/// <summary>
-		/// Returns the value bound to type T
-		/// Throws a MiniocException if not bound
-		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <returns></returns>
-		public T Resolve<T> (bool omitInjectDependencies = false)
-		{
-			return (T)Resolve (typeof(T), null, omitInjectDependencies);
-		}
-
-		/// <summary>
-		/// Returns the value bound to type T and with given name
-		/// Throws a MiniocException if not bound
-		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <returns></returns>
-		public T Resolve<T> (string name, bool omitInjectDependencies = false)
-		{
-			return (T)Resolve (typeof(T), name, omitInjectDependencies);
+		public T Resolve<T> (string name = null) {
+			return (T)Resolve(typeof(T), name, null, false);
 		}
 			
+		public T Resolve<T> (IConstruction construction, string name = null) {
+			return (T)Resolve(typeof(T), name, construction, false);
+		}
+
+		public object Resolve (Type type, string name=null) {
+			return Resolve(type, name, null, false);
+		}
+
+
+		public object Resolve (Type type, IConstruction construction) {
+			return Resolve(type, null, construction, false);
+		}
+
+		public object Resolve (Type type, IConstruction construction, string name) {
+			return Resolve(type, name, construction, false);
+		}
+
+		object IDependencyResolver.Resolve(Type type, string name, bool omitInjectDependencies) {
+			return Resolve(type, name, null, omitInjectDependencies);
+		}
+
+		object IDependencyResolver.TryResolve(Type type, string name, bool omitInjectDependencies) {
+			return TryResolve(type, name, null, omitInjectDependencies);
+		}
+	
 		/// <summary>
 		/// Returns the value bound to given type and with given name
 		/// Throws a MiniocException if not bound
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
 		/// <returns></returns>
-		public object Resolve (Type type, string name=null, bool omitInjectDependencies = false)
+		public object Resolve (Type type, string name, IConstruction construction, bool omitInjectDependencies)
 		{
 			lock (locker) {
-				object result = ResolveInternal(type, name, omitInjectDependencies);
+				object result = ResolveInternal(type, name, construction, omitInjectDependencies);
 				if (result == null) {
 					throw new MiniocException(string.Format("Unable to resolve instance of '{0}' named '{1}'", type, name));
 				}
@@ -98,9 +105,9 @@ namespace minioc
 			}
 		}
 
-		public object TryResolve(Type type, string name=null, bool omitInjectDependencies = false) {
+		public object TryResolve(Type type, string name, IConstruction construction, bool omitInjectDependencies) {
 			lock (locker) {
-				return ResolveInternal(type, name, omitInjectDependencies);
+				return ResolveInternal(type, name, construction, omitInjectDependencies);
 			}
 		}
 
@@ -130,10 +137,10 @@ namespace minioc
 		/// </summary>
 		/// <param name="instance"></param>
 		/// <param name="dependencies"></param>
-		public void InjectDependencies (object instance, IList<IDependency> dependencies = null)
+		public void InjectDependencies (object instance, IConstruction construction = null)
 		{
 			lock (locker) {
-				InjectDependenciesInternal(instance, dependencies);
+				InjectDependenciesInternal(instance, construction);
 			}
 		}
 			
@@ -152,12 +159,12 @@ namespace minioc
 			}
 		}
 			
-		private object ResolveInternal(Type type, string name=null, bool omitInjectDependencies = false)
+		private object ResolveInternal(Type type, string name, IConstruction construction, bool omitInjectDependencies)
 		{
 			object result;
 			if (!_bindings.tryResolve(type, name, _injectionContext, out result)) {
 				if (_parentContext != null) {
-					result = _parentContext.TryResolve(type, name, true);
+					result = _parentContext.TryResolve(type, name, construction, true);
 				}
 			}
 
@@ -166,12 +173,12 @@ namespace minioc
 			}
 
 			if (!omitInjectDependencies) {
-				this.InjectDependenciesInternal(result);
+				this.InjectDependenciesInternal(result, construction);
 			}
 			return result;
 		}
 
-		private void InjectDependenciesInternal (object instance, IList<IDependency> dependencies = null)
+		private void InjectDependenciesInternal (object instance, IConstruction construction)
 		{
 			if (instance == null) {
 				return;
@@ -194,13 +201,13 @@ namespace minioc
 
 			// If this instance is concrete on another layer, we inject dependencies on its own layer only, to avoid subjectivization
 			if (descriptor.instantiationType == InstantiationType.Concrete && descriptor.context != this) {
-				descriptor.context.InjectDependencies(instance, dependencies);
+				descriptor.context.InjectDependencies(instance, construction);
 				return;
 			}
 
 			if (stateInstance.diState == DIState.NotResolved) {
 				stateInstance.diState = DIState.Resolving;
-				_injectionContext.injectDependencies(instance, dependencies);
+				_injectionContext.injectDependencies(instance, construction);
 				RegisterRemoteObject(instance);
 				stateInstance.AfterInjection();
 				stateInstance.diState = DIState.Resolved;
@@ -209,13 +216,13 @@ namespace minioc
 			
 		private void RegisterRemoteObject(object instance, bool hashOnly = false) {
 			if (RemoteObjectsHelper.IsRemoteObject(instance)) {
-				IRemoteObjectsRecord remoteRecord = (IRemoteObjectsRecord)this.ResolveInternal(typeof(IRemoteObjectsRecord), null, false);
+				IRemoteObjectsRecord remoteRecord = (IRemoteObjectsRecord)this.ResolveInternal(typeof(IRemoteObjectsRecord), null, null, false);
 
 				if (!hashOnly) {
 					remoteRecord.Register(instance);
 				}
 				else {
-					IRemoteObjectsHash hash = (IRemoteObjectsHash)this.ResolveInternal(typeof(IRemoteObjectsHash), null, false);
+					IRemoteObjectsHash hash = (IRemoteObjectsHash)this.ResolveInternal(typeof(IRemoteObjectsHash), null, null, false);
 					hash.Register(instance);
 				}
 			}

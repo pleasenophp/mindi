@@ -65,6 +65,8 @@
     <Compile Include="helpers\BindingName.cs" />
     <Compile Include="Interfaces\context\ICustomContextInitializer.cs" />
     <Compile Include="attributes\ResolutionOrder.cs" />
+    <Compile Include="Interfaces\IConstruction.cs" />
+    <Compile Include="Interfaces\context\IDependencyResolver.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

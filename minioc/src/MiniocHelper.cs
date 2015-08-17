@@ -6,6 +6,8 @@ using minioc.resolution.instantiator;
 using MinDI;
 
 namespace minioc {
+
+	// TODO - remove
 	public class MiniocHelper {
 		private MiniocContext _context;
 
