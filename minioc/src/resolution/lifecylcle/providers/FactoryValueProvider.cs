@@ -20,7 +20,7 @@ internal class FactoryValueProvider : BoundValueProvider {
         throw new MiniocException("Instantiator cannot be set on factory value");
     }
 
-    public object createInstance(InjectionContext injectionContext, List<IDependency> dependencies) {
+    public object createInstance(InjectionContext injectionContext) {
         return _factory();
     }
 }

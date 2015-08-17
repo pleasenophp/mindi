@@ -14,14 +14,6 @@ namespace MinDI {
 		IBinding InstanciatedBy(Instantiator instantiator);
 
 		/// <summary>
-		/// Add a dependency
-		/// </summary>
-		/// <param name="dependency"></param>
-		/// <returns></returns>
-		IBinding DependsOn(IDependency dependency);
-
-
-		/// <summary>
 		/// Sets the descriptor parameters for the introspection.
 		/// </summary>
 		/// <returns>The descriptor.</returns>

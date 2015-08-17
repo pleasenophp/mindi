@@ -5,6 +5,6 @@ using MinDI;
 
 namespace minioc.resolution.lifecycle {
 	internal interface BoundInstanceFactory {
-		object getInstance(List<IDependency> dependencies, InjectionContext injectionContext);
+		object getInstance(InjectionContext injectionContext);
 	}
 }

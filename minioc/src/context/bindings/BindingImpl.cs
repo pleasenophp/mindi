@@ -34,9 +34,6 @@ namespace minioc.context.bindings {
 
 		private BoundInstanceFactory _boundInstanceFactory;
 
-		private List<IDependency> _dependencies = new List<IDependency>();
-
-
 		public BindingImpl(Type type, string name) {
 			this.type = type;
 			this.descriptor = new BindingDescriptor();
@@ -44,7 +41,6 @@ namespace minioc.context.bindings {
 		}
 
 		public void InitFromGeneric(BindingImpl genericBinding, Func<object> factory) {
-			this._dependencies = genericBinding._dependencies;
 			this.descriptor.InitFromGeneric(genericBinding.descriptor, factory);
 			this.ImplementedBy(factory);
 			if (this.descriptor.instantiationType == InstantiationType.Concrete) {
@@ -100,11 +96,6 @@ namespace minioc.context.bindings {
 			return this;
 		}
 
-		public IBinding DependsOn(IDependency dependency) {
-			_dependencies.Add(dependency);
-			return this;
-		}
-
 		public IBinding MakeDefault() {
 			descriptor.isDefault = true;
 			return this;
@@ -122,7 +113,7 @@ namespace minioc.context.bindings {
 				}
 			}
 
-			object instance = _boundInstanceFactory.getInstance(_dependencies, injectionContext);
+			object instance = _boundInstanceFactory.getInstance(injectionContext);
 
 			IDIClosedContext mindiInstance = instance as IDIClosedContext;
 			if (mindiInstance != null) {

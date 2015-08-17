@@ -5,11 +5,13 @@ using minioc.resolution.core;
 using MinDI;
 
 namespace minioc.resolution.lifecycle.providers {
+
+	// TODO - remove if not used
 	internal interface BoundValueProvider {
 		bool isSet { get; }
 
 		void setInstantiator(Instantiator instantiator);
 
-		object createInstance(InjectionContext injectionContext, List<IDependency> dependencies);
+		object createInstance(InjectionContext injectionContext);
 	}
 }

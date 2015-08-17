@@ -5,6 +5,8 @@ using minioc.resolution.core;
 using MinDI;
 
 namespace minioc.resolution.lifecycle {
+
+// TODO - fix to support multiple singlrtones, and remove dependencies
 internal class SingletonFactory : BoundInstanceFactory {
     private BoundValueProvider _boundValueProvider;
     private object _instance;
@@ -13,11 +15,11 @@ internal class SingletonFactory : BoundInstanceFactory {
         _boundValueProvider = boundValueProvider;
     }
 
-    public object getInstance(List<IDependency> dependencies, InjectionContext injectionContext) {
+    public object getInstance(InjectionContext injectionContext) {
         if (_instance != null) {
             return _instance;
         }
-        _instance = _boundValueProvider.createInstance(injectionContext, dependencies);
+        _instance = _boundValueProvider.createInstance(injectionContext);
         return _instance;
     }
 }

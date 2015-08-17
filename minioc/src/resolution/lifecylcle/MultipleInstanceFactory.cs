@@ -12,8 +12,8 @@ internal class MultipleInstanceFactory : BoundInstanceFactory {
         _boundValueProvider = boundValueProvider;
     }
 
-    public object getInstance(List<IDependency> dependencies, InjectionContext injectionContext) {
-        return _boundValueProvider.createInstance(injectionContext, dependencies);
+    public object getInstance(InjectionContext injectionContext) {
+        return _boundValueProvider.createInstance(injectionContext);
     }
 }
 }

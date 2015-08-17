@@ -34,9 +34,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="src\Bindings.cs" />
     <Compile Include="src\MiniocContext.cs" />
-    <Compile Include="src\context\AutoInjectField.cs" />
-    <Compile Include="src\context\AutoInjectMember.cs" />
-    <Compile Include="src\context\AutoInjectProperty.cs" />
     <Compile Include="src\context\DefaultInjectionContext.cs" />
     <Compile Include="src\context\MiniocBindings.cs" />
     <Compile Include="src\context\ReflectionCache.cs" />

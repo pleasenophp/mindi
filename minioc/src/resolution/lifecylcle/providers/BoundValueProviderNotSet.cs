@@ -7,6 +7,8 @@ using minioc.resolution.core;
 using MinDI;
 
 namespace minioc.resolution.lifecycle.providers {
+
+// TODO - remove if not used
 internal class BoundValueProviderNotSet : BoundValueProvider {
     public static readonly BoundValueProviderNotSet INSTANCE = new BoundValueProviderNotSet();
     public bool isSet { get { return false; } }
@@ -14,7 +16,7 @@ internal class BoundValueProviderNotSet : BoundValueProvider {
         throw new MiniocException("Cannot set Instantiator when no implementation is set");
     }
 
-    public object createInstance(InjectionContext injectionContext, List<IDependency> dependencies) {
+    public object createInstance(InjectionContext injectionContext) {
         throw new NotImplementedException();
     }
 
