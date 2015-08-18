@@ -165,6 +165,21 @@ namespace MinDI.Tests
 		}
 
 		[Test]
+		public void TestTypelessRequirement() {
+			IDIContext context = ContextHelper.CreateContext();
+			context.s().Bind<IMyClass>(()=>new MyClassRequirement());
+
+			IMyClass obj = context.Resolve<IMyClass>(() => Construction
+				.For("orange", new Orange())
+				.And("apple", new Apple())
+			);
+
+			Assert.That(obj.orange is Orange);
+			Assert.That(obj.apple is Apple);
+		}
+
+
+		[Test]
 		public void TestSoftRequirement() {
 			IDIContext context = ContextHelper.CreateContext();
 			context.s().Bind<IMyClass>(()=>new MyClassSoftRequirement());
