@@ -9,6 +9,7 @@ using MinDI.StateObjects;
 using MinDI.Introspection;
 using MinDI.Factories;
 using System.Collections.Generic;
+using MinDI.Resolution;
 
 
 namespace MinDI {
@@ -29,7 +30,20 @@ namespace MinDI {
 		protected virtual void InitNewContext(IDIContext context) {
 		}
 
-		protected T CreateInstance(string bindingName = null, Action<IDIContext> customContextInitializer = null) {
+		protected T CreateInstance(Action<IDIContext> customContextInitializer) {
+			return CreateInstance(null, customContextInitializer, null);
+		}
+
+		protected T CreateInstance(Func<IConstruction> construction) {
+			return CreateInstance(null, null, construction);
+		}
+
+		protected T CreateInstance(Action<IDIContext> customContextInitializer, Func<IConstruction> construction) {
+			return CreateInstance(null, customContextInitializer, construction);
+		}
+			
+
+		protected T CreateInstance(string bindingName = null, Action<IDIContext> customContextInitializer = null, Func<IConstruction> construction = null) {
 			IDIContext newContext = this.context;
 			if (environment == ContextEnvironment.RemoteObjects || ForceNewContext()) {
 				newContext = newContext.Reproduce();
@@ -45,12 +59,12 @@ namespace MinDI {
 				BindObjectsRecord(newContext);
 			}
 
-			T instance = CreateObjectInternal(newContext, bindingName);
+			T instance = CreateObjectInternal(newContext, bindingName, construction);
 			return instance;
 		}
 			
-		private T CreateObjectInternal(IDIContext context, string name) {
-			T instance = context.Resolve<T>(name);
+		private T CreateObjectInternal(IDIContext context, string name, Func<IConstruction> construction) {
+			T instance = context.Resolve<T>(construction, name);
 			VerifyObjectCreation(name, instance, context);
 
 			if (environment == ContextEnvironment.RemoteObjects) {
