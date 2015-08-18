@@ -134,8 +134,8 @@ namespace MinDI.Tests
 			IDIContext context = ContextHelper.CreateContext();
 			context.s().Bind<IMyClass>(()=>new MyClass());
 
-			IMyClass obj = context.Resolve<IMyClass>(
-				Construction.For<IOrange>(new Orange()).And<IApple>(new Apple()));
+			IMyClass obj = context.Resolve<IMyClass>(() => Construction
+				.For<IOrange>(new Orange()).And<IApple>(new Apple()));
 			
 			Assert.That(obj.orange is Orange);
 			Assert.That(obj.apple is Apple);
@@ -156,8 +156,8 @@ namespace MinDI.Tests
 			IDIContext context = ContextHelper.CreateContext();
 			context.s().Bind<IMyClass>(()=>new MyClassRequirement());
 
-			IMyClass obj = context.Resolve<IMyClass>(
-				Construction.For<IOrange>(new Orange()).And<IApple>(new Apple())
+			IMyClass obj = context.Resolve<IMyClass>(() => Construction
+				.For<IOrange>(new Orange()).And<IApple>(new Apple())
 			);
 
 			Assert.That(obj.orange is Orange);
@@ -169,8 +169,8 @@ namespace MinDI.Tests
 			IDIContext context = ContextHelper.CreateContext();
 			context.s().Bind<IMyClass>(()=>new MyClassSoftRequirement());
 
-			IMyClass obj = context.Resolve<IMyClass>(
-				Construction.For<IApple>(new Apple())
+			IMyClass obj = context.Resolve<IMyClass>(() => Construction
+				.For<IApple>(new Apple())
 			);
 				
 			Assert.That(obj.apple is Apple);
@@ -184,8 +184,8 @@ namespace MinDI.Tests
 			context.m().Bind<IOrange>(()=>new Orange());
 			context.m().Bind<IApple>(()=>new Apple());
 
-			IMyClass obj = context.Resolve<IMyClass>(
-				Construction.For<IApple>(new DefaultApple())
+			IMyClass obj = context.Resolve<IMyClass>(() => Construction
+				.For<IApple>(new DefaultApple())
 			);
 
 			Assert.That(obj.orange is Orange);
@@ -197,8 +197,8 @@ namespace MinDI.Tests
 			IDIContext context = ContextHelper.CreateContext();
 			context.m().Bind<IMyOtherClass>(()=>new MyClassSameTypeRequirements());
 
-			IMyOtherClass obj = context.Resolve<IMyOtherClass>(
-				Construction.For<IOrange>(new Orange()).And<IApple>(new Apple())
+			IMyOtherClass obj = context.Resolve<IMyOtherClass>(() => Construction
+				.For<IOrange>(new Orange()).And<IApple>(new Apple())
 			);
 
 			Assert.That(obj.orange is Orange);
@@ -206,8 +206,8 @@ namespace MinDI.Tests
 			Assert.AreSame(obj.orange, obj.anotherOrange);
 			Assert.That(obj.apple is Apple);
 
-			obj = context.Resolve<IMyOtherClass>(
-				Construction.For<IOrange>(new Orange(), "orange").And<IApple>(new Apple())
+			obj = context.Resolve<IMyOtherClass>(() => Construction
+				.For<IOrange>(new Orange(), "orange").And<IApple>(new Apple())
 				.And<IOrange>(new DefaultOrange(), "anotherOrange")
 			);
 

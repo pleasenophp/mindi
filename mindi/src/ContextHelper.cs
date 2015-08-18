@@ -20,13 +20,9 @@ namespace MinDI {
 			return context;
 		}
 			
-		/// <summary>
-		/// Resolve an interface from the specified context with casting it to the instance.
-		/// Can be usefull for the builders and factories
-		/// </summary>
-		/// <param name="context">Context.</param>
-		/// <typeparam name="TInterface">The 1st type parameter.</typeparam>
-		/// <typeparam name="TInstance">The 2nd type parameter.</typeparam>
+
+		// TODO - remove
+		[Obsolete]
 		public static TInstance Resolve<TInterface, TInstance>(this IDIContext context, string name = null) 
 			where TInterface : class
 			where TInstance : class, TInterface 

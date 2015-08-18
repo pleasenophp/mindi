@@ -34,11 +34,11 @@ namespace MinDI.Tests
 
 			context.m().Bind<IMyClass>(() => new MyClass());
 
-			MyClass obj1 = context.Resolve<IMyClass, MyClass>();
+			MyClass obj1 = context.Resolve<IMyClass>() as MyClass;
 			Assert.That(obj1.factory is ContextFactory<IOtherClass>);
 			Assert.That(obj1.chainFactory is ReproduceContextFactory<IOtherClass, IGlobalContextInitializer>);
 
-			MyClass obj2 = context.Resolve<IMyClass, MyClass>();
+			MyClass obj2 = context.Resolve<IMyClass>() as MyClass;
 			Assert.That(obj2.factory is ContextFactory<IOtherClass>);
 			Assert.That(obj2.chainFactory is ReproduceContextFactory<IOtherClass, IGlobalContextInitializer>);
 
@@ -56,7 +56,7 @@ namespace MinDI.Tests
 			IDIContext childContext = ContextHelper.CreateContext(context);
 			childContext.m().Bind<IMyClass>(() => new MyClass());
 
-			MyClass obj1 = childContext.Resolve<IMyClass, MyClass>();
+			MyClass obj1 = childContext.Resolve<IMyClass>() as MyClass;
 			Assert.That(obj1.factory is ContextFactory<IOtherClass>);
 			Assert.That(obj1.chainFactory is ReproduceContextFactory<IOtherClass, IGlobalContextInitializer>);
 		}
@@ -72,11 +72,11 @@ namespace MinDI.Tests
 			childContext.m().Bind<IMyClass>(() => new MyClass());
 			childContext.s().Rebind<IDIFactory<IOtherClass>>();
 
-			MyClass obj1 = childContext.Resolve<IMyClass, MyClass>();
+			MyClass obj1 = childContext.Resolve<IMyClass>() as MyClass;
 			Assert.That(obj1.factory is ContextFactory<IOtherClass>);
 			Assert.That(obj1.chainFactory is ReproduceContextFactory<IOtherClass, IGlobalContextInitializer>);
 
-			MyClass obj2 = childContext.Resolve<IMyClass, MyClass>();
+			MyClass obj2 = childContext.Resolve<IMyClass>() as MyClass;
 			Assert.That(obj2.factory is ContextFactory<IOtherClass>);
 			Assert.That(obj2.chainFactory is ReproduceContextFactory<IOtherClass, IGlobalContextInitializer>);
 
@@ -109,11 +109,11 @@ namespace MinDI.Tests
 			context.s().BindGeneric(typeof(IDIRFactory<,>), typeof(ReproduceContextFactory<,>));
 			context.m().Bind<IMyClass>(() => new MyClass());
 
-			MyClass obj1 = context.Resolve<IMyClass, MyClass>();
+			MyClass obj1 = context.Resolve<IMyClass>() as MyClass;
 			Assert.That(obj1.factory is ContextFactory<IOtherClass>);
 			Assert.That(obj1.chainFactory is ReproduceContextFactory<IOtherClass, IGlobalContextInitializer>);
 
-			MyClass obj2 = context.Resolve<IMyClass, MyClass>();
+			MyClass obj2 = context.Resolve<IMyClass>() as MyClass;
 			Assert.That(obj2.factory is ContextFactory<IOtherClass>);
 			Assert.That(obj2.chainFactory is ReproduceContextFactory<IOtherClass, IGlobalContextInitializer>);
 

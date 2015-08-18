@@ -24,10 +24,10 @@ namespace MinDI.Tests
 
 			context.m().Bind<IApple>(() => new Apple());
 
-			Apple appleInstance = context.Resolve<IApple, Apple>(null);
+			IApple appleInstance = context.Resolve<IApple>(null);
 			Assert.IsNotNull(appleInstance);
 
-			appleInstance = context.Resolve<IApple, Apple>("");
+			appleInstance = context.Resolve<IApple>("");
 			Assert.IsNotNull(appleInstance);
 		}
     }

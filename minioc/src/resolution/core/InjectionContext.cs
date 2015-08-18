@@ -7,6 +7,6 @@ using MinDI.Resolution;
 
 namespace minioc.resolution.core {
 	internal interface InjectionContext {
-		void injectDependencies(object instance, IConstruction construction);
+		void injectDependencies(object instance, Func<IConstruction> construction);
 	}
 }

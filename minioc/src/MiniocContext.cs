@@ -6,7 +6,6 @@ using minioc.misc;
 using minioc.resolution.core;
 using minioc.resolution.dependencies;
 using MinDI;
-// using UnityEngine;
 using MinDI.StateObjects;
 using MinDI.Introspection;
 using MinDI.Resolution;
@@ -19,13 +18,6 @@ namespace minioc
 		private MiniocContext _parentContext;
 
 		private object locker = new object();
-
-		/*
-		~MiniocContext ()
-		{
-			Debug.LogWarning ("DESTROYED CONTEXT: " + name);
-		}
-		*/
 
 		public MiniocContext () : this(null, null)
 		{
@@ -44,7 +36,6 @@ namespace minioc
 			_parentContext = parentContext as MiniocContext;
 			this.name = name;
 			_injectionContext = new DefaultInjectionContext (new ReflectionCache (), this);
-			// Debug.LogWarning ("CREATED CONTEXT: " + name);
 		}
 
 
@@ -63,7 +54,7 @@ namespace minioc
 			return (T)Resolve(typeof(T), name, null, false);
 		}
 			
-		public T Resolve<T> (IConstruction construction, string name = null) {
+		public T Resolve<T> (Func<IConstruction> construction, string name = null) {
 			return (T)Resolve(typeof(T), name, construction, false);
 		}
 
@@ -72,11 +63,11 @@ namespace minioc
 		}
 
 
-		public object Resolve (Type type, IConstruction construction) {
+		public object Resolve (Type type, Func<IConstruction> construction) {
 			return Resolve(type, null, construction, false);
 		}
 
-		public object Resolve (Type type, IConstruction construction, string name) {
+		public object Resolve (Type type, Func<IConstruction> construction, string name) {
 			return Resolve(type, name, construction, false);
 		}
 
@@ -94,7 +85,7 @@ namespace minioc
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
 		/// <returns></returns>
-		public object Resolve (Type type, string name, IConstruction construction, bool omitInjectDependencies)
+		public object Resolve (Type type, string name, Func<IConstruction> construction, bool omitInjectDependencies)
 		{
 			lock (locker) {
 				object result = ResolveInternal(type, name, construction, omitInjectDependencies);
@@ -105,7 +96,7 @@ namespace minioc
 			}
 		}
 
-		public object TryResolve(Type type, string name, IConstruction construction, bool omitInjectDependencies) {
+		public object TryResolve(Type type, string name, Func<IConstruction> construction, bool omitInjectDependencies) {
 			lock (locker) {
 				return ResolveInternal(type, name, construction, omitInjectDependencies);
 			}
@@ -137,7 +128,7 @@ namespace minioc
 		/// </summary>
 		/// <param name="instance"></param>
 		/// <param name="dependencies"></param>
-		public void InjectDependencies (object instance, IConstruction construction = null)
+		public void InjectDependencies (object instance, Func<IConstruction> construction = null)
 		{
 			lock (locker) {
 				InjectDependenciesInternal(instance, construction);
@@ -159,7 +150,7 @@ namespace minioc
 			}
 		}
 			
-		private object ResolveInternal(Type type, string name, IConstruction construction, bool omitInjectDependencies)
+		private object ResolveInternal(Type type, string name, Func<IConstruction> construction, bool omitInjectDependencies)
 		{
 			object result;
 			if (!_bindings.tryResolve(type, name, _injectionContext, out result)) {
@@ -178,7 +169,7 @@ namespace minioc
 			return result;
 		}
 
-		private void InjectDependenciesInternal (object instance, IConstruction construction)
+		private void InjectDependenciesInternal (object instance, Func<IConstruction> construction)
 		{
 			if (instance == null) {
 				return;

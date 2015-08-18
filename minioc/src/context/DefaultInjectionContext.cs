@@ -22,14 +22,14 @@ namespace minioc.context {
 			return _reflectionCache.getInjectorStrategy(type);
 		}
 
-		public void injectDependencies(object instance, IConstruction construction) {
+		public void injectDependencies(object instance, Func<IConstruction> construction) {
 			if (instance == null) {
 				throw new MiniocException("Cannot inject dependencies on null value");
 			}
         
 			InjectionStrategy injectionStrategy = getInjectionStrategy(instance.GetType());
 			if (injectionStrategy.type != InjectorStrategyType.CONSTRUCTOR) {
-				injectionStrategy.inject(instance, _dependencyResolver, construction!=null?construction.GetExplicitContext():null);
+				injectionStrategy.inject(instance, _dependencyResolver, construction!=null?construction().GetExplicitContext():null);
 			}
 		}
 	}
