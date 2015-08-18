@@ -207,8 +207,8 @@ namespace MinDI.Tests
 			Assert.That(obj.apple is Apple);
 
 			obj = context.Resolve<IMyOtherClass>(() => Construction
-				.For<IOrange>(new Orange(), "orange").And<IApple>(new Apple())
-				.And<IOrange>(new DefaultOrange(), "anotherOrange")
+				.For<IOrange>("orange", new Orange()).And<IApple>(new Apple())
+				.And<IOrange>("anotherOrange", new DefaultOrange())
 			);
 
 			Assert.That(obj.orange is Orange);

@@ -57,8 +57,15 @@ namespace minioc.resolution.injection {
 		}
 
 		private object TryResolveExplicitDependency(Type type, string name, IDependencyResolver explicitResolver) {
-			// First try to resolve property-named, and then default
+			// First try to resolve property-named
 			object value = explicitResolver.TryResolve(type, name, true);
+
+			// Then resolve typeless property-named
+			if (value == null) {
+				value = explicitResolver.TryResolve(typeof(object), name, true);
+			}
+
+			// Then resolve typed default
 			if (value == null) {
 				value = explicitResolver.TryResolve(type, null, true);
 			}

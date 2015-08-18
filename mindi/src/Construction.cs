@@ -11,13 +11,32 @@ namespace MinDI {
 			explicitContext = ContextHelper.CreateContext();
 		}
 
-		public static Construction For<T>(T instance, string name = null) {
+		public static Construction For<T>(T instance) {
+			return For<T>(null, instance);
+		}
+
+		public static Construction For<T>(string name, T instance) {
 			Construction construction = new Construction();
 			construction.explicitContext.s().BindInstance<T>(instance, name);
 			return construction;
 		}
 
-		public Construction And<T>(T instance, string name = null) {
+		public static Construction For(string name, object instance) {
+			Construction construction = new Construction();
+			construction.explicitContext.s().BindInstance<object>(instance, name);
+			return construction;
+		}
+
+		public Construction And<T>(T instance) {
+			return And<T>(null, instance);
+		}
+
+		public Construction And(string name, object instance) {
+			this.explicitContext.s().BindInstance<object>(instance, name);
+			return this;
+		}
+
+		public Construction And<T>(string name, T instance) {
 			this.explicitContext.s().BindInstance<T>(instance, name);
 			return this;
 		}
