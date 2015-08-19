@@ -135,7 +135,7 @@ namespace MinDI.Tests
 			context.s().Bind<IMyClass>(()=>new MyClass());
 
 			IMyClass obj = context.Resolve<IMyClass>(() => Construction
-				.For<IOrange>(new Orange()).And<IApple>(new Apple()));
+				.ForType<IOrange>(new Orange()).AndType<IApple>(new Apple()));
 			
 			Assert.That(obj.orange is Orange);
 			Assert.That(obj.apple is Apple);
@@ -157,7 +157,7 @@ namespace MinDI.Tests
 			context.s().Bind<IMyClass>(()=>new MyClassRequirement());
 
 			IMyClass obj = context.Resolve<IMyClass>(() => Construction
-				.For<IOrange>(new Orange()).And<IApple>(new Apple())
+				.ForType<IOrange>(new Orange()).AndType<IApple>(new Apple())
 			);
 
 			Assert.That(obj.orange is Orange);
@@ -185,7 +185,7 @@ namespace MinDI.Tests
 			context.s().Bind<IMyClass>(()=>new MyClassSoftRequirement());
 
 			IMyClass obj = context.Resolve<IMyClass>(() => Construction
-				.For<IApple>(new Apple())
+				.ForType<IApple>(new Apple())
 			);
 				
 			Assert.That(obj.apple is Apple);
@@ -200,7 +200,7 @@ namespace MinDI.Tests
 			context.m().Bind<IApple>(()=>new Apple());
 
 			IMyClass obj = context.Resolve<IMyClass>(() => Construction
-				.For<IApple>(new DefaultApple())
+				.ForType<IApple>(new DefaultApple())
 			);
 
 			Assert.That(obj.orange is Orange);
@@ -213,7 +213,7 @@ namespace MinDI.Tests
 			context.m().Bind<IMyOtherClass>(()=>new MyClassSameTypeRequirements());
 
 			IMyOtherClass obj = context.Resolve<IMyOtherClass>(() => Construction
-				.For<IOrange>(new Orange()).And<IApple>(new Apple())
+				.ForType<IOrange>(new Orange()).AndType<IApple>(new Apple())
 			);
 
 			Assert.That(obj.orange is Orange);
@@ -222,8 +222,8 @@ namespace MinDI.Tests
 			Assert.That(obj.apple is Apple);
 
 			obj = context.Resolve<IMyOtherClass>(() => Construction
-				.For<IOrange>("orange", new Orange()).And<IApple>(new Apple())
-				.And<IOrange>("anotherOrange", new DefaultOrange())
+				.ForType<IOrange>("orange", new Orange()).AndType<IApple>(new Apple())
+				.AndType<IOrange>("anotherOrange", new DefaultOrange())
 			);
 
 			Assert.That(obj.orange is Orange);
