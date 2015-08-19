@@ -4,6 +4,7 @@ using System.Threading;
 using NUnit.Framework;
 using UnityEngine;
 using minioc.misc;
+using minioc;
 
 namespace MinDI.Tests
 {
@@ -140,6 +141,21 @@ namespace MinDI.Tests
 			Assert.That(obj.orange is Orange);
 			Assert.That(obj.apple is Apple);
 		}
+
+		[Test]
+		public void TestConstructorContextRestricted() {
+			IDIContext context = ContextHelper.CreateContext();
+			context.s().Bind<IMyClass>(()=>new MyClass());
+
+			Assert.Catch<MiniocException>(() => {
+				context.Resolve<IMyClass>(() => Construction
+					.ForType<IOrange>(new Orange())
+					.AndType<IApple>(new Apple())
+					.AndType<IDIContext>(new MiniocContext())
+				);	
+			});
+		}
+
 
 		[Test]
 		public void TestRequirementError() {

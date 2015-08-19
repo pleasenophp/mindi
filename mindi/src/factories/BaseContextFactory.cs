@@ -30,20 +30,31 @@ namespace MinDI {
 		protected virtual void InitNewContext(IDIContext context) {
 		}
 
+		protected T CreateInstance(string name = null) {
+			return CreateInstance(name, null, null);
+		}
+
 		protected T CreateInstance(Action<IDIContext> customContextInitializer) {
 			return CreateInstance(null, customContextInitializer, null);
+		}
+
+		protected T CreateInstance(string name, Action<IDIContext> customContextInitializer) {
+			return CreateInstance(name, customContextInitializer, null);
 		}
 
 		protected T CreateInstance(Func<IConstruction> construction) {
 			return CreateInstance(null, null, construction);
 		}
 
+		protected T CreateInstance(string name, Func<IConstruction> construction) {
+			return CreateInstance(name, null, construction);
+		}
+
 		protected T CreateInstance(Action<IDIContext> customContextInitializer, Func<IConstruction> construction) {
 			return CreateInstance(null, customContextInitializer, construction);
 		}
 			
-
-		protected T CreateInstance(string bindingName = null, Action<IDIContext> customContextInitializer = null, Func<IConstruction> construction = null) {
+		protected T CreateInstance(string bindingName, Action<IDIContext> customContextInitializer, Func<IConstruction> construction) {
 			IDIContext newContext = this.context;
 			if (environment == ContextEnvironment.RemoteObjects || ForceNewContext()) {
 				newContext = newContext.Reproduce();

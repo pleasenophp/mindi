@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using MinDI.Resolution;
 using minioc.resolution.dependencies;
+using minioc;
 
 namespace MinDI {
 	public class Construction : IConstruction {
 		private IDIContext explicitContext;
 
 		private Construction() {
-			explicitContext = ContextHelper.CreateContext();
+			explicitContext = new MiniocContext("__construction");
 		}
 
 		public static Construction ForType<T>(T instance) {

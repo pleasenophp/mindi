@@ -70,6 +70,10 @@ namespace minioc.resolution.injection {
 				value = explicitResolver.TryResolve(type, null, true);
 			}
 
+			if (value is IDIContext) {
+				throw new MiniocException(string.Format("{0} cannot be passed as the explicit dependency !", typeof(IDIContext)));
+			}
+
 			return value;
 		}
 	
