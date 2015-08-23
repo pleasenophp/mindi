@@ -182,18 +182,15 @@ namespace MinDI
  * 		[Requirement] - tryes to inject the property from the construction expression
  * 		[SoftRequirement] - tries to inject the property from the construction expression, but doesn't throw exception if it cannot
  * 
- * 9.9.1) Sort other TODOs
+ * v 9.9.1) Sort other TODOs
  * 
- * 9.9.2) See how these things work on methods injection - maybe it's good to leave injection methods here 
+ * v 9.9.2) See how these things work on methods injection - maybe it's good to leave injection methods here 
  * 
- * 9.9.3) In the binders remove the configuration delegte and allow to configure MakeDefault through signature
+ * 9.9.3) In the binders remove the configuration delegate and allow to configure MakeDefault through signature
  * 
- * 9.9.4) Base fields injection with type reassigning can be usefull. 
- * 			[InjectBaseField<BaseViewHandler>((s) => s.vistraEvent]
- *			public PlaceOperation placeOperation { get; }
+ * 9.9.4) Make singleton sorted in Minioc. For the generic binding allow to use multiple binding as well.
  * 
- * 
- * 9.9.5) Check when an object has at least one Injection attribute, but is not IDIClosedContext - throw exception
+ * 9.9.5) Check when an object has at least one Injection attribute or method, but is not IDIClosedContext - throw exception
  * 
  * 9.9.6) Make the scene loader accept the custom parameters
  * 
@@ -201,15 +198,13 @@ namespace MinDI
  *  
  * 10) Make internal documentation and object diagrams
  * 
- * 10.4) Make instance binder, instead use c.s().BindInstance<> use c.i().Bind<>, c.mbi().Bind<>
- * 
- * 10.5) Sort out the lifetime control when resolving the mono behaviours to existing objects
+ * 10.5) Sort out the lifetime control when resolving the mono behaviours to existing objects. 
+ * And rethink the lifetime of binding to instance (should be able if instance is direcly created by scene, and object that depends on MB is from this scene)
  * 
  * 10.6) Make the binding to existing MB not allowed to resolve on factory. Also see if we can add additional control for the construction dependencies for the same thing
+ * 		  Maybe this will automatically solve itself if binding to existing MB is only singletone.
  * 
  * 11) Make programmer documentation and TODOs for the further guides
- * 
- * 12) Make singleton sorted in Minioc. For the generic binding allow to use multiple binding as well.
  * 
  * 13) Add better code to coroutine manager
  * 
@@ -233,6 +228,7 @@ namespace MinDI
  * 
  * - Maybe - IDE built in resolution lookup
  * 
+ * - use constructor to auto generate a method for injection ? Can also auto-generate factories
  * 
  * 
 

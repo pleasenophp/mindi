@@ -86,6 +86,48 @@ namespace MinDI.Tests
 			public IApple apple { get; set; }
 		}
 
+		private class MyClassMethod : ContextObject, IMyClass {
+			public IOrange orange { get; set; }
+
+			public IApple apple { get; set; }
+
+			[Injection]
+			protected void InjectionMethod(IOrange orange, IApple apple) {
+				this.orange = orange;
+				this.apple = apple;
+			}
+
+		}
+
+		private class MyClassMethodMixed : ContextObject, IMyClass {
+			[Injection]
+			public IOrange orange { get; set; }
+
+			public IApple apple { get; set; }
+
+			[Injection]
+			protected void InjectionMethod(IApple apple) {
+				this.apple = apple;
+			}
+		}
+
+		private class MyClassMethodSeveral : ContextObject, IMyClass {
+			public IOrange orange { get; set; }
+
+			public IApple apple { get; set; }
+
+			[Injection]
+			protected void InjectionMethod(IOrange orange) {
+				this.orange = orange;
+			}
+
+			[SoftInjection]
+			protected void InjectionMethod(IApple apple) {
+				this.apple = apple;
+			}
+		}
+
+
 		[Test]
 		public void TestSimpleResolution() {
 			IDIContext context = ContextHelper.CreateContext();
@@ -244,6 +286,50 @@ namespace MinDI.Tests
 
 			Assert.That(obj.orange is Orange);
 			Assert.That(obj.anotherOrange is DefaultOrange);
+			Assert.That(obj.apple is Apple);
+		}
+
+		[Test]
+		public void TestMethodInjection() {
+			IDIContext context = ContextHelper.CreateContext();
+			context.s().Bind<IMyClass>(()=>new MyClassMethod());
+			context.m().Bind<IOrange>(()=>new Orange());
+			context.m().Bind<IApple>(()=>new Apple());
+
+			IMyClass obj = context.Resolve<IMyClass>();
+			Assert.That(obj.orange is Orange);
+			Assert.That(obj.apple is Apple);
+		}
+
+		[Test]
+		public void TestMixedInjection() {
+			IDIContext context = ContextHelper.CreateContext();
+			context.s().Bind<IMyClass>(()=>new MyClassMethodMixed());
+			context.m().Bind<IOrange>(()=>new Orange());
+			context.m().Bind<IApple>(()=>new Apple());
+
+			IMyClass obj = context.Resolve<IMyClass>();
+			Assert.That(obj.orange is Orange);
+			Assert.That(obj.apple is Apple);
+		}
+
+		[Test]
+		public void TestSeveralMethodsInjection() {
+			IDIContext context = ContextHelper.CreateContext();
+			context.m().Bind<IMyClass>(()=>new MyClassMethodSeveral());
+			context.m().Bind<IOrange>(()=>new Orange());
+
+			IMyClass obj = context.Resolve<IMyClass>();
+			Assert.That(obj.orange is Orange);
+			Assert.That(obj.apple == null);
+
+			obj = context.Resolve<IMyClass>(() => Construction.ForType<IApple>(new Apple()));
+			Assert.That(obj.orange is Orange);
+			Assert.That(obj.apple is Apple);
+
+			context.m().Bind<IApple>(()=>new Apple());
+			obj = context.Resolve<IMyClass>();
+			Assert.That(obj.orange is Orange);
 			Assert.That(obj.apple is Apple);
 		}
     }

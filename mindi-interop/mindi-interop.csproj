@@ -42,8 +42,6 @@
     <Compile Include="Interfaces\IRemoteObjectsRecord.cs" />
     <Compile Include="Interfaces\IActionQueue.cs" />
     <Compile Include="exceptions\MindiException.cs" />
-    <Compile Include="attributes\InjectionConstructorAttribute.cs" />
-    <Compile Include="attributes\InjectionMethodAttribute.cs" />
     <Compile Include="attributes\InjectionAttribute.cs" />
     <Compile Include="attributes\ContextAssemblyAttribute.cs" />
     <Compile Include="objects\DIState.cs" />

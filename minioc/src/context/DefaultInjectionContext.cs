@@ -18,8 +18,8 @@ namespace minioc.context {
 			_dependencyResolver = dependencyResolver;
 		}
 
-		private InjectionStrategy getInjectionStrategy(Type type) {
-			return _reflectionCache.getInjectorStrategy(type);
+		private IList<IInjectionStrategy> getInjectionStrategies(Type type) {
+			return _reflectionCache.getInjectorStrategies(type);
 		}
 
 		public void injectDependencies(object instance, Func<IConstruction> construction) {
@@ -27,10 +27,13 @@ namespace minioc.context {
 				throw new MiniocException("Cannot inject dependencies on null value");
 			}
         
-			InjectionStrategy injectionStrategy = getInjectionStrategy(instance.GetType());
-			if (injectionStrategy.type != InjectorStrategyType.CONSTRUCTOR) {
-				injectionStrategy.inject(instance, _dependencyResolver, construction!=null?construction().GetExplicitContext():null);
+			IList<IInjectionStrategy> injectionStrategies = getInjectionStrategies(instance.GetType());
+
+			foreach (IInjectionStrategy strategy in injectionStrategies) {
+				strategy.inject(instance, _dependencyResolver, construction != null?construction().GetExplicitContext():null);
 			}
+
+
 		}
 	}
 }

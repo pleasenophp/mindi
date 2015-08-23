@@ -42,9 +42,6 @@
     <Compile Include="src\context\bindings\GenericBindingStub.cs" />
     <Compile Include="src\misc\MiniocException.cs" />
     <Compile Include="src\resolution\core\InjectionContext.cs" />
-    <Compile Include="src\resolution\injection\ConstructorInjectionStrategy.cs" />
-    <Compile Include="src\resolution\injection\InjectionStrategy.cs" />
-    <Compile Include="src\resolution\injection\InjectorStrategyType.cs" />
     <Compile Include="src\resolution\injection\MethodInjectionStrategy.cs" />
     <Compile Include="src\resolution\injection\PropertiesInjectionStrategy.cs" />
     <Compile Include="src\resolution\instantiator\ConstructorInstantiator.cs" />
@@ -57,10 +54,13 @@
     <Compile Include="src\resolution\lifecylcle\providers\FactoryValueProvider.cs" />
     <Compile Include="src\resolution\injection\PrimitiveInjectionStrategy.cs" />
     <Compile Include="src\context\bindings\GenericTypeResolver.cs" />
+    <Compile Include="Interfaces\IInjectionStrategy.cs" />
+    <Compile Include="src\resolution\injection\BaseInjectionStrategy.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="src\" />
+    <Folder Include="Interfaces\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\minioc-license.txt" />

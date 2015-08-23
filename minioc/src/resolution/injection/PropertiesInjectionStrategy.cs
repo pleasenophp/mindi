@@ -8,16 +8,14 @@ using System;
 using MinDI.Resolution;
 
 namespace minioc.resolution.injection {
-	internal class PropertiesInjectionStrategy : InjectionStrategy {
+	internal class PropertiesInjectionStrategy : BaseInjectionStrategy {
 		private readonly PropertyInfo[] _properties;
 
 		public PropertiesInjectionStrategy(PropertyInfo[] properties) {
 			_properties = properties;
 		}
 
-		public InjectorStrategyType type { get { return InjectorStrategyType.PROPERTIES; } }
-
-		public void inject(object instance, IDependencyResolver dependencyResolver, IDependencyResolver explicitDependencies) {
+		public override void inject(object instance, IDependencyResolver dependencyResolver, IDependencyResolver explicitDependencies) {
 			foreach (PropertyInfo propertyInfo in _properties) {
 				InjectionAttribute atr = (InjectionAttribute)propertyInfo.GetCustomAttributes(typeof(InjectionAttribute), true)[0];
 				ResolutionOrder order = atr.resolution;
@@ -32,58 +30,12 @@ namespace minioc.resolution.injection {
 				}
 			}
 		}
-			
-		private object ResolveDependency(ResolutionOrder order, bool soft,
-			object instance, Type type, string name, 
-			IDependencyResolver resolver, IDependencyResolver explicitResolver) 
-		{
-			object value = null;
 
-			if (explicitResolver != null) {
-				value = TryResolveExplicitDependency(type, name, explicitResolver);
-			}
-
-			if (value == null && order == ResolutionOrder.FirstExplicitThanContext) {
-				value = resolver.TryResolve(type, null, false); 
-			}
-
-			if (value == null) {
-				if (!soft) {
-					ThrowResolutionException(type, name, instance, null);
-				}
-			}
-
-			return value;
+		public override bool IsVoid() {
+			return _properties.Length == 0;
 		}
 
-		private object TryResolveExplicitDependency(Type type, string name, IDependencyResolver explicitResolver) {
-			// First try to resolve property-named
-			object value = explicitResolver.TryResolve(type, name, true);
-
-			// Then resolve typeless property-named
-			if (value == null) {
-				value = explicitResolver.TryResolve(typeof(object), name, true);
-			}
-
-			// Then resolve typed default
-			if (value == null) {
-				value = explicitResolver.TryResolve(type, null, true);
-			}
-
-			if (value is IDIContext) {
-				throw new MiniocException(string.Format("{0} cannot be passed as the explicit dependency !", typeof(IDIContext)));
-			}
-
-			return value;
-		}
-	
-		private void ThrowResolutionException(Type type, string name, object instance, Exception e) {
-			throw new MiniocException(string.Format("No binding found for property '{0} {1}' of '{2}'", type,
-				name, instance), e);
-		}
-
-
-		private void ControlRemoteObject(object instance, object value, PropertyInfo propertyInfo) {
+		protected void ControlRemoteObject(object instance, object value, PropertyInfo propertyInfo) {
 			// Not letting mono behaviours to be injected if they are not IDIClosedContext
 			// (because we cannot control their lifetime)
 

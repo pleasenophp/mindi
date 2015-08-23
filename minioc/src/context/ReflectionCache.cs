@@ -8,18 +8,20 @@ using MinDI;
 
 namespace minioc.context {
 	internal class ReflectionCache {
-		private Dictionary<Type, InjectionStrategy> _injectionStrategies = new Dictionary<Type, InjectionStrategy>();
+		private Dictionary<Type, IList<IInjectionStrategy>> _injectionStrategies = new Dictionary<Type, IList<IInjectionStrategy>>();
 
-		internal InjectionStrategy getInjectorStrategy(Type type) {
-			InjectionStrategy stategy;
-			if (!_injectionStrategies.TryGetValue(type, out stategy)) {
-				stategy = createInjectionStrategy(type);
-				_injectionStrategies.Add(type, stategy);
+		internal IList<IInjectionStrategy> getInjectorStrategies(Type type) {
+			IList<IInjectionStrategy> strategies;
+			if (!_injectionStrategies.TryGetValue(type, out strategies)) {
+				strategies = createInjectionStrategies(type);
+				_injectionStrategies[type] = strategies;
 			}
-			return stategy;
+			return strategies;
 		}
 
-		private InjectionStrategy createInjectionStrategy(Type type) {
+		private IList<IInjectionStrategy> createInjectionStrategies(Type type) {
+			var result = new List<IInjectionStrategy>();
+
 			if (type.IsAbstract) {
 				throw new MiniocException(string.Format("Type {0} is abstract, cannot instantiate", type));
 			}
@@ -27,88 +29,50 @@ namespace minioc.context {
 				throw new MiniocException(string.Format("Type {0} is an interface, cannot instantiate", type));
 			}
 			else if (type.IsPrimitive || type.IsEnum) {
-				return new PrimitiveInjectionStrategy();
+				return new List<IInjectionStrategy>{new PrimitiveInjectionStrategy()};
 			}
 
-			InjectionStrategy injectionStrategy = tryInjectProperties(type);
-
-			// TODO - add method injection
-			/*
-			if (injectionStrategy == null) {
-				injectionStrategy = tryInjectMethod(type);
+			IInjectionStrategy propertiesStrategy = tryInjectProperties(type);
+			if (!propertiesStrategy.IsVoid()) {
+				result.Add(propertiesStrategy);	
 			}
-			if (injectionStrategy == null) {
-				List<ConstructorInfo> constructors = type.GetConstructors().ToList();
-				injectionStrategy = tryInjectUnTaggedConstructor(type, constructors);
-			}
-			*/
 
-			return injectionStrategy;
+			IInjectionStrategy methodsStrategy = tryInjectMethods(type);
+			if (!methodsStrategy.IsVoid()) {
+				result.Add(methodsStrategy);	
+			}
+
+			return result;
 		}
 			
-		private static InjectionStrategy tryInjectProperties(Type type) {
+		private static IInjectionStrategy tryInjectProperties(Type type) {
 			PropertyInfo[] properties =
 				type.GetProperties(BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
 
 			PropertyInfo[] injectedProperties =
 				properties.Where(p => p.GetCustomAttributes(typeof(InjectionAttribute), true).Any()).ToArray();
-
-			/*
-			if (injectedProperties.Length > 0) {
-				return new PropertiesInjectionStrategy(injectedProperties);
-			}
-			return null;
-			*/
-
+			
 			return new PropertiesInjectionStrategy(injectedProperties);
 		}
-
-		// TODO - reenable
-		/*
-		private InjectionStrategy tryInjectMethod(Type type) {
+			
+		private IInjectionStrategy tryInjectMethods(Type type) {
 			List<MethodInfo> methodInfos = type.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
-				.Where(m => m.GetCustomAttributes(typeof(InjectionMethodAttribute), false).Any()).ToList();
-			if (methodInfos.Count > 0) {
-				methodInfos.Sort(injectionOrderSorter);
-				return new MethodInjectionStrategy(methodInfos);
-			}
-			return null;
-		}
-		*/
+				.Where(m => m.GetCustomAttributes(typeof(InjectionAttribute), true).Any()).ToList();
 
-		// TODO - remove
+			// Call sort if order is introduced
+			// methodInfos.Sort(injectionOrderSorter);
+
+			return new MethodInjectionStrategy(methodInfos);
+		}
+
+		// TODO - reenable if we introduce order and add to properties and methods
 		/*
-		private static InjectionStrategy tryInjectUnTaggedConstructor(Type type, List<ConstructorInfo> constructors) {
-			if (constructors.Count == 0) {
-				throw new MiniocException(
-					string.Format("Type '{0}' doesn't have public constructor nor injection attributes, cannot instanciate",
-						type));
-			}
-			constructors.Sort((a, b) => a.GetParameters().Length.CompareTo(b.GetParameters().Length));
-			return new ConstructorInjectionStrategy(constructors[0]);
-		}
-		*/
-
-		// Don't wanna allow to inject constructors as it will not work with the current implementation and design
-		/*
-		private static InjectionStrategy tryInjectTaggedConstructor(List<ConstructorInfo> constructors) {
-			ConstructorInfo[] injectConstructors =
-				constructors.Where(c => c.GetCustomAttributes(typeof(InjectionConstructorAttribute), false).Any()).ToArray();
-			if (injectConstructors.Length == 1) {
-				return new ConstructorInjectionStrategy(injectConstructors[0]);
-			}
-			else if (injectConstructors.Length > 1) {
-				throw new MiniocException("Only 1 constuctor may be marked with [InjectConstructor]");
-			}
-			return null;
-		}
-		*/
-
 		private int injectionOrderSorter(MethodInfo a, MethodInfo b) {
-			InjectionMethodAttribute injectionMethodAttributeA = (InjectionMethodAttribute)a.GetCustomAttributes(typeof(InjectionMethodAttribute), false)[0];
-			InjectionMethodAttribute injectionMethodAttributeB = (InjectionMethodAttribute)b.GetCustomAttributes(typeof(InjectionMethodAttribute), false)[0];
+			var injectionMethodAttributeA = (InjectionAttribute)a.GetCustomAttributes(typeof(InjectionAttribute), true)[0];
+			var injectionMethodAttributeB = (InjectionAttribute)b.GetCustomAttributes(typeof(InjectionAttribute), true)[0];
 			return injectionMethodAttributeA.order.CompareTo(injectionMethodAttributeB.order);
 		}
+		*/
 			
 	}
 }
