@@ -58,10 +58,18 @@ namespace minioc
 			return (T)Resolve(typeof(T), name, construction, false);
 		}
 
+
+		public T TryResolve<T> (string name = null) {
+			return (T)TryResolve(typeof(T), name, null, false);
+		}
+
+		public T TryResolve<T> (Func<IConstruction> construction, string name = null) {
+			return (T)TryResolve(typeof(T), name, construction, false);
+		}
+
 		public object Resolve (Type type, string name=null) {
 			return Resolve(type, name, null, false);
 		}
-
 
 		public object Resolve (Type type, Func<IConstruction> construction) {
 			return Resolve(type, null, construction, false);
