@@ -57,6 +57,10 @@ namespace MinDI {
 			OnInjected();
 		}
 
+		void IDIClosedContext.BeforeFactoryDestruction() {
+			OnDestruction();
+		}
+
 		IDIContext IDIClosedContext.context {
 			get {
 				return _context;
@@ -75,6 +79,9 @@ namespace MinDI {
 		#endregion
 
 		protected virtual void OnInjected() {
+		}
+
+		protected virtual void OnDestruction() {
 		}
 	}
 }

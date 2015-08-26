@@ -10,6 +10,7 @@ namespace MinDI.StateObjects {
 
 		DIState diState {get; set;}
 		void AfterInjection();
+		void BeforeFactoryDestruction();
 	}
 }
 

@@ -32,6 +32,11 @@ namespace MinDI.Factories {
 				return;
 			}
 
+			IDIClosedContext contextObject = instance as IDIClosedContext;
+			if (contextObject != null) {
+				contextObject.BeforeFactoryDestruction();
+			}
+
 			if (environment != ContextEnvironment.RemoteObjects) {
 				return;
 			}
