@@ -186,8 +186,6 @@ namespace MinDI
  * 
  * v 9.9.2) See how these things work on methods injection - maybe it's good to leave injection methods here 
  * 
- * 9.9.3) In the binders remove the configuration delegate and allow to configure MakeDefault through signature
- * 
  * 9.9.4) Make singleton sorted in Minioc. For the generic binding allow to use multiple binding as well.
  * 
  * 9.9.5) Check when an object has at least one Injection attribute or method, but is not IDIClosedContext - throw exception
@@ -197,6 +195,9 @@ namespace MinDI
  * 9.9.9) Version number to DLLs and other release prepare things - going to beta stage
  *  
  * 10) Make internal documentation and object diagrams
+ * 
+ * 10.1) In the binders remove the configuration delegate and allow to configure MakeDefault through signature
+ * Also add binding names combinations, and maybe subjective binding.
  * 
  * 10.5) Sort out the lifetime control when resolving the mono behaviours to existing objects. 
  * And rethink the lifetime of binding to instance (should be able if instance is direcly created by scene, and object that depends on MB is from this scene)

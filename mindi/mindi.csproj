@@ -53,6 +53,8 @@
     <Compile Include="src\factories\BaseContextFactory.cs" />
     <Compile Include="src\ContextHelper.cs" />
     <Compile Include="src\Construction.cs" />
+    <Compile Include="src\binders\SingletonBinder_BindInstance.cs" />
+    <Compile Include="src\binders\BaseDIBinder_BindMany.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
