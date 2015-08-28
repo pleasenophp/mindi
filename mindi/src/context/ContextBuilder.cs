@@ -18,7 +18,11 @@ namespace MinDI {
 	public static class ContextBuilder {
 		private static IDictionary<Type, List<IContextInitializer>> initializers = null;
 		
-		public static IList<T> Initialize<T>(this IDIContext context, FilteredInitializerAttribute filter = null) where T:IContextInitializer {	
+		public static IList<T> Initialize<T>(this IDIContext context, FilteredInitializerAttribute filter = null) where T:class, IContextInitializer {	
+			if (!typeof(T).IsInterface) {
+				return new List<T>{InitSingle<T>(context)};
+			}
+
 			if (typeof(T) == typeof(ICustomContextInitializer)) {
 				throw new MindiException(string.Format(
 					"{0} can only be used for single-class context initializers !", 
@@ -49,13 +53,14 @@ namespace MinDI {
 		}
 
 
-		public static void InitSingle<T>(this IDIContext context) where T:IContextInitializer {
-			IContextInitializer initializer = Activator.CreateInstance<T>();
+		private static T InitSingle<T>(IDIContext context) where T:class, IContextInitializer {
+			T initializer = Activator.CreateInstance<T>() as T;
 			if (initializer == null) {
 				throw new MindiException("Couldn't create an initializer instance for type "+typeof(T).FullName);
 			}
 
 			initializer.Initialize(context);
+			return initializer;
 		}
 
 		private static bool IsInstanceFiltered(IContextInitializer instance, FilteredInitializerAttribute filter) {

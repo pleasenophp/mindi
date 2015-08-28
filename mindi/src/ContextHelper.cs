@@ -14,7 +14,7 @@ namespace MinDI {
 			return InternalCreateContext(parent, name); 
 		}
 
-		public static IDIContext CreateContext<T>(IDIContext parent = null, string name = null) where T:IContextInitializer {
+		public static IDIContext CreateContext<T>(IDIContext parent = null, string name = null) where T:class, IContextInitializer {
 			IDIContext context = InternalCreateContext(parent, name); 
 			context.Initialize<T>();
 			return context;
@@ -34,7 +34,7 @@ namespace MinDI {
 			return CreateContext(parent, contextName);
 		}
 
-		public static IDIContext Reproduce<T>(this IDIContext parent, string contextName = null) where T:IContextInitializer {
+		public static IDIContext Reproduce<T>(this IDIContext parent, string contextName = null) where T:class, IContextInitializer {
 			return CreateContext<T>(parent, contextName);
 		}
 

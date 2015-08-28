@@ -10,6 +10,8 @@ namespace MinDI.Context.Internal {
 
 			context.m().BindGeneric(typeof(IDIFactory<>), typeof(ContextFactory<>));
 			context.m().BindGeneric(typeof(IDIRFactory<,>), typeof(ReproduceContextFactory<,>));
+			context.m().BindGeneric(typeof(IDIRFactory<,,>), typeof(ReproduceContextFactory<,,>));
+			context.m().BindGeneric(typeof(IDIRFactory<,,,>), typeof(ReproduceContextFactory<,,,>));
 		}
 		#endregion
 		
