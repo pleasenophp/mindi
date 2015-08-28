@@ -9,6 +9,10 @@ namespace MinDI {
 		public static string ForType(object instance) {
 			return instance.GetType().FullName;
 		}
+
+		public static string For(object instance) {
+			return instance.ToString();
+		}
 	}
 }
 

@@ -42,6 +42,7 @@ namespace MinDI.Binders {
 		// If the GO is in the ROR, we cannot find from this, so it's either in parralel ROR,
 		// or in the lower ROR, so we cannot state that lifetime is the same or greater - not allowing
 
+		// Maybe leave only BindToExisting and get rid of destroy behaviour. When bind to existing allow only singletone bindings.
 		public IBinding BindToGameObject<T, TInstance> (Func<GameObject> objectLocator, string name = null) 
 			where T:class where TInstance:MonoBehaviour, T
 

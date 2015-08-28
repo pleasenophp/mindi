@@ -1,5 +1,6 @@
 ﻿using System;
 using MinDI.StateObjects;
+using MinDI.Resolution;
 
 namespace MinDI.Context.Internal {
 	public class MindiContextInitializer : IGlobalContextInitializer {
@@ -12,6 +13,9 @@ namespace MinDI.Context.Internal {
 			context.m().BindGeneric(typeof(IDIRFactory<,>), typeof(ReproduceContextFactory<,>));
 			context.m().BindGeneric(typeof(IDIRFactory<,,>), typeof(ReproduceContextFactory<,,>));
 			context.m().BindGeneric(typeof(IDIRFactory<,,,>), typeof(ReproduceContextFactory<,,,>));
+
+			context.m().BindGeneric(typeof(IDynamicInjection<>), typeof(DynamicResolver<>));
+			context.m().BindGeneric(typeof(ISoftDynamicInjection<>), typeof(SoftDynamicResolver<>));
 		}
 		#endregion
 		

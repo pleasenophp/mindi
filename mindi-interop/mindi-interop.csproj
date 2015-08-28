@@ -64,6 +64,7 @@
     <Compile Include="attributes\ResolutionOrder.cs" />
     <Compile Include="Interfaces\IConstruction.cs" />
     <Compile Include="Interfaces\context\IDependencyResolver.cs" />
+    <Compile Include="Interfaces\resolution\IDynamicInjection.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -72,6 +73,7 @@
     <Folder Include="Interfaces\factories\" />
     <Folder Include="Interfaces\context\" />
     <Folder Include="helpers\" />
+    <Folder Include="Interfaces\resolution\" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>
