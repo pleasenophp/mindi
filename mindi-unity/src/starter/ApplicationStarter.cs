@@ -197,7 +197,7 @@ namespace MinDI
  * 10) Make internal documentation and object diagrams
  * 
  * 10.1) In the binders remove the configuration delegate and allow to configure MakeDefault through signature
- * Also add binding names combinations, and maybe subjective binding.
+ * Also see if we need to have subjective bindings.
  * 
  * 10.5) Sort out the lifetime control when resolving the mono behaviours to existing objects. 
  * And rethink the lifetime of binding to instance (should be able if instance is direcly created by scene, and object that depends on MB is from this scene)
