@@ -26,6 +26,10 @@ namespace MinDI {
 			return false;
 		}
 
+		protected virtual bool SoftCreation() {
+			return false;
+		}
+
 		// Override to add some bindings to the new context
 		protected virtual void InitNewContext(IDIContext context) {
 		}
@@ -75,11 +79,20 @@ namespace MinDI {
 		}
 			
 		private T CreateObjectInternal(IDIContext context, string name, Func<IConstruction> construction) {
-			T instance = context.Resolve<T>(construction, name);
-			VerifyObjectCreation(name, instance, context);
+			T instance;
+			if (!SoftCreation()) {
+				instance = context.Resolve<T>(construction, name);
+			}
+			else {
+				instance = context.TryResolve<T>(construction, name);
+			}
 
-			if (environment == ContextEnvironment.RemoteObjects) {
-				RegisterCreation(instance);
+			if (instance != null) {
+			 	VerifyObjectCreation(name, instance, context);
+
+				if (environment == ContextEnvironment.RemoteObjects) {
+					RegisterCreation(instance);
+				}
 			}
 
 			return instance;
