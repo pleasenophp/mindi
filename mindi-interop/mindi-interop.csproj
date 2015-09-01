@@ -59,12 +59,12 @@
     <Compile Include="Interfaces\IRemoteObjectsDestroyer.cs" />
     <Compile Include="Interfaces\IRemoteObjectsHash.cs" />
     <Compile Include="Interfaces\factories\IDIRFactory.cs" />
-    <Compile Include="helpers\BindingName.cs" />
     <Compile Include="Interfaces\context\ICustomContextInitializer.cs" />
     <Compile Include="attributes\ResolutionOrder.cs" />
     <Compile Include="Interfaces\IConstruction.cs" />
     <Compile Include="Interfaces\context\IDependencyResolver.cs" />
     <Compile Include="Interfaces\resolution\IDynamicInjection.cs" />
+    <Compile Include="bindings\BindingName.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -72,7 +72,6 @@
     <Folder Include="bindings\" />
     <Folder Include="Interfaces\factories\" />
     <Folder Include="Interfaces\context\" />
-    <Folder Include="helpers\" />
     <Folder Include="Interfaces\resolution\" />
   </ItemGroup>
   <ProjectExtensions>

@@ -26,6 +26,7 @@ namespace MinDI {
 			return false;
 		}
 
+		// If set to true, the factory will use TryResolve and will return null if object is not bind in the context
 		protected virtual bool SoftCreation() {
 			return false;
 		}
