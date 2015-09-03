@@ -26,11 +26,19 @@ namespace MinDI.Unity {
 
 
 		public void Load(string name, Action<ISceneObject> callback) {
+			Load<ISceneObject>(name, null, callback);
+		}
+
+		public void Load(string name, ISceneArguments arguments, Action<ISceneObject> callback) {
 			Load<ISceneObject>(name, callback);
 		}
 
 		public void Load<T>(string name, Action<T> callback) where T:class, ISceneObject {
-			coroutines.StartCoroutine(LoadAdditiveCoroutine<T>(name, callback));
+			Load<T>(name, null, callback);
+		}
+
+		public void Load<T>(string name, ISceneArguments arguments, Action<T> callback) where T:class, ISceneObject {
+			coroutines.StartCoroutine(LoadAdditiveCoroutine<T>(name, arguments, callback));
 		}
 
 
@@ -43,11 +51,18 @@ namespace MinDI.Unity {
 			return default(T);
 		}
 		
-		private IEnumerator LoadAdditiveCoroutine<T>(string name, Action<T> callback) where T:class, ISceneObject {
+		private IEnumerator LoadAdditiveCoroutine<T>(string name, ISceneArguments arguments, Action<T> callback) where T:class, ISceneObject {
 			AsyncOperation async = Application.LoadLevelAdditiveAsync(name);
 			yield return async;
 
-			T sceneObject = this.sceneFactory.Create<T>(name, false);
+			T sceneObject = null;
+			if (arguments == null) {
+				sceneObject = this.sceneFactory.Create<T>(name, false);
+			}
+			else {
+				sceneObject = this.sceneFactory.Create<T>(name, false, null, arguments.PopulateContext, arguments.CreateConstruction);
+			}
+				
 			callback(sceneObject);
 		}
 

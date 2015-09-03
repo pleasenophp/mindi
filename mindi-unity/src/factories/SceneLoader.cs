@@ -15,14 +15,23 @@ namespace MinDI.Unity {
 		private class LoadingClass<T> : ILoading where T:class, ISceneObject {
 			public string loadingLevelName {get; set;}
 			public Action<T> callback {get; set;}
+			public ISceneArguments arguments { get; set; }
 
-			public LoadingClass(string name, Action<T> callback) {
+			public LoadingClass(string name, ISceneArguments arguments, Action<T> callback) {
 				this.loadingLevelName = name;
 				this.callback = callback;
+				this.arguments = arguments;
 			}
 
 			public ISceneObject Load(IDISceneFactory factory) {
-				T instance = factory.Create<T>(Application.loadedLevelName, true);
+				T instance = null;
+				if (arguments == null) {
+					instance = factory.Create<T>(Application.loadedLevelName, true);
+				}
+				else {
+					instance = factory.Create<T>(Application.loadedLevelName, true, null, arguments.PopulateContext, arguments.CreateConstruction);
+				}
+					
 				if (callback != null) {
 					callback(instance);
 				}
@@ -39,17 +48,25 @@ namespace MinDI.Unity {
 		private ILoading loading = null;
 		
 
-		public void Load(string name, Action<ISceneObject> callback = null) {
-			Load<ISceneObject>(name, callback);
+		public void Load(string name, Action<ISceneObject> callback) {
+			Load<ISceneObject>(name, null, callback);
 		}
 
-		public void Load<T>(string name, Action<T> callback = null) where T:class, ISceneObject {
+		public void Load(string name, ISceneArguments arguments = null, Action<ISceneObject> callback = null) {
+			Load<ISceneObject>(name, arguments, callback);
+		}
+
+		public void Load<T>(string name, Action<T> callback) where T:class, ISceneObject {
+			Load<T>(name, null, callback);
+		}
+
+		public void Load<T>(string name, ISceneArguments arguments = null, Action<T> callback = null) where T:class, ISceneObject {
 			if (currentScene != null) {
 				sceneFactory.DestroyInstance(currentScene);
 				currentScene = null;
 			}
 
-			loading = new LoadingClass<T>(name, callback);
+			loading = new LoadingClass<T>(name, arguments, callback);
 
 			Application.LoadLevel(name);
 			if (!Application.isLoadingLevel) {

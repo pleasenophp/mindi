@@ -67,6 +67,7 @@
     <Compile Include="src\starter\UnityRemoteObjectsValidator.cs" />
     <Compile Include="src\mb\RemoteObjectsDestroyer.cs" />
     <Compile Include="Context\MindiUnityUserContextInitializer.cs" />
+    <Compile Include="Interfaces\scenes\ISceneArguments.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
