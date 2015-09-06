@@ -30,7 +30,7 @@ namespace MinDI.Unity {
 		}
 
 		public void Load(string name, ISceneArguments arguments, Action<ISceneObject> callback) {
-			Load<ISceneObject>(name, callback);
+			Load<ISceneObject>(name, arguments, callback);
 		}
 
 		public void Load<T>(string name, Action<T> callback) where T:class, ISceneObject {

@@ -4,7 +4,7 @@ using MinDI;
 using System;
 using MinDI.Resolution;
 
-namespace MinDI {
+namespace MinDI.Unity {
 	public interface ISceneArguments
 	{
 		IConstruction CreateConstruction();

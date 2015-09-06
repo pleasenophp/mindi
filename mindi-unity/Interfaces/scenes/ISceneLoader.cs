@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using MinDI;
 using System;
+using MinDI.Unity;
 
 namespace MinDI {
 	public interface ISceneLoader

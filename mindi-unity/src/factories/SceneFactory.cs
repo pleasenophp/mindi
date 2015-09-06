@@ -44,20 +44,20 @@ namespace MinDI.Unity {
 		protected T CreateScene<T> (IDIContext sceneContext, IList<ISceneContextInitializer> initializers, string sceneName, string bindingName = null, Func<IConstruction> construction = null) 
 			where T:class, ISceneObject
 		{
-		
-			// Injecting dependencies on the objects that should have dependencies, and tracking the other objects on ROR
-			TrackObjects(sceneContext);
-
-			// Adding auto-instantiated objects
-			PerformAutoInstantiation(sceneContext, initializers);
+			// UnityEngine.Debug.LogWarning("Resolving scene for construction: "+construction);
 
 			// Creating scene instance object
 			SceneObject instance = sceneContext.Resolve<T>(construction, bindingName) as SceneObject;
 			if (instance == null) {
 				throw new MindiException("Scene object is expected to be inherited from SceneObject");
 			}
-
 			VerifyObjectCreation(bindingName, instance, sceneContext);
+
+			// Injecting dependencies on the objects that are already on scene, and tracking the other objects on ROR
+			TrackObjects(sceneContext);
+
+			// Adding auto-instantiated objects
+			PerformAutoInstantiation(sceneContext, initializers);
 
 			instance.name = sceneName;
 			RegisterCreation(instance);

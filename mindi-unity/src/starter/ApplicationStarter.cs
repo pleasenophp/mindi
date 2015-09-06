@@ -190,7 +190,7 @@ namespace MinDI
  * 
  * 9.9.5) Check when an object has at least one Injection attribute or method, but is not IDIClosedContext - throw exception
  * 
- * [TEST] 9.9.6) Make the scene loader accept the custom parameters
+ * v 9.9.6) Make the scene loader accept the custom parameters
  * 
  * 9.9.9) Version number to DLLs and other release prepare things - going to beta stage
  *  
@@ -207,9 +207,13 @@ namespace MinDI
  * 
  * 11) Make programmer documentation and TODOs for the further guides
  * 
- * 13) Add better code to coroutine manager
+ * v 13) Add better code to coroutine manager
  * 
  * 14) Add some editor helper scripts
+ * 		* implement interface
+ * 		* extract interface
+ * 		* create factory
+ * 		
  * 
  * 
  * 
