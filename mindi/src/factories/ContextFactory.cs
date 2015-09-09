@@ -8,6 +8,7 @@ using MinDI.Context;
 using MinDI.StateObjects;
 using MinDI.Introspection;
 using MinDI.Factories;
+using MinDI.Resolution;
 
 
 namespace MinDI {
@@ -19,6 +20,10 @@ namespace MinDI {
 	{
 		public T Create (string name = null) {
 			return CreateInstance(name);
+		}
+
+		public T Create (Func<IConstruction> construction, string name = null) {
+			return CreateInstance(name, construction);
 		}
 	}
 }
