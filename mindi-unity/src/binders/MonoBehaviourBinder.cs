@@ -7,7 +7,16 @@ namespace MinDI.Binders {
 
 	public class MonoBehaviourBinder : OpenContextObject {
 		private BaseDIBinder baseBinder;
-		private IRemoteObjectsHash objectsHash;
+
+		private IRemoteObjectsHash _objectsHash = null;
+		private IRemoteObjectsHash objectsHash {
+			get {
+				if (_objectsHash == null) {
+					_objectsHash = this.context.Resolve<IRemoteObjectsHash>();
+				}
+				return _objectsHash;
+			}
+		}
 
 		public MonoBehaviourBinder(IDIContext context) : this (context, InstantiationMode.SINGLETON) {
 		}
@@ -21,8 +30,6 @@ namespace MinDI.Binders {
 			else if (mode == InstantiationMode.MULTIPLE) {
 				baseBinder = context.m();
 			}
-
-			objectsHash = context.Resolve<IRemoteObjectsHash>();
 		}
 			
 		public IBinding Bind<T, TInstance> (string name = null) 
