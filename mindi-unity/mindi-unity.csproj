@@ -52,6 +52,7 @@
     <Compile Include="src\factories\RootSceneFactory.cs" />
     <Compile Include="src\factories\SceneFactory.cs" />
     <Compile Include="src\factories\SceneLoader.cs" />
+    <Compile Include="Interfaces\ICoroutineManager.cs" />
     <Compile Include="src\objects\SceneObject.cs" />
     <Compile Include="src\mb\RemoteObjectsHash.cs" />
     <Compile Include="src\core\CoroutineManager.cs" />
@@ -66,7 +67,8 @@
     <Compile Include="src\starter\UnityRemoteObjectsValidator.cs" />
     <Compile Include="src\mb\RemoteObjectsDestroyer.cs" />
     <Compile Include="Context\MindiUnityUserContextInitializer.cs" />
-    <Compile Include="Interfaces\ICoroutineManager.cs" />
+    <Compile Include="Interfaces\scenes\ISceneArguments.cs" />
+    <Compile Include="src\factories\SceneArguments.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

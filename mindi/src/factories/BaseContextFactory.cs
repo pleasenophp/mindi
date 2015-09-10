@@ -64,10 +64,13 @@ namespace MinDI {
 			if (environment == ContextEnvironment.RemoteObjects || ForceNewContext()) {
 				newContext = newContext.Reproduce();
 				InitNewContext(newContext);
-			}
 
-			if (customContextInitializer != null) {
-				customContextInitializer(newContext);
+				if (customContextInitializer != null) {
+					customContextInitializer(newContext);
+				}
+			}
+			else if (customContextInitializer != null) {
+				throw new MindiException("Custom context initializer is passed while the factory is not in the reproduce context mode: "+this);
 			}
 				
 			// In the remote objects environment, chaining context, and creating RemoteObjectsDescriptor

@@ -12,6 +12,10 @@ namespace MinDI {
 			explicitContext = new MiniocContext("__construction");
 		}
 
+		public static Construction Empty() {
+			return new Construction();
+		}
+
 		public static Construction ForType<T>(T instance) {
 			return ForType<T>(null, instance);
 		}

@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using MinDI.Resolution;
 
 namespace MinDI.Unity {
 
@@ -8,7 +9,9 @@ namespace MinDI.Unity {
 	/// </summary>
 	public interface IDISceneFactory : IDestroyingFactory
 	{
-		T Create <T>(string sceneName, bool destroyableObjects, string bindingName = null) where T:class, ISceneObject;
+		T Create <T>(string sceneName, bool destroyableObjects, string bindingName = null, 
+			Action<IDIContext> customContextInitializer = null, Func<IConstruction> construction = null) 
+			where T:class, ISceneObject;
 	}
 
 }

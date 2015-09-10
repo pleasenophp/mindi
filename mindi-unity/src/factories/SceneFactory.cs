@@ -7,6 +7,8 @@ using MinDI.Introspection;
 using MinDI.UnityEditor;
 using System.Collections.Generic;
 using MinDI.Factories;
+using System;
+using MinDI.Resolution;
 
 namespace MinDI.Unity {
 
@@ -15,7 +17,9 @@ namespace MinDI.Unity {
 		[Injection]
 		public IEditorPrefabFilter editorPrefabFilter { get; set; }
 		
-		public virtual T Create <T>(string sceneName, bool destroyableObjects, string bindingName = null) where T:class, ISceneObject
+		public virtual T Create <T>(string sceneName, bool destroyableObjects, string bindingName = null, 
+			Action<IDIContext> customContextInitializer = null, Func<IConstruction> construction = null) 
+			where T:class, ISceneObject
 		{
 			if (environment != ContextEnvironment.RemoteObjects) {
 				throw new MindiException("SceneFactory can only work in the Remote objects environment");
@@ -30,26 +34,30 @@ namespace MinDI.Unity {
 			IList<ISceneContextInitializer> initializers = ContextBuilder.Initialize<ISceneContextInitializer>(newContext, new SceneContextAttribute(sceneName));
 			BindObjectsRecord(newContext);
 
-			return CreateScene<T>(newContext, initializers, sceneName, bindingName);
+			if (customContextInitializer != null) {
+				customContextInitializer(newContext);
+			}
+
+			return CreateScene<T>(newContext, initializers, sceneName, bindingName, construction);
 		}
 		
-		protected T CreateScene<T> (IDIContext sceneContext, IList<ISceneContextInitializer> initializers, string sceneName, string bindingName = null) 
+		protected T CreateScene<T> (IDIContext sceneContext, IList<ISceneContextInitializer> initializers, string sceneName, string bindingName = null, Func<IConstruction> construction = null) 
 			where T:class, ISceneObject
 		{
-		
-			// Injecting dependencies on the objects that should have dependencies, and tracking the other objects on ROR
+			// UnityEngine.Debug.LogWarning("Resolving scene for construction: "+construction);
+
+			// Creating scene instance object
+			SceneObject instance = sceneContext.Resolve<T>(construction, bindingName) as SceneObject;
+			if (instance == null) {
+				throw new MindiException("Scene object is expected to be inherited from SceneObject");
+			}
+			VerifyObjectCreation(bindingName, instance, sceneContext);
+
+			// Injecting dependencies on the objects that are already on scene, and tracking the other objects on ROR
 			TrackObjects(sceneContext);
 
 			// Adding auto-instantiated objects
 			PerformAutoInstantiation(sceneContext, initializers);
-
-			// Creating scene instance object
-			SceneObject instance = sceneContext.Resolve<T>(bindingName) as SceneObject;
-			if (instance == null) {
-				throw new MindiException("Scene object is expected to be inherited from SceneObject");
-			}
-
-			VerifyObjectCreation(bindingName, instance, sceneContext);
 
 			instance.name = sceneName;
 			RegisterCreation(instance);
