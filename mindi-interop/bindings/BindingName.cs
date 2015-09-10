@@ -20,19 +20,23 @@ namespace MinDI {
 		}
 
 		public static BindingName ForType(object instance) {
+			CheckNull(instance);
 			return new BindingName(instance.GetType().FullName);
 		}
 
 		public BindingName AndType(object instance) {
+			CheckNull(instance);
 			strings.Add(instance.GetType().FullName);
 			return this;
 		}
 
 		public static BindingName For(object instance) {
+			CheckNull(instance);
 			return new BindingName(instance.ToString());
 		}
 
 		public BindingName And(object instance) {
+			CheckNull(instance);
 			strings.Add(instance.ToString());
 			return this;
 		}
@@ -45,6 +49,12 @@ namespace MinDI {
 
 		static public implicit operator string(BindingName instance) {
 			return instance.ToString();
+		}
+
+		private static void CheckNull(object instance) {
+			if (instance == null) {
+				throw new MindiException("The object passed to BindingName was null !");
+			}
 		}
 	}
 }
