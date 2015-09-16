@@ -1,11 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
-using MinDI;
 using System;
 
 namespace MinDI {
 
 	public interface ICoroutineManager {
+		event Action onUpdate;
+		event Action onFixedUpdate;
+		event Action onLateUpdate;
+
 		// Start one coroutine
 		Coroutine StartCoroutine(IEnumerator routine);
 

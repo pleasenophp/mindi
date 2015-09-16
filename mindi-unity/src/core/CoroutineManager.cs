@@ -7,6 +7,10 @@ namespace MinDI.Unity {
 
 	public class CoroutineManager : ContextMonoBehaviour, ICoroutineManager {
 
+		public event Action onUpdate = delegate {};
+		public event Action onFixedUpdate = delegate {};
+		public event Action onLateUpdate = delegate {};
+
 		public Coroutine StartCoroutines(params IEnumerator[] routines) {
 			return StartCoroutines(null, routines);
 		}
@@ -23,6 +27,18 @@ namespace MinDI.Unity {
 				finalCall();
 			}
 			yield break;
+		}
+
+		void Update() {
+			onUpdate();
+		}
+
+		void FixedUpdate() {
+			onFixedUpdate();
+		}
+
+		void LateUpdate() {
+			onLateUpdate();
 		}
 
 	}
