@@ -14,8 +14,10 @@ namespace minioc
 {
 	public class MiniocContext : IDependencyResolver, IDIContext {
 		private MiniocBindings _bindings = new MiniocBindings ();
-		private InjectionContext _injectionContext;
+		private InjectionContext _injector;
 		private MiniocContext _parentContext;
+
+		public string name { get; private set;}
 
 		private object locker = new object();
 
@@ -35,7 +37,7 @@ namespace minioc
 		{
 			_parentContext = parentContext as MiniocContext;
 			this.name = name;
-			_injectionContext = new DefaultInjectionContext (new ReflectionCache (), this);
+			_injector = new DefaultInjectionContext (new ReflectionCache (), this);
 		}
 
 
@@ -45,7 +47,7 @@ namespace minioc
 		/// <param name="binding"></param>
 		public void Register (IBinding binding)
 		{
-			_bindings.add (binding);
+			_bindings.Add(binding);
 		}
 
 		public T Resolve<T> (string name = null) {
@@ -76,13 +78,9 @@ namespace minioc
 		public object Resolve (Type type, Func<IConstruction> construction, string name) {
 			return Resolve(type, name, construction, false);
 		}
-
-		object IDependencyResolver.Resolve(Type type, string name, bool omitInjectDependencies) {
-			return Resolve(type, name, null, omitInjectDependencies);
-		}
-
+			
 		object IDependencyResolver.TryResolve(Type type, string name, bool omitInjectDependencies) {
-			return TryResolve(type, name, null, omitInjectDependencies);
+			return ResolveInternal(type, name, null, omitInjectDependencies);
 		}
 	
 		/// <summary>
@@ -108,21 +106,21 @@ namespace minioc
 			}
 		}
 
-		public BindingDescriptor Introspect<T>(string name=null) {
+		public IBinding Introspect<T>(string name=null) {
 			return Introspect(typeof(T), name);
 		}
 
-		public BindingDescriptor Introspect(Type type, string name=null) {
+		public IBinding Introspect(Type type, string name=null) {
 			lock (locker) {
 
-				BindingDescriptor descriptor = _bindings.introspect(type, name);
+				IBinding descriptor = _bindings.Introspect(type, name);
 
 				if (descriptor == null && _parentContext != null) {
 					return _parentContext.Introspect(type, name);
 				}
 
 				if (descriptor == null) {
-					descriptor = new BindingDescriptor();
+					descriptor = Binding.CreateEmpty(this);
 				}
 	
 				return descriptor;
@@ -141,14 +139,12 @@ namespace minioc
 			}
 		}
 			
-		public void RemoveBinding (IBinding binding)
+		public void RemoveBinding(IBinding binding)
 		{
 			lock (locker) {
-				_bindings.remove(binding);
+				_bindings.Remove(binding);
 			}
 		}
-
-		public string name { get; private set;}
 
 		public IDIContext parent {
 			get {
@@ -158,11 +154,9 @@ namespace minioc
 			
 		private object ResolveInternal(Type type, string name, Func<IConstruction> construction, bool omitInjectDependencies)
 		{
-			object result;
-			if (!_bindings.tryResolve(type, name, _injectionContext, out result)) {
-				if (_parentContext != null) {
-					result = _parentContext.TryResolve(type, name, construction, true);
-				}
+			object result = _bindings.Resolve(type, name);
+			if (result == null && _parentContext != null) {
+				result = _parentContext.TryResolve(type, name, construction, true);
 			}
 
 			if (result == null) {
@@ -188,20 +182,16 @@ namespace minioc
 				return;
 			}
 
-			BindingDescriptor descriptor = stateInstance.bindingDescriptor;
-			if (descriptor == null) {
-				throw new MindiException("Called inject dependencies on an instance that has no binding descriptor set: "+instance);
-			}
-
+			IBinding descriptor = stateInstance.bindingDescriptor;
 			// If this instance is concrete on another layer, we inject dependencies on its own layer only, to avoid subjectivization
-			if (descriptor.instantiationType == InstantiationType.Concrete && descriptor.context != this) {
+			if (descriptor != null && descriptor.instantiationType == InstantiationType.Concrete && descriptor.context != this) {
 				descriptor.context.InjectDependencies(instance, construction);
 				return;
 			}
 
 			if (stateInstance.diState == DIState.NotResolved) {
 				stateInstance.diState = DIState.Resolving;
-				_injectionContext.injectDependencies(instance, construction);
+				_injector.injectDependencies(instance, construction);
 				RegisterRemoteObject(instance);
 				stateInstance.AfterInjection();
 				stateInstance.diState = DIState.Resolved;

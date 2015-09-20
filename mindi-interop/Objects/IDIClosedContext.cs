@@ -4,7 +4,7 @@ using MinDI.Introspection;
 namespace MinDI.StateObjects {
 	public interface IDIClosedContext {
 		IDIContext context { get; }
-		BindingDescriptor bindingDescriptor { get; set;}
+		IBinding bindingDescriptor { get; set;}
 
 		IDestroyingFactory factory {get; set;}
 

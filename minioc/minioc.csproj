@@ -32,30 +32,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="src\Bindings.cs" />
     <Compile Include="src\MiniocContext.cs" />
     <Compile Include="src\context\DefaultInjectionContext.cs" />
-    <Compile Include="src\context\MiniocBindings.cs" />
     <Compile Include="src\context\ReflectionCache.cs" />
-    <Compile Include="src\context\TypeBindings.cs" />
     <Compile Include="src\misc\MiniocException.cs" />
     <Compile Include="src\resolution\core\InjectionContext.cs" />
     <Compile Include="src\resolution\injection\MethodInjectionStrategy.cs" />
     <Compile Include="src\resolution\injection\PropertiesInjectionStrategy.cs" />
-    <Compile Include="src\resolution\instantiator\ConstructorInstantiator.cs" />
-    <Compile Include="src\resolution\lifecylcle\BoundInstanceFactory.cs" />
-    <Compile Include="src\resolution\lifecylcle\MultipleInstanceFactory.cs" />
-    <Compile Include="src\resolution\lifecylcle\SingletonFactory.cs" />
-    <Compile Include="src\resolution\lifecylcle\providers\BoundValueProvider.cs" />
-    <Compile Include="src\resolution\lifecylcle\providers\BoundValueProviderNotSet.cs" />
-    <Compile Include="src\resolution\lifecylcle\providers\ExplicitValueProvider.cs" />
-    <Compile Include="src\resolution\lifecylcle\providers\FactoryValueProvider.cs" />
     <Compile Include="src\resolution\injection\PrimitiveInjectionStrategy.cs" />
     <Compile Include="Interfaces\IInjectionStrategy.cs" />
     <Compile Include="src\resolution\injection\BaseInjectionStrategy.cs" />
     <Compile Include="src\context\bindings\Binding.cs" />
-    <Compile Include="src\context\NamedBindings.cs" />
     <Compile Include="src\MiniocExtensions.cs" />
+    <Compile Include="src\context\bindings\MiniocBindings.cs" />
+    <Compile Include="src\context\bindings\NamedBindings.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

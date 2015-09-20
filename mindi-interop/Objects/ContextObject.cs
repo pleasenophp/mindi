@@ -17,7 +17,7 @@ namespace MinDI {
 		private IDIContext _context;
 
 		[NonSerialized]
-		private BindingDescriptor _descriptor = new BindingDescriptor();
+		private IBinding _descriptor = null;
 
 		IDestroyingFactory IDIClosedContext.factory {
 			get {
@@ -63,7 +63,7 @@ namespace MinDI {
 			}
 		}
 
-		BindingDescriptor IDIClosedContext.bindingDescriptor {
+		IBinding IDIClosedContext.bindingDescriptor {
 			get {
 				return _descriptor;
 			}

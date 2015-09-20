@@ -1,9 +1,6 @@
 using System;
 using System.Collections.Generic;
 using minioc.resolution.dependencies;
-using minioc.resolution.instantiator;
-using minioc.resolution.lifecycle;
-using minioc.resolution.lifecycle.providers;
 using minioc.misc;
 using minioc.resolution.core;
 using MinDI;
@@ -17,7 +14,7 @@ namespace minioc.context.bindings {
 
 		public string name { get; set; }
 		public IList<Type> types { get; set;}
-		public bool isDefault { get; set; }
+		public bool makeDefault { get; set; }
 	
 		public InstantiationType instantiationType { get; set; }
 		public InstantiationType genericInstantiation { get; set; }
@@ -32,7 +29,21 @@ namespace minioc.context.bindings {
 		}
 
 		// TODO - add control checks and exceptions
-		// TODO - optimize these 3 methods through constructor
+		// TODO - optimize these 4 methods through constructor
+
+		public static Binding CreateEmpty(IDIContext context) {
+			var result = new Binding();
+			result.context = context;
+			result.types = null;
+			result.instance = null;
+			result.instantiationType = InstantiationType.None;
+			result.genericInstantiation = InstantiationType.None;
+			result.factory = null;
+			result.name = "";
+			return result;
+		}
+
+
 		public static Binding CreateForInstance(IDIContext context, IList<Type> types, object instance,
 			bool isDefault = true, string name = DEFAULT_BINDING) {
 
@@ -44,7 +55,7 @@ namespace minioc.context.bindings {
 			result.genericInstantiation = InstantiationType.None;
 			result.factory = null;
 			result.name = name;
-			result.isDefault = isDefault;
+			result.makeDefault = isDefault;
 			result.CreateInstantiationFactory();
 			return result;
 		}
@@ -60,7 +71,7 @@ namespace minioc.context.bindings {
 			result.genericInstantiation = InstantiationType.None;
 			result.factory = factory;
 			result.name = name;
-			result.isDefault = isDefault;
+			result.makeDefault = isDefault;
 			result.CreateInstantiationFactory();
 			return result;
 		}
@@ -76,7 +87,7 @@ namespace minioc.context.bindings {
 			result.genericInstantiation = InstantiationType.None;
 			result.factory = factory;
 			result.name = name;
-			result.isDefault = isDefault;
+			result.makeDefault = isDefault;
 			result.CreateInstantiationFactory();
 			return result;
 		}
@@ -94,18 +105,18 @@ namespace minioc.context.bindings {
 			result.factory = null;
 			result.instantiationFactory = null;
 			result.name = name;
-			result.isDefault = isDefault;
+			result.makeDefault = isDefault;
 			return result;
 		}
 
-		public static Binding CreateFromGeneric(Binding genericBinding, Type[] genericArguments) {
+		public static Binding CreateFromGeneric(IBinding genericBinding, Type[] genericArguments) {
 			var result = new Binding();
 			result.context = genericBinding.context;
 			result.types = CreateGenericBindingTypes(genericBinding.types, genericArguments);
 			result.instantiationType = genericBinding.genericInstantiation;
 			result.genericInstantiation = InstantiationType.None;
 			result.name = genericBinding.name;
-			result.isDefault = genericBinding.isDefault;
+			result.makeDefault = genericBinding.makeDefault;
 			result.factory = CreateGenericBindingFactory(genericBinding.instance as Type, genericArguments);
 			result.CreateInstantiationFactory();
 
@@ -113,7 +124,7 @@ namespace minioc.context.bindings {
 		}
 
 
-		public object GetInstance() {
+		public object Resolve() {
 			return instantiationFactory();
 		}
 
