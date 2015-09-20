@@ -12,9 +12,8 @@ using MinDI.StateObjects;
 
 namespace minioc.context.bindings {
 
-	// TODO - add interfaces
-	public sealed class Binding {
-		const string UNNAMED_BINDING = "__$UNNAMED__";
+	public sealed class Binding : IBinding {
+		public const string DEFAULT_BINDING = "__$UNNAMED__";
 
 		public string name { get; set; }
 		public IList<Type> types { get; set;}
@@ -35,7 +34,7 @@ namespace minioc.context.bindings {
 		// TODO - add control checks and exceptions
 		// TODO - optimize these 3 methods through constructor
 		public static Binding CreateForInstance(IDIContext context, IList<Type> types, object instance,
-			 bool isDefault = true, string name = UNNAMED_BINDING) {
+			bool isDefault = true, string name = DEFAULT_BINDING) {
 
 			var result = new Binding();
 			result.context = context;
@@ -51,7 +50,7 @@ namespace minioc.context.bindings {
 		}
 
 		public static Binding CreateForConcrete(IDIContext context, IList<Type> types, Func<object> factory,
-			bool isDefault = true, string name = UNNAMED_BINDING) {
+			bool isDefault = true, string name = DEFAULT_BINDING) {
 
 			var result = new Binding();
 			result.context = context;
@@ -67,7 +66,7 @@ namespace minioc.context.bindings {
 		}
 
 		public static Binding CreateForAbstract(IDIContext context, IList<Type> types, Func<object> factory,
-			bool isDefault = true, string name = UNNAMED_BINDING) {
+			bool isDefault = true, string name = DEFAULT_BINDING) {
 
 			var result = new Binding();
 			result.context = context;
@@ -84,7 +83,7 @@ namespace minioc.context.bindings {
 
 
 		public static Binding CreateForGeneric(IDIContext context, IList<Type> types, Type genericType,
-			InstantiationType instantiationType, bool isDefault = true, string name = UNNAMED_BINDING) {
+			InstantiationType instantiationType, bool isDefault = true, string name = DEFAULT_BINDING) {
 
 			var result = new Binding();
 			result.context = context;

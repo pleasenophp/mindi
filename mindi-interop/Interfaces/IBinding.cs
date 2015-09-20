@@ -1,35 +1,21 @@
 ﻿using System;
 using MinDI.Introspection;
+using System.Collections.Generic;
 
 namespace MinDI {
 	public interface IBinding {
-		BindingDescriptor descriptor {get; }
+		string name { get; }
+		IList<Type> types { get; }
+		bool isDefault { get; }
 
+		InstantiationType instantiationType { get; }
+		InstantiationType genericInstantiation { get; }
 
-		/// <summary>
-		/// Specify the class used to create the instance 
-		/// </summary>
-		/// <param name="instantiator"></param>
-		/// <returns></returns>
-		IBinding InstanciatedBy(Instantiator instantiator);
+		object instance { get; }
+		IDIContext context { get; }
+		Func<object> factory { get; }
 
-		/// <summary>
-		/// Sets the descriptor parameters for the introspection.
-		/// </summary>
-		/// <returns>The descriptor.</returns>
-		/// <param name="context">Context.</param>
-		/// <param name="instantiation">Instantiation.</param>
-		/// <param name="type">Type.</param>
-		/// <param name="factory">Factory.</param>
-		IBinding SetDescriptor(IDIContext context, InstantiationType instantiation, Func<object> factory);
-
-		// For generic binding
-		IBinding SetGenericDescriptor(IDIContext context, InstantiationType instantiation, InstantiationType genericInstantiation);
-
-		/// <summary>
-		/// Make this binding the default binding for the bound type
-		/// </summary>
-		IBinding MakeDefault();
+		object GetInstance();
 	}
 }
 

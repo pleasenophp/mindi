@@ -37,7 +37,6 @@
     <Compile Include="Interfaces\Instantiator.cs" />
     <Compile Include="Interfaces\InstantiationMode.cs" />
     <Compile Include="Interfaces\BindingStub.cs" />
-    <Compile Include="bindings\BindingDescriptor.cs" />
     <Compile Include="bindings\InstantiationType.cs" />
     <Compile Include="Interfaces\IRemoteObjectsRecord.cs" />
     <Compile Include="Interfaces\IActionQueue.cs" />

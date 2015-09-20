@@ -45,9 +45,7 @@ namespace minioc
 		/// <param name="binding"></param>
 		public void Register (IBinding binding)
 		{
-			BindingImpl impl = (BindingImpl)binding;
-			impl.verifyIntegrity ();
-			_bindings.add (impl);
+			_bindings.add (binding);
 		}
 
 		public T Resolve<T> (string name = null) {

@@ -38,8 +38,6 @@
     <Compile Include="src\context\MiniocBindings.cs" />
     <Compile Include="src\context\ReflectionCache.cs" />
     <Compile Include="src\context\TypeBindings.cs" />
-    <Compile Include="src\context\bindings\BindingImpl.cs" />
-    <Compile Include="src\context\bindings\GenericBindingStub.cs" />
     <Compile Include="src\misc\MiniocException.cs" />
     <Compile Include="src\resolution\core\InjectionContext.cs" />
     <Compile Include="src\resolution\injection\MethodInjectionStrategy.cs" />
@@ -53,10 +51,11 @@
     <Compile Include="src\resolution\lifecylcle\providers\ExplicitValueProvider.cs" />
     <Compile Include="src\resolution\lifecylcle\providers\FactoryValueProvider.cs" />
     <Compile Include="src\resolution\injection\PrimitiveInjectionStrategy.cs" />
-    <Compile Include="src\context\bindings\GenericTypeResolver.cs" />
     <Compile Include="Interfaces\IInjectionStrategy.cs" />
     <Compile Include="src\resolution\injection\BaseInjectionStrategy.cs" />
     <Compile Include="src\context\bindings\Binding.cs" />
+    <Compile Include="src\context\NamedBindings.cs" />
+    <Compile Include="src\MiniocExtensions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

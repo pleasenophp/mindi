@@ -8,26 +8,48 @@ using MinDI.Introspection;
 
 namespace minioc.context {
 	internal class MiniocBindings {
-		private Dictionary<Type, TypeBindings> _bindings = new Dictionary<Type, TypeBindings>();
+		private Dictionary<Type, NamedBindings> bindings = new Dictionary<Type, NamedBindings>();
 
-		public bool tryGetValue(Type type, out TypeBindings typeBindings) {
-			return _bindings.TryGetValue(type, out typeBindings);
-		}
-
-		public void add(BindingImpl impl) {
-			TypeBindings typeBindings;
-			if (!_bindings.TryGetValue(impl.type, out typeBindings)) {
-				typeBindings = new TypeBindings();
-				_bindings.Add(impl.type, typeBindings);
+		public void Add(IBinding binding) {
+			foreach (Type type in binding.types) {
+				AddBindingForType(type, binding);
 			}
-			typeBindings.addBinding(impl);
 		}
 
-		public bool tryResolve(Type type, string name, InjectionContext injectionContext, out object result) {
+		private void AddBindingForType(Type type, IBinding binding) {
+			NamedBindings descriptor = bindings.Get(type, () => new NamedBindings());
+			bindings[type] = descriptor;
+			descriptor.Add(type, binding);
+		}
+
+		public void Remove(IBinding binding) {
+			foreach (Type type in binding.types) {
+				RemoveBindingForType(type, binding);
+			}
+		}
+
+		private void RemoveBindingForType(Type type, IBinding binding) {
+			NamedBindings descriptor = bindings.Get(type, () => null);
+			if (descriptor != null) {
+				descriptor.Remove(type, binding);
+			}
+		}
+
+		public bool TryResolve(Type type, string name, out object result) {
+			result = null;
 			if (type.IsGenericTypeDefinition) {
 				throw new MiniocException("Generic type definitions may not be resolved ! Passed type: "+type);
 			}
 
+			NamedBindings descriptor = bindings.Get(type);
+			if (descriptor == null) {
+				return false;
+			}
+
+			return descriptor.TryResolve(type, name, out result);
+
+
+			/*
 			TypeBindings typeBindings;
 			if (!_bindings.TryGetValue(type, out typeBindings)) {
 
@@ -43,8 +65,11 @@ namespace minioc.context {
 
 			result = typeBindings.resolve(name, injectionContext);
 			return true;
+			*/
 		}
 
+		// TODO - restore
+		/*
 		public BindingDescriptor introspect(Type type, string name) {
 			TypeBindings typeBindings;
 			if (!_bindings.TryGetValue(type, out typeBindings)) {
@@ -63,20 +88,10 @@ namespace minioc.context {
 			}
 
 			return binding.descriptor;
-		}
+		}*/
 
-		public void remove(IBinding binding) {
-			BindingImpl impl = binding as BindingImpl;
-			if (impl == null) {
-				return;
-			}
-			TypeBindings typeBindings;
-			if (!_bindings.TryGetValue(impl.type, out typeBindings)) {
-				return;
-			}
-			typeBindings.removeBinding(impl);
-		}
 
+		/*
 		private bool tryInstantiateGeneric(Type type, string name) {
 			Type definition = type.GetGenericTypeDefinition();
 			TypeBindings typeBindings;
@@ -111,5 +126,6 @@ namespace minioc.context {
 			}
 			return tryResolve(type, name, injectionContext, out result);
 		}
+		*/
 	}
 }
