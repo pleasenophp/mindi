@@ -10,6 +10,8 @@ namespace MinDI.Unity {
 		public event Action onUpdate = delegate {};
 		public event Action onFixedUpdate = delegate {};
 		public event Action onLateUpdate = delegate {};
+		public event Action onGui = delegate {};
+		public event Action onDrawGizmos = delegate {};
 
 		public Coroutine StartCoroutines(params IEnumerator[] routines) {
 			return StartCoroutines(null, routines);
@@ -39,6 +41,14 @@ namespace MinDI.Unity {
 
 		void LateUpdate() {
 			onLateUpdate();
+		}
+
+		void OnGUI() {
+			onGui();
+		}
+
+		void OnDrawGizmos() {
+			onDrawGizmos();
 		}
 
 	}

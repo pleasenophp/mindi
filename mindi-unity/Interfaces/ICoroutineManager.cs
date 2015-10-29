@@ -8,6 +8,8 @@ namespace MinDI {
 		event Action onUpdate;
 		event Action onFixedUpdate;
 		event Action onLateUpdate;
+		event Action onGui;
+		event Action onDrawGizmos;
 
 		// Start one coroutine
 		Coroutine StartCoroutine(IEnumerator routine);
