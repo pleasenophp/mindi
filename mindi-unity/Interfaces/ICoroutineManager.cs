@@ -13,13 +13,19 @@ namespace MinDI {
 
 		// Start one coroutine
 		Coroutine StartCoroutine(IEnumerator routine);
+		Coroutine StartCoroutine(string identifier, IEnumerator routine);
 
 		// Run several coroutines one by one
 		Coroutine StartCoroutines(params IEnumerator[] routines);
 		Coroutine StartCoroutines(Action finalCall, params IEnumerator[] routines);
+		Coroutine StartCoroutines(string identifier, params IEnumerator[] routines);
+		Coroutine StartCoroutines(string identifier, Action finalCall, params IEnumerator[] routines);
 
 		void StopCoroutine(IEnumerator routine);
 		void StopCoroutine(Coroutine routine);
+
+		// Stop all registered coroutines
+		void StopCoroutines(string identifier);
 	}
 
 }
