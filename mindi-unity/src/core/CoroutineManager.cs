@@ -24,6 +24,10 @@ namespace MinDI.Unity {
 			return crt;
 		}
 
+		public Coroutine StartCoroutine(object obj, IEnumerator routine) {
+			return StartCoroutine(GetObjectIdentifier(obj), routine);
+		}
+
 		public Coroutine StartCoroutines(params IEnumerator[] routines) {
 			return StartCoroutines(null, null, routines);
 		}
@@ -32,14 +36,26 @@ namespace MinDI.Unity {
 			return StartCoroutines(null, finalCall, routines);
 		}
 
+		public Coroutine StartCoroutines(object obj, params IEnumerator[] routines) {
+			return StartCoroutines(GetObjectIdentifier(obj), routines);
+		}
+
 		public Coroutine StartCoroutines(string identifier, params IEnumerator[] routines) {
 			return StartCoroutines(identifier, null, routines);
+		}
+
+		public Coroutine StartCoroutines(object obj, Action finalCall, params IEnumerator[] routines) {
+			return StartCoroutines(GetObjectIdentifier(obj), finalCall, routines);
 		}
 
 		public Coroutine StartCoroutines(string identifier, Action finalCall, params IEnumerator[] routines) {
 			Coroutine crt = StartCoroutine(RunCoroutines(identifier, finalCall, routines));
 			RegisterCoroutine(identifier, crt);
 			return crt;
+		}
+
+		public void StopCoroutines(object obj) {
+			StopCoroutines(GetObjectIdentifier(obj));
 		}
 
 		public void StopCoroutines(string identifier) {
@@ -79,6 +95,16 @@ namespace MinDI.Unity {
 				finalCall();
 			}
 			yield break;
+		}
+
+		private string GetObjectIdentifier(object obj) {
+			UnityEngine.Object unityObject = obj as UnityEngine.Object;
+			if (unityObject != null) {
+				return unityObject.GetInstanceID().ToString();
+			}
+			else {
+				return obj.GetType().FullName;
+			}
 		}
 
 		void Update() {
