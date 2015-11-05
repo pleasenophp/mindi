@@ -14,8 +14,9 @@ namespace MinDI.Unity {
 		public event Action onGui = delegate {};
 		public event Action onDrawGizmos = delegate {};
 
+
 		[Injection]
-		public IDictionary<string, IList<Coroutine>> trackedCoroutines { get; set; }
+		public IDictionary<string, Stack<Coroutine>> trackedCoroutines { get; set; }
 
 		// Start one coroutine
 		public Coroutine StartCoroutine(string identifier, IEnumerator routine) {
@@ -59,16 +60,15 @@ namespace MinDI.Unity {
 		}
 
 		public void StopCoroutines(string identifier) {
-			IList<Coroutine> coroutines = null;
+			Stack<Coroutine> coroutines = null;
 			if (!this.trackedCoroutines.TryGetValue(identifier, out coroutines)) {
 				return;
 			}
 
-			foreach (Coroutine crt in coroutines) {
+			while (coroutines.Count > 0) {
+				Coroutine crt = coroutines.Pop();
 				StopCoroutine(crt);
 			}
-
-			coroutines.Clear();
 		}
 
 		private void RegisterCoroutine(string identifier, Coroutine crt) {
@@ -76,12 +76,12 @@ namespace MinDI.Unity {
 				return;
 			}
 
-			IList<Coroutine> coroutines = null;
+			Stack<Coroutine> coroutines = null;
 			if (!this.trackedCoroutines.TryGetValue(identifier, out coroutines)) {
-				coroutines = new List<Coroutine>();
+				coroutines = new Stack<Coroutine>();
 			}
 
-			coroutines.Add(crt);
+			coroutines.Push(crt);
 			this.trackedCoroutines[identifier] = coroutines;
 		}
 
