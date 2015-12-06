@@ -14,6 +14,8 @@ namespace MinDI.Binders {
 	{
 		public IBinding BindInstance<T> (T instance, string name = null, Action<IBinding> configure = null) {
 			IBinding binding = Create InternalBindInstance<T>(instance, name);
+			r
+
 			return RegisterBinding(binding, configure);
 		}
 
