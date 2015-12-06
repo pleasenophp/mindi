@@ -13,7 +13,7 @@ namespace MinDI.Binders {
 	public partial class SingletonBinder
 	{
 		public IBinding BindInstance<T> (T instance, string name = null, Action<IBinding> configure = null) {
-			IBinding binding = InternalBindInstance<T>(instance, name);
+			IBinding binding = Create InternalBindInstance<T>(instance, name);
 			return RegisterBinding(binding, configure);
 		}
 

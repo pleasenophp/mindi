@@ -43,7 +43,7 @@ namespace minioc.context.bindings {
 			return result;
 		}
 
-
+		// NOTE - maybe just make these 3 methods accept instantiation type
 		public static Binding CreateForInstance(IDIContext context, IList<Type> types, object instance,
 			bool isDefault = true, string name = DEFAULT_BINDING) {
 

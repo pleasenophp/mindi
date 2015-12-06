@@ -2,11 +2,11 @@ using System;
 using System.Collections;
 using minioc;
 using minioc.context.bindings;
-using minioc.resolution.instantiator;
 using MinDI.Introspection;
 
 namespace MinDI.Binders {
 
+	// TODO - use universal core acceptor for many types
 	public abstract partial class BaseDIBinder
 	{		
 		public void BindMany<T1, T2> (Func<object> create, string name = null, Action<IBinding> configure = null) 
