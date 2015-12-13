@@ -56,9 +56,8 @@ namespace MinDI.Tests.MinIOC
 		{
 			IDIContext context = new MiniocContext();
 
-			context.Register(Bindings
-				.ForType<IOrange>().ImplementedBy(() => new RedOrange()));
-			                 
+			context.m().Bind<IOrange>(() => new RedOrange());
+
 			IOrange orange1 = context.Resolve<IOrange>();
 			IOrange orange2 = context.Resolve<IOrange>();
 			

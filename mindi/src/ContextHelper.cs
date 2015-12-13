@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using minioc;
 using minioc.context.bindings;
-using minioc.resolution.instantiator;
 using MinDI.Binders;
 using minioc.resolution.dependencies;
 using MinDI.Context;
@@ -19,16 +18,6 @@ namespace MinDI {
 			context.Initialize<T>();
 			return context;
 		}
-			
-
-		// TODO - remove
-		[Obsolete]
-		public static TInstance Resolve<TInterface, TInstance>(this IDIContext context, string name = null) 
-			where TInterface : class
-			where TInstance : class, TInterface 
-		{
-			return context.Resolve<TInterface>(name) as TInstance;
-		}
 
 		public static IDIContext Reproduce(this IDIContext parent, string contextName = null) {
 			return CreateContext(parent, contextName);
@@ -37,21 +26,6 @@ namespace MinDI {
 		public static IDIContext Reproduce<T>(this IDIContext parent, string contextName = null) where T:class, IContextInitializer {
 			return CreateContext<T>(parent, contextName);
 		}
-
-		/*
-		/// <summary>
-		/// Chains an interface on the new context, rebinding it as a singletone
-		/// This is usefull to build complex hierarchy of the objects
-		/// Returns the new context. 
-		/// </summary>
-		/// <param name="context">Context.</param>
-		/// <typeparam name="T">The interface type parameter.</typeparam>
-		public static IDIContext Chain<T>(this IDIContext context) where T:class {
-			IDIContext newContext = CreateContext(context);
-			newContext.s().Rebind<T>();
-			return newContext;
-		}
-		*/
 
 		private static IDIContext InternalCreateContext(IDIContext parent, string name) {
 			IDIContext context = new MiniocContext(parent, name);

@@ -3,7 +3,6 @@ using System.Collections;
 using minioc;
 
 using minioc.context.bindings;
-using minioc.resolution.instantiator;
 using MinDI.Context;
 using MinDI.StateObjects;
 using MinDI.Introspection;

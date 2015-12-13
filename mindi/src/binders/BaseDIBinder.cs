@@ -8,7 +8,6 @@ using System.Collections.Generic;
 namespace MinDI.Binders {
 
 
-	// TODO - mide need to considr making non-generic factory
 	public abstract partial class BaseDIBinder : OpenContextObject
 	{
 		protected InstantiationType instantiationType;
@@ -26,7 +25,11 @@ namespace MinDI.Binders {
 		/// <typeparam name="T">The interface type.</typeparam>
 		public IBinding Bind<T> (Func<T> create, string name = null, bool makeDefault = false) where T:class
 		{
-			IBinding binding = CreateBinding<T> (create, name, makeDefault);
+			return Bind(this.instantiationType, new List<Type>{ typeof(T) }, () => create(), name, makeDefault);
+		}
+
+		protected IBinding Bind(InstantiationType inst, IList<Type> types, Func<object> create, string name = null, bool makeDefault = false) {
+			IBinding binding = CreateBinding (inst, types, create, name, makeDefault);
 			this.context.Register(binding);
 			return binding;
 		}
@@ -61,7 +64,9 @@ namespace MinDI.Binders {
 					" for name "+resolutionName);
 			}
 
-			return this.Bind<T> (() => binding.factory() as T, name, makeDefault);
+			IBinding newBinding = CreateBinding(this.instantiationType, new List<Type>{typeof(T)}, binding.factory, name, makeDefault);
+			this.context.Register(newBinding);
+			return newBinding;
 		}
 
 		/// <summary>
@@ -90,7 +95,7 @@ namespace MinDI.Binders {
 
 		protected IBinding CreateGenericBinding(Type interfaceType, Type resolutionType, string name, bool makeDefault) {
 			if (string.IsNullOrEmpty(name)) {
-				name = BindHelper.GetDefaultBindingName(interfaceType, context);
+				name = BindHelper.GetDefaultBindingName(context);
 			}
 
 			IBinding binding = Binding.CreateForGeneric(context, new List<Type>{ interfaceType }, resolutionType, this.instantiationType, makeDefault, name);
@@ -98,22 +103,22 @@ namespace MinDI.Binders {
 		}
 
 
-		protected IBinding CreateBinding<T> (Func<T> create, string name, bool makeDefault) {
+		protected IBinding CreateBinding(InstantiationType inst, IList<Type> types, Func<object> create, string name, bool makeDefault) {
 			if (string.IsNullOrEmpty(name)) {
-				name = BindHelper.GetDefaultBindingName<T>(context);
+				name = BindHelper.GetDefaultBindingName(context);
 			}
 
-			if (this.instantiationType == InstantiationType.Abstract) {
-				return Binding.CreateForAbstract(this.context, new List<Type>{ typeof(T) }, () => create(), makeDefault, name);
+			if (inst == InstantiationType.Abstract) {
+				return Binding.CreateForAbstract(this.context, types, create, makeDefault, name);
 			}
-			else if (this.instantiationType == InstantiationType.Concrete) {
-				return Binding.CreateForConcrete(this.context, new List<Type>{ typeof(T) }, () => create(), makeDefault, name);
+			else if (inst == InstantiationType.Concrete) {
+				return Binding.CreateForConcrete(this.context, types, create, makeDefault, name);
 			}
-			else if (this.instantiationType == InstantiationType.Instance) {
-				return Binding.CreateForInstance(this.context, new List<Type>{ typeof(T) }, () => create(), makeDefault, name);
+			else if (inst == InstantiationType.Instance) {
+				return Binding.CreateForInstance(this.context, types, create(), makeDefault, name);
 			}
 			else {
-				throw new MindiException("Unhandled instantiation type: " + this.instantiationType);
+				throw new MindiException("Unhandled instantiation type: " + inst);
 			}
 
 		}

@@ -7,7 +7,7 @@ namespace MinDI.Context.Internal {
 		#region IContextInitializer implementation
 		public void Initialize(IDIContext context) {
 			context.s().Bind<IRemoteObjectsHash>(() => new RemoteObjectsHash());
-			context.s().BindInstance<ContextEnvironment>(ContextEnvironment.RemoteObjects, "unity", (b) => b.MakeDefault());
+			context.s().BindInstance<ContextEnvironment>(ContextEnvironment.RemoteObjects, "unity", true);
 			context.s().BindInstance<MBLifeTime>(MBLifeTime.Permanent);
 			context.s().Bind<IRemoteObjectsRecord>(() => new RemoteObjectsRecordRoot());
 			context.s().Bind<IRemoteObjectsDestroyer>(() => new RemoteObjectsDestroyer());

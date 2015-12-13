@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using minioc;
-
 using minioc.context.bindings;
 using MinDI.StateObjects;
 using MinDI.Introspection;
