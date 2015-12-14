@@ -82,10 +82,24 @@ namespace MinDI {
 					continue;
 				}
 
-				foreach (Type type in assembly.GetTypes()) {
-					if (type.IsClass && typeof(IContextInitializer).IsAssignableFrom(type)) {
-						AddInitializer(type);
+				try {
+
+					foreach (Type type in assembly.GetTypes()) {
+						if (type.IsClass && typeof(IContextInitializer).IsAssignableFrom(type)) {
+							AddInitializer(type);
+						}
 					}
+				}
+				catch (Exception ex) {
+					System.Diagnostics.Debug.WriteLine(string.Format("MinDI failed loading assembly {0}. The exception is: {1}", assembly.FullName, ex.Message));
+					ReflectionTypeLoadException tle = ex as ReflectionTypeLoadException;
+					if (tle != null) {
+						foreach (var le in tle.LoaderExceptions) {
+							System.Diagnostics.Debug.WriteLine(string.Format("The loader exception occured for {0}: {1}", assembly.FullName, le.Message));
+						}
+					}
+
+					continue;
 				}
 			}
 		}
