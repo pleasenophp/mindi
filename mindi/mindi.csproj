@@ -57,6 +57,8 @@
     <Compile Include="src\binders\BaseDIBinder_BindMany.cs" />
     <Compile Include="src\resolution\DynamicResolver.cs" />
     <Compile Include="src\resolution\SoftDynamicResolver.cs" />
+    <Compile Include="Interfaces\IContextBuilderTypesProvider.cs" />
+    <Compile Include="src\context\ReflectionTypesProvider.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -64,6 +66,7 @@
     <Folder Include="src\extensions\" />
     <Folder Include="Context\" />
     <Folder Include="src\resolution\" />
+    <Folder Include="Interfaces\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="LICENSE-SGI.txt" />

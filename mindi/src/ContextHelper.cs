@@ -6,6 +6,7 @@ using minioc.resolution.instantiator;
 using MinDI.Binders;
 using minioc.resolution.dependencies;
 using MinDI.Context;
+using System.Reflection;
 
 
 namespace MinDI {
@@ -38,6 +39,20 @@ namespace MinDI {
 			return CreateContext<T>(parent, contextName);
 		}
 
+
+		public static bool HasContext(this Assembly assembly) {
+			object[] attributes = assembly.GetCustomAttributes(typeof(ContextAssemblyAttribute), false);	
+			if (attributes.Length == 0) {
+				return false;
+			}
+			return true;
+		}
+
+		public static bool IsUnityProjectAssembly(this Assembly assembly) {
+			// NOTE - pretty lame way to do it like this, but seems to be ok for now
+			return assembly.FullName.Contains("Unity") || assembly.FullName.Contains("Assembly-CSharp");
+		}
+
 		/*
 		/// <summary>
 		/// Chains an interface on the new context, rebinding it as a singletone
@@ -61,6 +76,7 @@ namespace MinDI {
 
 			return context;
 		}
+
 			
 	}
 }

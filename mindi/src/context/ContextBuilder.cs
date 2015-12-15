@@ -17,6 +17,16 @@ namespace MinDI {
 	/// </summary>
 	public static class ContextBuilder {
 		private static IDictionary<Type, List<IContextInitializer>> initializers = null;
+
+		private static IContextBuilderTypesProvider typesProvider = new ReflectionTypesProvider();
+		public static IContextBuilderTypesProvider TypesProvider {
+			get {
+				return typesProvider;
+			}
+			set {
+				typesProvider = value;
+			}
+		}
 		
 		public static IList<T> Initialize<T>(this IDIContext context, FilteredInitializerAttribute filter = null) where T:class, IContextInitializer {	
 			if (!typeof(T).IsInterface) {
@@ -76,31 +86,8 @@ namespace MinDI {
 		private static void FetchInitializers() {
 			initializers = new Dictionary<Type, List<IContextInitializer>>();
 
-			foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies()) {
-				if (Assembly.GetExecutingAssembly() != assembly && Assembly.GetCallingAssembly() != assembly && 
-					!assembly.IsUnityProjectAssembly() && !assembly.HasContext()) {
-					continue;
-				}
-
-				try {
-
-					foreach (Type type in assembly.GetTypes()) {
-						if (type.IsClass && typeof(IContextInitializer).IsAssignableFrom(type)) {
-							AddInitializer(type);
-						}
-					}
-				}
-				catch (Exception ex) {
-					System.Diagnostics.Debug.WriteLine(string.Format("MinDI failed loading assembly {0}. The exception is: {1}", assembly.FullName, ex.Message));
-					ReflectionTypeLoadException tle = ex as ReflectionTypeLoadException;
-					if (tle != null) {
-						foreach (var le in tle.LoaderExceptions) {
-							System.Diagnostics.Debug.WriteLine(string.Format("The loader exception occured for {0}: {1}", assembly.FullName, le.Message));
-						}
-					}
-
-					continue;
-				}
+			foreach (Type type in typesProvider.GetTypes()) {
+				AddInitializer(type);
 			}
 		}
 
@@ -136,17 +123,5 @@ namespace MinDI {
 			instances.Add(Activator.CreateInstance(type) as IContextInitializer);
 		}
 
-		private static bool HasContext(this Assembly assembly) {
-			object[] attributes = assembly.GetCustomAttributes(typeof(ContextAssemblyAttribute), false);	
-			if (attributes.Length == 0) {
-				return false;
-			}
-			return true;
-		}
-
-		private static bool IsUnityProjectAssembly(this Assembly assembly) {
-			// NOTE - pretty lame way to do it like this, but seems to be ok for now
-			return assembly.FullName.Contains("Unity") || assembly.FullName.Contains("Assembly-CSharp");
-		}
 	}
 }
