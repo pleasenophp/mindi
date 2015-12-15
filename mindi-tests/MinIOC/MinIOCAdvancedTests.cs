@@ -6,6 +6,7 @@ using UnityEngine;
 using minioc;
 using minioc.context.bindings;
 using MinDI.Binders;
+using MinDI.StateObjects;
 
 namespace MinDI.Tests.MinIOC
 {
@@ -25,7 +26,8 @@ namespace MinDI.Tests.MinIOC
 			// Let's see that the dependencies are now injected - we have changed MinIOC. In original version this would fail
 			IDependencyTest test = context.Resolve<IDependencyTest>();
 
-			//Assert.IsNull(test.context); -- in original MinIOC
+			Assert.IsNotNull((test as IDIClosedContext).descriptor);
+			Assert.IsNotNull((test as IDIClosedContext).descriptor.context);
 			Assert.IsNotNull(test.contextAccess);
 		}
 

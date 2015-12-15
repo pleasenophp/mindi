@@ -190,7 +190,7 @@ namespace minioc
 				return;
 			}
 
-			BindingDescriptor descriptor = stateInstance.bindingDescriptor;
+			BindingDescriptor descriptor = stateInstance.descriptor.bindingDescriptor;
 			if (descriptor == null) {
 				throw new MindiException("Called inject dependencies on an instance that has no binding descriptor set: "+instance);
 			}
@@ -201,12 +201,12 @@ namespace minioc
 				return;
 			}
 
-			if (stateInstance.diState == DIState.NotResolved) {
-				stateInstance.diState = DIState.Resolving;
+			if (stateInstance.descriptor.diState == DIState.NotResolved) {
+				stateInstance.descriptor.diState = DIState.Resolving;
 				_injectionContext.injectDependencies(instance, construction);
 				RegisterRemoteObject(instance);
 				stateInstance.AfterInjection();
-				stateInstance.diState = DIState.Resolved;
+				stateInstance.descriptor.diState = DIState.Resolved;
 			}
 		}
 			

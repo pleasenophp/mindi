@@ -70,12 +70,12 @@ namespace MinDI.Factories {
 				return;
 			}
 
-			VerifyInstantiationContext(contextObject.bindingDescriptor, resolutionContext, instance);
-			if (contextObject.factory != null) {
+			VerifyInstantiationContext(contextObject.descriptor.bindingDescriptor, resolutionContext, instance);
+			if (contextObject.descriptor.factory != null) {
 				throw new MindiException("Attempting to create an already created object on factory: "+this+". Object: "+instance+". If the object is bound as singleton, you cannot create it on the factory again !");
 			}
 
-			contextObject.factory = this;
+			contextObject.descriptor.factory = this;
 		}
 
 		protected void VerifyInstantiationContext(BindingDescriptor desc, IDIContext resolutionContext, object instance) {
@@ -91,11 +91,11 @@ namespace MinDI.Factories {
 				return;
 			}
 
-			if (contextObject.factory != this) {
+			if (contextObject.descriptor.factory != this) {
 				throw new MindiException(string.Format("The object {0} has not been created on this factory: {1}", contextObject, this));
 			}
 
-			if (contextObject.context == null) {
+			if (contextObject.descriptor.context == null) {
 				throw new MindiException(string.Format("Context is null for object {0}", contextObject));
 			}
 
@@ -104,7 +104,7 @@ namespace MinDI.Factories {
 		protected void DestroyRemoteObjects(object instance) {
 			IDIClosedContext contextObject = instance as IDIClosedContext;
 			if (contextObject != null) {
-				IRemoteObjectsRecord ror = contextObject.context.Resolve<IRemoteObjectsRecord>();
+				IRemoteObjectsRecord ror = contextObject.descriptor.context.Resolve<IRemoteObjectsRecord>();
 				ror.DestroyAll();
 			}
 			else {

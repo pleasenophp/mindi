@@ -4,6 +4,7 @@ using minioc;
 using minioc.context.bindings;
 using minioc.resolution.instantiator;
 using MinDI.Introspection;
+using MinDI.StateObjects;
 
 namespace MinDI.Binders {
 
@@ -11,7 +12,7 @@ namespace MinDI.Binders {
 	{
 		protected InstantiationType instantiationType;
 
-		public BaseDIBinder(IDIContext context) {
+		protected BaseDIBinder(IDIContext context) {
 			this.contextInjection = context;
 		}
 

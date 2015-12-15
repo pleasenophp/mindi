@@ -10,46 +10,13 @@ namespace MinDI {
 	/// Derive your MonoBehaviours that work with MinDI from this class
 	/// </summary>
 	public abstract class ContextMonoBehaviour : MonoBehaviour, IDIClosedContext {
-		private DIState _state = DIState.NotResolved;
-
 		[NonSerialized]
-		private IDIContext _context;
-
-		[NonSerialized]
-		private IDestroyingFactory _factory;
-
-		[NonSerialized]
-		private BindingDescriptor _descriptor = new BindingDescriptor();
-
-
-		#region IDIClosedContext implementation
-
-		IDestroyingFactory IDIClosedContext.factory {
-			get {
-				return _factory;
-			}
-			set {
-				_factory = value;
-			}
-		}
-
+		private ContextDescriptor _descriptor = new ContextDescriptor();
 
 		[Injection]
-		public IDIContext contextInjection {
+		protected IDIContext contextInjection {
 			set {
-				if (_context != null) {
-					throw new MindiException("Attempt to alter context on ContextObject");
-				}
-				_context = value;
-			}
-		}
-
-		DIState IDIClosedContext.diState {
-			get {
-				return _state;
-			}
-			set {
-				_state = value;
+				_descriptor.context = value;
 			}
 		}
 
@@ -61,22 +28,11 @@ namespace MinDI {
 			OnDestruction();
 		}
 
-		IDIContext IDIClosedContext.context {
-			get {
-				return _context;
-			}
-		}
-
-		BindingDescriptor IDIClosedContext.bindingDescriptor {
+		ContextDescriptor IDIClosedContext.descriptor {
 			get {
 				return _descriptor;
 			}
-			set {
-				_descriptor = value;
-			}
 		}
-
-		#endregion
 
 		protected virtual void OnInjected() {
 		}

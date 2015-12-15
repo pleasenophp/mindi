@@ -99,7 +99,7 @@ namespace MinDI.Tests
 			IMyClass instance = factory.Create(new Apple(), new Orange());
 			Assert.IsNotNull(instance);
 			IDIClosedContext cto = instance as IDIClosedContext;
-			Assert.AreSame(cto.context, context);
+			Assert.AreSame(cto.descriptor.context, context);
 
 			instance = factory.Destroy(instance);
 			Assert.IsNull(instance);

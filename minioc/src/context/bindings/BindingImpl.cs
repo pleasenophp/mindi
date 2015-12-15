@@ -117,7 +117,7 @@ namespace minioc.context.bindings {
 
 			IDIClosedContext mindiInstance = instance as IDIClosedContext;
 			if (mindiInstance != null) {
-				mindiInstance.bindingDescriptor = this.descriptor;
+				mindiInstance.descriptor.bindingDescriptor = this.descriptor;
 			}
 
 			return instance;

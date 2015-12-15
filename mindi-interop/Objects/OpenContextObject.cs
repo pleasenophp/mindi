@@ -18,7 +18,7 @@ namespace MinDI {
 		protected IDIContext context {
 			get {
 				if (_contextCache == null) {
-					_contextCache = (this as IDIClosedContext).context;
+					_contextCache = (this as IDIClosedContext).descriptor.context;
 				}
 
 				return _contextCache;
