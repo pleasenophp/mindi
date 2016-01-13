@@ -185,7 +185,7 @@ namespace minioc
 				
 			// Not injecting any dependencies if the object is not context object
 			IDIClosedContext stateInstance = instance as IDIClosedContext;
-			if (stateInstance == null) {
+			if (stateInstance == null || !stateInstance.IsValid()) {
 				RegisterRemoteObject(instance, true);
 				return;
 			}

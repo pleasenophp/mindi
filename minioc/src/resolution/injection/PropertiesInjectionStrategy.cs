@@ -39,7 +39,9 @@ namespace minioc.resolution.injection {
 			// Not letting mono behaviours to be injected if they are not IDIClosedContext
 			// (because we cannot control their lifetime)
 
-			if (RemoteObjectsHelper.IsRemoteObject(value) && !(value is IDIClosedContext)) {
+			IDIClosedContext ctxval = value as IDIClosedContext;
+
+			if (RemoteObjectsHelper.IsRemoteObject(value) && (ctxval == null || !ctxval.IsValid())) {
 				throw new MiniocException("Injecting a remote object that doesn't implement IDIClosedContext is not allowed ! Tried to inject object "+value+" into property "+propertyInfo.Name+" of the object "+instance);
 			}
 		}

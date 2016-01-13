@@ -17,8 +17,13 @@ namespace MinDI {
 
 		protected IDIContext context {
 			get {
+				IDIClosedContext ctx = this as IDIClosedContext;
+				if (ctx == null || !ctx.IsValid()) {
+					return null;
+				}
+
 				if (_contextCache == null) {
-					_contextCache = (this as IDIClosedContext).descriptor.context;
+					_contextCache = ctx.descriptor.context;
 				}
 
 				return _contextCache;

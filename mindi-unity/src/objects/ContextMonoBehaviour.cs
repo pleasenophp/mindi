@@ -28,6 +28,10 @@ namespace MinDI {
 			OnDestruction();
 		}
 
+		bool IDIClosedContext.IsValid() {
+			return _descriptor != null;
+		}
+
 		ContextDescriptor IDIClosedContext.descriptor {
 			get {
 				return _descriptor;

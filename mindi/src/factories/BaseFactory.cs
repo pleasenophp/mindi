@@ -33,7 +33,7 @@ namespace MinDI.Factories {
 			}
 
 			IDIClosedContext contextObject = instance as IDIClosedContext;
-			if (contextObject != null) {
+			if (contextObject != null && contextObject.IsValid()) {
 				contextObject.BeforeFactoryDestruction();
 			}
 
@@ -64,7 +64,7 @@ namespace MinDI.Factories {
 
 		protected void VerifyObjectCreation (string name, object instance, IDIContext resolutionContext) {
 			IDIClosedContext contextObject = instance as IDIClosedContext;
-			if (contextObject == null) {
+			if (contextObject == null || !contextObject.IsValid()) {
 				BindingDescriptor desc = resolutionContext.Introspect<T>(name);
 				VerifyInstantiationContext(desc, resolutionContext, instance);
 				return;
@@ -87,7 +87,7 @@ namespace MinDI.Factories {
 
 		protected void VerifyObjectDestruction(object instance) {
 			IDIClosedContext contextObject = instance as IDIClosedContext;
-			if (contextObject == null) {
+			if (contextObject == null || !contextObject.IsValid()) {
 				return;
 			}
 
@@ -103,7 +103,7 @@ namespace MinDI.Factories {
 
 		protected void DestroyRemoteObjects(object instance) {
 			IDIClosedContext contextObject = instance as IDIClosedContext;
-			if (contextObject != null) {
+			if (contextObject != null && contextObject.IsValid()) {
 				IRemoteObjectsRecord ror = contextObject.descriptor.context.Resolve<IRemoteObjectsRecord>();
 				ror.DestroyAll();
 			}

@@ -37,7 +37,7 @@ namespace minioc.context.bindings {
 		public BindingImpl(Type type, string name) {
 			this.type = type;
 			this.descriptor = new BindingDescriptor();
-			this.descriptor.name = name == null?UNNAMED_BINDING:name;
+			this.descriptor.name = name ?? UNNAMED_BINDING;
 		}
 
 		public void InitFromGeneric(BindingImpl genericBinding, Func<object> factory) {
@@ -116,7 +116,7 @@ namespace minioc.context.bindings {
 			object instance = _boundInstanceFactory.getInstance(injectionContext);
 
 			IDIClosedContext mindiInstance = instance as IDIClosedContext;
-			if (mindiInstance != null) {
+			if (mindiInstance != null && mindiInstance.IsValid()) {
 				mindiInstance.descriptor.bindingDescriptor = this.descriptor;
 			}
 

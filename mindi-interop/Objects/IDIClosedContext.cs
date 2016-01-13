@@ -4,6 +4,7 @@ namespace MinDI.StateObjects {
 		ContextDescriptor descriptor { get; }
 		void AfterInjection();
 		void BeforeFactoryDestruction();
+		bool IsValid();
 	}
 }
 
