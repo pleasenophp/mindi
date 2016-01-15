@@ -66,6 +66,7 @@
     <Compile Include="Interfaces\resolution\IDynamicInjection.cs" />
     <Compile Include="bindings\BindingName.cs" />
     <Compile Include="objects\ContextDescriptor.cs" />
+    <Compile Include="objects\RemotingContextObject.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
