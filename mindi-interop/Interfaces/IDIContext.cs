@@ -9,8 +9,12 @@ namespace MinDI {
 
 		T Resolve<T> (string name = null);
 		T Resolve<T> (Func<IConstruction> construction, string name = null);
+
 		T TryResolve<T>(string name = null);
 		T TryResolve<T>(Func<IConstruction> construction, string name = null);
+
+		object TryResolve(Type type, string name = null);
+		object TryResolve(Type type, Func<IConstruction> construction, string name = null);
 
 		object Resolve (Type type, string name=null);
 		object Resolve (Type type, Func<IConstruction> construction);
