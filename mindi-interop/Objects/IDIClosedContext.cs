@@ -5,6 +5,7 @@ namespace MinDI.StateObjects {
 		void AfterInjection();
 		void BeforeFactoryDestruction();
 		bool IsValid();
+		void Invalidate();
 	}
 }
 

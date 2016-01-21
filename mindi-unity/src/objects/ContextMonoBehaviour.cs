@@ -32,6 +32,10 @@ namespace MinDI {
 			return _descriptor != null;
 		}
 
+		void IDIClosedContext.Invalidate() {
+			this._descriptor = null;
+		}
+
 		ContextDescriptor IDIClosedContext.descriptor {
 			get {
 				return _descriptor;
