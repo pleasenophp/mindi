@@ -79,7 +79,7 @@ namespace MinDI.Unity {
 			string loadedLevelName = Application.loadedLevelName.ToLower();
 
 			if (loadedLevelName == ApplicationStarter.RootSceneName.ToLower()) {
-				throw new MindiException(string.Format("The {0} scene should never be loaded manually !", ApplicationStarter.RootSceneName));
+				return;
 			}
 
 			if (loading == null || loading.loadingLevelName.ToLower() != loadedLevelName) {

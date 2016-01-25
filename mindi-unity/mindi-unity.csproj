@@ -46,7 +46,6 @@
     <Compile Include="src\extensions\IDIContextUnityExtensions.cs" />
     <Compile Include="Context\MindiUnityContextInitializer.cs" />
     <Compile Include="src\starter\ApplicationStarter.cs" />
-    <Compile Include="src\starter\StarterBehaviour.cs" />
     <Compile Include="src\starter\UnityContextStart.cs" />
     <Compile Include="src\factories\AdditiveSceneLoader.cs" />
     <Compile Include="src\factories\RootSceneFactory.cs" />
@@ -69,6 +68,7 @@
     <Compile Include="Context\MindiUnityUserContextInitializer.cs" />
     <Compile Include="Interfaces\scenes\ISceneArguments.cs" />
     <Compile Include="src\factories\SceneArguments.cs" />
+    <Compile Include="src\starter\RootSceneStarter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

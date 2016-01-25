@@ -11,7 +11,6 @@ namespace MinDI
 		public const string RootSceneName = "_root";
 		public const string StarterObjectName = "_starter";
 
-		public StarterBehaviour behaviour = StarterBehaviour.BackToThisScene;
 		public string autoStartScene;
 
 		[Injection]
@@ -37,19 +36,18 @@ namespace MinDI
 			DoInitialization();
 		}
 
-		void DoInitialization() {
-			// If we loading the root scene from another scene, skip it here
-			if (RootContainer.loadingRoot) {
+		private void DoInitialization() {
+			// Ignoring starter on non-root scene
+			if (Application.loadedLevelName != RootSceneName) {
+				if (RootContainer.context == null) {
+					throw new MindiException("Don't use starter on non-root scene. Use _rootRedirect instead.");
+				}
+
 				return;
 			}
 
 			if (RootContainer.context != null) {
-				return;
-			}
-
-			if (Application.loadedLevelName != RootSceneName) {
-				LoadRootScene();
-				return;
+				throw new MindiException("The root scene is loaded when the context is already initialized !");
 			}
 
 			init = this.GetComponent<UnityContextStart>();
@@ -74,34 +72,6 @@ namespace MinDI
 			LoadAutoStartScene();
 
 			ready = true;	
-		}
-
-		IEnumerator OnLevelWasLoaded(int levelId) {
-			yield return 1;
-
-			if (Application.loadedLevelName != RootSceneName) {
-				yield break;
-			}
-
-			if (!RootContainer.loadingRoot) {
-				throw new MindiException(string.Format("The {0} scene should never be loaded manually !", ApplicationStarter.RootSceneName));
-			}
-
-			RootContainer.loadingRoot = false;
-			DoInitialization();
-		}
-
-		private void LoadRootScene() {
-			RootContainer.loadingRoot = true;
-
-			if (this.behaviour == StarterBehaviour.BackToThisScene) {
-				RootContainer.overrideAutoStartScene = Application.loadedLevelName;
-			}
-			else if (this.behaviour == StarterBehaviour.RootScene) {
-				RootContainer.overrideAutoStartScene = null;
-			}
-
-			Application.LoadLevel(RootSceneName);
 		}
 
 		private void LoadAutoStartScene() {
