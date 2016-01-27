@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using MinDI.Unity;
+using System.Collections;
 
 namespace MinDI
 {
@@ -34,6 +35,11 @@ namespace MinDI
 				RootContainer.overrideAutoStartScene = null;
 			}
 
+			StartCoroutine(LoadRootSceneCoroutine());
+		}
+
+		private IEnumerator LoadRootSceneCoroutine() {
+			yield return 1;
 			Application.LoadLevel(ApplicationStarter.RootSceneName);
 		}
 	}

@@ -67,11 +67,16 @@ namespace MinDI.Unity {
 			}
 
 			loading = new LoadingClass<T>(name, arguments, callback);
+			StartCoroutine(LoadSceneCoroutine(name));
+		}
 
-			Application.LoadLevel(name);
+		// The coroutine is needed to woraround loading from Awake error
+		private IEnumerator LoadSceneCoroutine(string sceneName) {
+			yield return 1;
+			Application.LoadLevel(sceneName);
 			if (!Application.isLoadingLevel) {
 				loading = null;
-				throw new MindiException("The scene not found with name: "+name);
+				throw new MindiException("The scene not found with name: "+sceneName);
 			}
 		}
 
