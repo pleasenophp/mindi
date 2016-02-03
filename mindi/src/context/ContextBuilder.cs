@@ -18,9 +18,13 @@ namespace MinDI {
 	public static class ContextBuilder {
 		private static IDictionary<Type, List<IContextInitializer>> initializers = null;
 
-		private static IContextBuilderTypesProvider typesProvider = new ReflectionTypesProvider();
+		private static IContextBuilderTypesProvider typesProvider;
 		public static IContextBuilderTypesProvider TypesProvider {
 			get {
+				if (typesProvider == null) {
+					typesProvider = new ReflectionTypesProvider();
+				}
+
 				return typesProvider;
 			}
 			set {
@@ -86,7 +90,7 @@ namespace MinDI {
 		private static void FetchInitializers() {
 			initializers = new Dictionary<Type, List<IContextInitializer>>();
 
-			foreach (Type type in typesProvider.GetTypes()) {
+			foreach (Type type in TypesProvider.GetTypes()) {
 				AddInitializer(type);
 			}
 		}
