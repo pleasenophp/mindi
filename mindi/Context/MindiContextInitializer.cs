@@ -9,8 +9,11 @@ namespace MinDI.Context.Internal {
 		public void Initialize(IDIContext context) {
 			// Generic collections
 			context.m().BindGeneric(typeof(IList<>), typeof(List<>));
+			context.m().BindGeneric(typeof(List<>), typeof(List<>));
+			context.m().BindGeneric(typeof(IEnumerable<>), typeof(List<>));
 			context.m().BindGeneric(typeof(HashSet<>), typeof(HashSet<>));
 			context.m().BindGeneric(typeof(IDictionary<,>), typeof(Dictionary<,>));
+			context.m().BindGeneric(typeof(Dictionary<,>), typeof(Dictionary<,>));
 
 			context.s().BindInstance<ContextEnvironment>(ContextEnvironment.Normal);
 			context.s().Bind<IActionQueue>(() => new ActionQueue());
