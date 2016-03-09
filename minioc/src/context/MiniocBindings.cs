@@ -40,8 +40,11 @@ namespace minioc.context {
 				return false;
 			}
 
-
 			result = typeBindings.resolve(name, injectionContext);
+			if (result == null) {
+				return false;
+			}
+
 			return true;
 		}
 

@@ -43,11 +43,11 @@
     <Compile Include="MinIOC\MinIOCAdvancedTests.cs" />
     <Compile Include="MinIOC\ContextChainingTests.cs" />
     <Compile Include="MinIOC\StateSingletonTestClasses.cs" />
-    <Compile Include="Core\FixedBugs.cs" />
     <Compile Include="Core\TestRebinding.cs" />
     <Compile Include="Core\TestGenericBindings.cs" />
     <Compile Include="Core\TestResolutions.cs" />
     <Compile Include="Core\TestFactories.cs" />
+    <Compile Include="Core\Regression.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\mindi-interop\mindi-interop.csproj">
