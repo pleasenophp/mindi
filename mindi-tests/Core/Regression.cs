@@ -16,15 +16,30 @@ namespace MinDI.Tests
 		private class MyClass : IMyClass {
 		}
 
-
 		interface IApple {
+		}
+
+		interface ISeed {
+		}
+
+		interface ISkin {
 		}
 
 		class Apple : IApple {
 
+			[SoftRequirement] public ISkin skin { get; set;}
+			[SoftRequirement] public ISeed seed { get; set;}
+
 		}
 
 		class BigApple : IApple {
+		}
+
+		class Seed : ISeed {
+			
+		}
+
+		class Skin: ISkin {
 		}
 
 
@@ -89,7 +104,16 @@ namespace MinDI.Tests
 			apple = desc.factory();
 			Assert.That(apple is Apple);
 		}
-		
+
+		[Test]
+		public void TestNullBinding() {
+			IDIContext context = ContextHelper.CreateContext();
+			context.s().BindInstance<IApple>(null);
+
+			IApple apple = context.TryResolve<IApple>();
+			Assert.IsNull(apple);
+		}
+
     }
 }
 

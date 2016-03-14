@@ -50,8 +50,9 @@ namespace minioc.context.bindings {
 
 		public IBinding ImplementedByInstance(object instance, bool omitTypeCheck = false) {
 			checkIsValueProviderSet();
-			if (!omitTypeCheck && !type.IsInstanceOfType(instance)) {
-				throw new MiniocException(string.Format("object {0} cannot be used as implementation of {1}", instance, type));
+
+			if (!omitTypeCheck && (instance!=null && !type.IsInstanceOfType(instance) || type.IsValueType)) {
+				throw new MiniocException(string.Format("object {0} cannot be used as implementation of {1}", instance ?? "NULL", type));
 			}
 			_valueProvider = new ExplicitValueProvider(instance);
 			return this;
