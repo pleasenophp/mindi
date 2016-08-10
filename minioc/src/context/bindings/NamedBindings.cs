@@ -41,7 +41,7 @@ namespace minioc.context {
 		}
 			
 		public IBinding GetBinding(string name) {
-			if (name == null) {
+			if (string.IsNullOrEmpty(name)) {
 				if (defaultBinding == null) {
 					throw new MiniocException("No default Binding set for type " + this.type);
 				}

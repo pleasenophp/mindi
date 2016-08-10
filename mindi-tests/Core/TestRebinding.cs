@@ -23,7 +23,7 @@ namespace MinDI.Tests
 
 			IDIContext childContext = ContextHelper.CreateContext(context);
 
-			BindingDescriptor d2 = childContext.Introspect<IMyClass>();
+			IBinding d2 = childContext.Introspect<IMyClass>();
 			Assert.AreEqual(InstantiationType.Abstract, d2.instantiationType);
 			Assert.AreEqual(context, d2.context);
 
@@ -38,7 +38,7 @@ namespace MinDI.Tests
 			Assert.AreSame(b1, b2);
 			Assert.AreNotSame(b1, a1);
 
-			BindingDescriptor d1 = context.Introspect<IMyClass>();
+			IBinding d1 = context.Introspect<IMyClass>();
 			Assert.AreEqual(InstantiationType.Abstract, d1.instantiationType);
 			Assert.AreEqual(context, d1.context);
 
@@ -64,11 +64,11 @@ namespace MinDI.Tests
 			Assert.AreNotSame(b1, b2);
 			Assert.AreNotSame(b1, a1);
 
-			BindingDescriptor d1 = context.Introspect<IMyClass>();
+			IBinding d1 = context.Introspect<IMyClass>();
 			Assert.AreEqual(InstantiationType.Concrete, d1.instantiationType);
 			Assert.AreEqual(context, d1.context);
 
-			BindingDescriptor d2 = childContext.Introspect<IMyClass>();
+			IBinding d2 = childContext.Introspect<IMyClass>();
 			Assert.AreEqual(InstantiationType.Abstract, d2.instantiationType);
 			Assert.AreEqual(childContext, d2.context);
 		}
@@ -93,11 +93,11 @@ namespace MinDI.Tests
 			Assert.AreNotSame(b2, a2);
 
 
-			BindingDescriptor d1 = context.Introspect<IMyClass>();
+			IBinding d1 = context.Introspect<IMyClass>();
 			Assert.AreEqual(InstantiationType.Concrete, d1.instantiationType);
 			Assert.AreEqual(context, d1.context);
 
-			BindingDescriptor d2 = childContext.Introspect<IMyClass>();
+			IBinding d2 = childContext.Introspect<IMyClass>();
 			Assert.AreEqual(InstantiationType.Concrete, d2.instantiationType);
 			Assert.AreEqual(childContext, d2.context);
 		}
