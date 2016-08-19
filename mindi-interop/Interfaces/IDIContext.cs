@@ -22,8 +22,8 @@ namespace MinDI {
 
 		void InjectDependencies (object instance, Func<IConstruction> construction = null);
 
-		BindingDescriptor Introspect<T>(string name=null);
-		BindingDescriptor Introspect(Type type, string name=null);
+		IBinding Introspect<T>(string name=null);
+		IBinding Introspect(Type type, string name=null);
 	
 		void RemoveBinding (IBinding binding);
 		IDIContext parent {get;}

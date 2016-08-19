@@ -1,9 +1,8 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using minioc;
 
-using minioc.context.bindings;
-using minioc.resolution.instantiator;
 using MinDI.StateObjects;
 using MinDI.Introspection;
 
@@ -12,43 +11,32 @@ namespace MinDI.Binders {
 	// That's usefull for the singleton classes 
 	public partial class SingletonBinder
 	{
-		public IBinding BindInstance<T> (T instance, string name = null, Action<IBinding> configure = null) {
-			IBinding binding = InternalBindInstance<T>(instance, name);
-			return RegisterBinding(binding, configure);
+		public IBinding BindInstance<T> (T instance, string name = null, bool makeDefault = false) {
+			return Bind(InstantiationType.Instance, new List<Type>{typeof(T)}, () => instance, name, makeDefault);
 		}
 
-		public void BindInstance<T1, T2> (object instance, string name = null, Action<IBinding> configure = null) 
+		public IBinding BindInstance<T1, T2> (object instance, string name = null, bool makeDefault = false) 
 			where T1:class where T2:class 
 		{
-			BindInstance<T1>(instance as T1, name, configure);
-			BindInstance<T2>(instance as T2, name, configure);
+			return Bind(InstantiationType.Instance, new List<Type>{typeof(T1), typeof(T2)}, () => instance, name, makeDefault);
 		}
 
-		public void BindInstance<T1, T2, T3> (object instance, string name = null, Action<IBinding> configure = null) 
+		public IBinding BindInstance<T1, T2, T3> (object instance, string name = null, bool makeDefault = false) 
 			where T1:class where T2:class where T3:class 
 		{
-			BindInstance<T1>(instance as T1, name, configure);
-			BindInstance<T2>(instance as T2, name, configure);
-			BindInstance<T3>(instance as T3, name, configure);
+			return Bind(InstantiationType.Instance, new List<Type>{typeof(T1), typeof(T2), typeof(T3)}, () => instance, name, makeDefault);
 		}
 
-		public void BindInstance<T1, T2, T3, T4> (object instance, string name = null, Action<IBinding> configure = null) 
+		public IBinding BindInstance<T1, T2, T3, T4> (object instance, string name = null, bool makeDefault = false) 
 			where T1:class where T2:class where T3:class where T4:class 
 		{
-			BindInstance<T1>(instance as T1, name, configure);
-			BindInstance<T2>(instance as T2, name, configure);
-			BindInstance<T3>(instance as T3, name, configure);
-			BindInstance<T4>(instance as T4, name, configure);
+			return Bind(InstantiationType.Instance, new List<Type>{typeof(T1), typeof(T2), typeof(T3), typeof(T4)}, () => instance, name, makeDefault);
 		}
 
-		public void BindInstance<T1, T2, T3, T4, T5> (object instance, string name = null, Action<IBinding> configure = null) 
+		public IBinding BindInstance<T1, T2, T3, T4, T5> (object instance, string name = null, bool makeDefault = false) 
 			where T1:class where T2:class where T3:class where T4:class where T5:class
 		{
-			BindInstance<T1>(instance as T1, name, configure);
-			BindInstance<T2>(instance as T2, name, configure);
-			BindInstance<T3>(instance as T3, name, configure);
-			BindInstance<T4>(instance as T4, name, configure);
-			BindInstance<T5>(instance as T5, name, configure);
+			return Bind(InstantiationType.Instance, new List<Type>{typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5)}, () => instance, name, makeDefault);
 		}
 	}
 }

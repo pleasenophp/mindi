@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using minioc.misc;
 using minioc.resolution.dependencies;
 using minioc.resolution.injection;
-using minioc.resolution.instantiator;
 using minioc.resolution.core;
 using MinDI;
 using MinDI.Resolution;
@@ -32,8 +31,6 @@ namespace minioc.context {
 			foreach (IInjectionStrategy strategy in injectionStrategies) {
 				strategy.inject(instance, _dependencyResolver, construction != null?construction().GetExplicitContext():null);
 			}
-
-
 		}
 	}
 }

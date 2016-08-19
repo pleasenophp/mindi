@@ -49,7 +49,7 @@ namespace MinDI.Tests
 
 			context.m().Bind<IApple>(() => new Apple());
 
-			IApple appleInstance = context.Resolve<IApple>(null);
+			IApple appleInstance = context.Resolve<IApple>(null, null);
 			Assert.IsNotNull(appleInstance);
 
 			appleInstance = context.Resolve<IApple>("");
@@ -83,7 +83,7 @@ namespace MinDI.Tests
 			IDIContext context = parentContext.Reproduce();
 			context.m().Bind<IApple>(() => new BigApple(), BindingName.ForType<BigApple>());
 
-			BindingDescriptor desc = context.Introspect<IApple>(BindingName.ForType<BigApple>());
+			IBinding desc = context.Introspect<IApple>(BindingName.ForType<BigApple>());
 			Assert.IsNotNull(desc);
 			Assert.AreEqual(InstantiationType.Abstract, desc.instantiationType);
 			Assert.That(desc.context == context);

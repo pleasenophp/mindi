@@ -20,6 +20,7 @@ namespace MinDI {
 			}
 		}
 
+
 		void IDIClosedContext.AfterInjection() {
 			OnInjected();
 		}

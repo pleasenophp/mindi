@@ -8,54 +8,45 @@
     <RootNamespace>minioc</RootNamespace>
     <AssemblyName>minioc</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <ProductVersion>12.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
+    <DebugSymbols>True</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
+    <Optimize>False</Optimize>
     <OutputPath>bin\Debug</OutputPath>
     <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <ConsolePause>false</ConsolePause>
+    <ConsolePause>False</ConsolePause>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>full</DebugType>
-    <Optimize>true</Optimize>
+    <DebugType>none</DebugType>
+    <Optimize>True</Optimize>
     <OutputPath>bin\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <ConsolePause>false</ConsolePause>
+    <ConsolePause>False</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="src\Bindings.cs" />
     <Compile Include="src\MiniocContext.cs" />
     <Compile Include="src\context\DefaultInjectionContext.cs" />
-    <Compile Include="src\context\MiniocBindings.cs" />
     <Compile Include="src\context\ReflectionCache.cs" />
-    <Compile Include="src\context\TypeBindings.cs" />
-    <Compile Include="src\context\bindings\BindingImpl.cs" />
-    <Compile Include="src\context\bindings\GenericBindingStub.cs" />
     <Compile Include="src\misc\MiniocException.cs" />
     <Compile Include="src\resolution\core\InjectionContext.cs" />
     <Compile Include="src\resolution\injection\MethodInjectionStrategy.cs" />
     <Compile Include="src\resolution\injection\PropertiesInjectionStrategy.cs" />
-    <Compile Include="src\resolution\instantiator\ConstructorInstantiator.cs" />
-    <Compile Include="src\resolution\lifecylcle\BoundInstanceFactory.cs" />
-    <Compile Include="src\resolution\lifecylcle\MultipleInstanceFactory.cs" />
-    <Compile Include="src\resolution\lifecylcle\SingletonFactory.cs" />
-    <Compile Include="src\resolution\lifecylcle\providers\BoundValueProvider.cs" />
-    <Compile Include="src\resolution\lifecylcle\providers\BoundValueProviderNotSet.cs" />
-    <Compile Include="src\resolution\lifecylcle\providers\ExplicitValueProvider.cs" />
-    <Compile Include="src\resolution\lifecylcle\providers\FactoryValueProvider.cs" />
     <Compile Include="src\resolution\injection\PrimitiveInjectionStrategy.cs" />
-    <Compile Include="src\context\bindings\GenericTypeResolver.cs" />
     <Compile Include="Interfaces\IInjectionStrategy.cs" />
     <Compile Include="src\resolution\injection\BaseInjectionStrategy.cs" />
+    <Compile Include="src\MiniocExtensions.cs" />
+    <Compile Include="src\context\bindings\MiniocBindings.cs" />
+    <Compile Include="src\context\bindings\NamedBindings.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

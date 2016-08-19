@@ -1,8 +1,7 @@
 using System;
 using System.Collections;
 using minioc;
-using minioc.context.bindings;
-using minioc.resolution.instantiator;
+
 using MinDI.Binders;
 using minioc.resolution.dependencies;
 using MinDI.Context;
@@ -20,16 +19,6 @@ namespace MinDI {
 			context.Initialize<T>();
 			return context;
 		}
-			
-
-		// TODO - remove
-		[Obsolete]
-		public static TInstance Resolve<TInterface, TInstance>(this IDIContext context, string name = null) 
-			where TInterface : class
-			where TInstance : class, TInterface 
-		{
-			return context.Resolve<TInterface>(name) as TInstance;
-		}
 
 		public static IDIContext Reproduce(this IDIContext parent, string contextName = null) {
 			return CreateContext(parent, contextName);
@@ -37,20 +26,6 @@ namespace MinDI {
 
 		public static IDIContext Reproduce<T>(this IDIContext parent, string contextName = null) where T:class, IContextInitializer {
 			return CreateContext<T>(parent, contextName);
-		}
-
-
-		public static bool HasContext(this Assembly assembly) {
-			object[] attributes = assembly.GetCustomAttributes(typeof(ContextAssemblyAttribute), false);	
-			if (attributes.Length == 0) {
-				return false;
-			}
-			return true;
-		}
-
-		public static bool IsUnityProjectAssembly(this Assembly assembly) {
-			// NOTE - pretty lame way to do it like this, but seems to be ok for now
-			return assembly.FullName.Contains("Unity") || assembly.FullName.Contains("Assembly-CSharp");
 		}
 
 		/*
@@ -67,6 +42,24 @@ namespace MinDI {
 			return newContext;
 		}
 		*/
+
+
+		public static bool HasContext(this Assembly assembly) {
+			object[] attributes = assembly.GetCustomAttributes(typeof(ContextAssemblyAttribute), false);	
+			if (attributes.Length == 0) {
+				return false;
+			}
+			return true;
+		}
+
+		public static bool IsUnityProjectAssembly(this Assembly assembly) {
+			// NOTE - pretty lame way to do it like this, but seems to be ok for now
+			return assembly.FullName.Contains("Unity") || assembly.FullName.Contains("Assembly-CSharp");
+		}
+
+	
+
+	
 
 		private static IDIContext InternalCreateContext(IDIContext parent, string name) {
 			IDIContext context = new MiniocContext(parent, name);

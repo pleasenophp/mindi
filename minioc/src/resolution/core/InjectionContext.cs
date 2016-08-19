@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using minioc.resolution.dependencies;
-using minioc.resolution.instantiator;
 using MinDI;
 using MinDI.Resolution;
 

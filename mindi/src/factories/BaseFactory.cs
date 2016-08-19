@@ -2,8 +2,7 @@ using System;
 using System.Collections;
 using minioc;
 
-using minioc.context.bindings;
-using minioc.resolution.instantiator;
+
 using MinDI.Context;
 using MinDI.StateObjects;
 using MinDI.Introspection;
@@ -65,7 +64,7 @@ namespace MinDI.Factories {
 		protected void VerifyObjectCreation (string name, object instance, IDIContext resolutionContext) {
 			IDIClosedContext contextObject = instance as IDIClosedContext;
 			if (contextObject == null || !contextObject.IsValid()) {
-				BindingDescriptor desc = resolutionContext.Introspect<T>(name);
+				IBinding desc = resolutionContext.Introspect<T>(name);
 				VerifyInstantiationContext(desc, resolutionContext, instance);
 				return;
 			}
@@ -78,8 +77,8 @@ namespace MinDI.Factories {
 			contextObject.descriptor.factory = this;
 		}
 
-		protected void VerifyInstantiationContext(BindingDescriptor desc, IDIContext resolutionContext, object instance) {
-			if (desc.instantiationType == InstantiationType.Concrete && desc.context != resolutionContext) {
+		protected void VerifyInstantiationContext(IBinding desc, IDIContext resolutionContext, object instance) {
+			if (desc != null && desc.instantiationType == InstantiationType.Concrete && desc.context != resolutionContext) {
 				throw new MindiException(string.Format("Cannot instantiate an object {0} on factory {1}, because it is already a singleton on different context, than the one, this factory resolves objects on. " +
 					"Consider making object multiple, or rebind it as singletone on this factory chaining context.", instance, this));
 			}

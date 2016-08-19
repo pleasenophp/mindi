@@ -1,12 +1,12 @@
 using System;
 using System.Collections;
 using minioc;
-using minioc.context.bindings;
-using minioc.resolution.instantiator;
+
 using MinDI.Introspection;
-using MinDI.StateObjects;
+using System.Collections.Generic;
 
 namespace MinDI.Binders {
+
 
 	public abstract partial class BaseDIBinder : OpenContextObject
 	{
@@ -16,19 +16,22 @@ namespace MinDI.Binders {
 			this.contextInjection = context;
 		}
 
-		protected abstract T Resolve<T>(Func<T> create) where T:class;
-
 		/// <summary>
 		/// Bind the specified interface using create factory, optional binding name and configuration
 		/// </summary>
 		/// <param name="create">Create instance factory.</param>
 		/// <param name="name">Name for binding.</param>
-		/// <param name="configure">Configuration of binding.</param>
+		/// <param name="makeDefault">Make this binding default</param>
 		/// <typeparam name="T">The interface type.</typeparam>
-		public IBinding Bind<T> (Func<T> create, string name = null, Action<IBinding> configure = null) where T:class
+		public IBinding Bind<T> (Func<T> create, string name = null, bool makeDefault = false) where T:class
 		{
-			IBinding binding = InternalBind<T> (create, name);
-			return RegisterBinding(binding, configure);
+			return Bind(this.instantiationType, new List<Type>{ typeof(T) }, () => create(), name, makeDefault);
+		}
+
+		protected IBinding Bind(InstantiationType inst, IList<Type> types, Func<object> create, string name = null, bool makeDefault = false) {
+			IBinding binding = CreateBinding (inst, types, create, name, makeDefault);
+			this.context.Register(binding);
+			return binding;
 		}
 			
 		/// <summary>
@@ -39,83 +42,83 @@ namespace MinDI.Binders {
 		/// <param name="resolutionName">Resolution name for parent binding.</param>
 		/// <param name="configure">Configuration of binding.</param>
 		/// <typeparam name="T">The interface type.</typeparam>
-		public IBinding Rebind<T>(string name = null, string resolutionName = null, Action<IBinding> configure = null) 
+		public IBinding Rebind<T>(string name = null, string resolutionName = null, bool makeDefault = false) 
 			where T:class 
 		{
 			if (context.parent == null) {
 				throw new MindiException("Called Rebind, but the parent context is null");
 			}
 
+			IBinding binding = context.Introspect<T>(resolutionName);
 
-			BindingDescriptor descriptor = context.Introspect<T>(resolutionName);
-			if (descriptor.instantiationType == InstantiationType.None) {
+			if (binding.instantiationType == InstantiationType.None) {
 				throw new MindiException("Called Rebind, but no existing binding found for type "+typeof(T)+" for name "+resolutionName);
 			}
 
-			if (descriptor.instantiationType == InstantiationType.Instance) {
+			if (binding.instantiationType == InstantiationType.Instance) {
 				throw new MindiException("Cannot rebind an instance binding. Type: "+typeof(T));
 			}
 
-			if (descriptor.context == this.context) {
+			if (binding.context == this.context) {
 				throw new MindiException("Called Rebind, but there is already a binding on this context for type "+typeof(T)+
 					" for name "+resolutionName);
 			}
 
-			return this.Bind<T> (() => descriptor.factory() as T, name, configure);
+			IBinding newBinding = CreateBinding(this.instantiationType, new List<Type>{typeof(T)}, binding.factory, name, makeDefault);
+			this.context.Register(newBinding);
+			return newBinding;
 		}
+
 
 		/// <summary>
 		/// Binds the generic type definition.
 		/// </summary>
 		/// <returns>The generic.</returns>
+		/// <param name = "interfaceType"></param>
+		/// <param name = "resolutionType"></param>
 		/// <param name="types">Types.</param>
-		public IBinding BindGeneric(Type interfaceType, Type resolutionType, string name = null, Action<IBinding> configure = null) {
-			if (!interfaceType.IsGenericTypeDefinition) {
-				throw new MindiException(string.Format("The type {0} expected to be a generic type definition", interfaceType));
-			}
-
-			if (!resolutionType.IsGenericTypeDefinition) {
-				throw new MindiException(string.Format("The type {0} expected to be a generic type definition", resolutionType));
-			}
-
-
-			IBinding binding = InternalBindGeneric(interfaceType, resolutionType, name);
-			return RegisterBinding(binding, configure);
-
+		public IBinding BindGeneric(Type interfaceType, Type resolutionType, string name = null, bool makeDefault = false) {
+			return BindGenericMany (new List<Type> { interfaceType }, resolutionType, name, makeDefault);
 		}
 
-		private IBinding InternalBindGeneric(Type interfaceType, Type resolutionType, string name) {
-			if (string.IsNullOrEmpty(name)) {
-				name = BindHelper.GetDefaultBindingName(interfaceType, context);
-			}
-
-			GenericTypeResolver resolver = new GenericTypeResolver(interfaceType, resolutionType);
-			return Bindings.ForType(interfaceType, name).ImplementedByInstance(resolver, true)
-				.SetGenericDescriptor(this.context, InstantiationType.Instance, this.instantiationType);
-		}
-
-		protected virtual void ConfigureBinding (IBinding binding)
+		protected void ValidateGenericType(Type type)
 		{
-		}
-
-		private IBinding InternalBind<T> (Func<T> create, string name=null) where T:class
-		{
-			if (string.IsNullOrEmpty(name)) {
-				name = BindHelper.GetDefaultBindingName<T>(context);
+			if (!type.IsGenericTypeDefinition) {
+				throw new MindiException (string.Format ("The type {0} expected to be a generic type definition", type));
 			}
-				
-			return Bindings.ForType<T>(name)
-				.ImplementedBy(() => this.Resolve<T>(create))
-				.SetDescriptor(this.context, this.instantiationType, () => create());
+
 		}
 
-		protected IBinding RegisterBinding(IBinding binding, Action<IBinding> configure) {
-			this.ConfigureBinding (binding);
-			if (configure != null) {
-				configure (binding);
-			} 
-			context.Register (binding);
+		protected IBinding CreateGenericBinding(IList<Type> interfaceTypes, Type resolutionType, string name, bool makeDefault) {
+			if (string.IsNullOrEmpty(name)) {
+				name = BindHelper.GetDefaultBindingName(context);
+			}
+
+			IBinding binding = Binding.CreateForGeneric(context, interfaceTypes, resolutionType, this.instantiationType, makeDefault, name);
 			return binding;
 		}
+
+
+		protected IBinding CreateBinding(InstantiationType inst, IList<Type> types, Func<object> create, string name, bool makeDefault) {
+			if (string.IsNullOrEmpty(name)) {
+				name = BindHelper.GetDefaultBindingName(context);
+			}
+
+			if (inst == InstantiationType.Abstract) {
+				return Binding.CreateForAbstract(this.context, types, create, makeDefault, name);
+			}
+			else if (inst == InstantiationType.Concrete) {
+				return Binding.CreateForConcrete(this.context, types, create, makeDefault, name);
+			}
+			else if (inst == InstantiationType.Instance) {
+				return Binding.CreateForInstance(this.context, types, create(), makeDefault, name);
+			}
+			else {
+				throw new MindiException("Unhandled instantiation type: " + inst);
+			}
+
+		}
+
+
 	}
 }

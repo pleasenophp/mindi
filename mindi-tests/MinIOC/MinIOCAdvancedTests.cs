@@ -4,7 +4,7 @@ using System.Threading;
 using NUnit.Framework;
 using UnityEngine;
 using minioc;
-using minioc.context.bindings;
+
 using MinDI.Binders;
 using MinDI.StateObjects;
 
