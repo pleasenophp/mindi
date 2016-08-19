@@ -95,9 +95,13 @@ namespace MinDI.Tests
 			childContext.m().Bind<IMyClass>(() => new MyClass());
 			childContext.s().Rebind<IDIFactory<IOtherClass>>();
 
-			IBinding desc = childContext.Introspect<IDIFactory<IOtherClass>>();
-			Assert.AreEqual(InstantiationType.Concrete, desc.instantiationType);
-			Assert.AreEqual(childContext, desc.context);
+			IBinding desc1 = childContext.Introspect<IDIFactory<IOtherClass>>();
+			Assert.AreEqual(InstantiationType.Concrete, desc1.instantiationType);
+			Assert.AreEqual(childContext, desc1.context);
+
+			IBinding desc2 = childContext.Introspect<IDIRFactory<IOtherClass, IGlobalContextInitializer>>();
+			Assert.AreEqual (InstantiationType.Abstract, desc2.instantiationType);
+			Assert.AreEqual (context, desc2.context);
 		}
 			
 		[Test]

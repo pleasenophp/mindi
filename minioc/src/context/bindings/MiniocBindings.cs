@@ -44,25 +44,30 @@ namespace minioc.context {
 		}
 			
 		public IBinding Introspect(Type type, string name) {
-			if (type.IsGenericTypeDefinition) {
-				throw new MiniocException("Generic type definitions may not be resolved ! Passed type: "+type);
-			}
-
-			NamedBindings descriptor = bindings.Get(type);
-			if (descriptor == null) {
-				return null;
-			}
-
-			IBinding binding = descriptor.GetBinding(name);
+			IBinding binding = GetBinding (type, name);
 			if (binding != null) {
 				return binding;
 			}
 
 			// Checking for generic
 			if (type.IsGenericType) {
-				return TryIntrospectGeneric(type, name);
+				return TryIntrospectGeneric (type, name);
 			}
 
+			return null;
+		}
+
+		private IBinding GetBinding (Type type, string name)
+		{
+			NamedBindings descriptor = bindings.Get (type);
+			if (descriptor == null) {
+				return null;
+			}
+
+			IBinding binding = descriptor.GetBinding (name);
+			if (binding != null) {
+				return binding;
+			}
 			return null;
 		}
 

@@ -69,6 +69,8 @@ namespace MinDI.Binders {
 			return newBinding;
 		}
 
+
+		// TODO - support generic bind many
 		/// <summary>
 		/// Binds the generic type definition.
 		/// </summary>
