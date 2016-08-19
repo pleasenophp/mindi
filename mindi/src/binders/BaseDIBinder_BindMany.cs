@@ -33,5 +33,18 @@ namespace MinDI.Binders {
 		{
 			Bind(this.instantiationType, new List<Type>{typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5)}, create, name, makeDefault);
 		}
+
+
+		public IBinding BindGenericMany (IList<Type> interfaceTypes, Type resolutionType, string name = null, bool makeDefault = false)
+		{
+			foreach (Type tp in interfaceTypes) {
+				ValidateGenericType(tp);
+			}
+			ValidateGenericType(resolutionType);
+
+			IBinding binding = CreateGenericBinding (interfaceTypes, resolutionType, name, makeDefault);
+			context.Register (binding);
+			return binding;
+		}
 	}
 }

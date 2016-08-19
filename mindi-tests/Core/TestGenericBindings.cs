@@ -25,6 +25,23 @@ namespace MinDI.Tests
 
 		}
 
+		private class TestClassMany : ContextObject
+		{
+			[Injection]
+			public ICollection<int> collection1 { get; set; }
+
+			[Injection]
+			public IList<int> list1 { get; set; }
+
+			[Injection]
+			public IList<string> list2 { get; set; }
+
+			[Injection]
+			public IList<string> collection2 { get; set; }
+		}
+
+
+
 		[Test]
 		public void TestGenericMPBinding() {
 			IDIContext context = ContextHelper.CreateContext();
@@ -44,6 +61,43 @@ namespace MinDI.Tests
 
 			Assert.AreNotSame(obj1.factory, obj2.factory);
 			Assert.AreNotSame(obj1.chainFactory, obj2.chainFactory);
+		}
+
+		[Test]
+		public void TestGenericMPBindingMany ()
+		{
+			IDIContext context = ContextHelper.CreateContext ();
+			context.m().BindGenericMany (new List<Type> {typeof(ICollection<>), typeof(IList<>)}, typeof(List<>));
+			context.m().Bind (() => new TestClassMany());
+
+			var obj1 = context.Resolve<TestClassMany>();
+			Assert.That(obj1.list1 is List<int>);
+			Assert.That(obj1.list2 is List<string>);
+			Assert.That(obj1.collection1 is List<int>);
+
+			Assert.AreNotSame(obj1.list1, obj1.collection1);
+			Assert.AreNotSame(obj1.list2, obj1.collection1);
+			Assert.AreNotSame(obj1.list2, obj1.list1);
+		}
+
+		[Test]
+		public void TestGenericSBindingMany ()
+		{
+			IDIContext context = ContextHelper.CreateContext ();
+			context.s ().BindGenericMany (new List<Type> { typeof (ICollection<>), typeof (IList<>) }, typeof (List<>));
+			context.m ().Bind (() => new TestClassMany ());
+
+			var obj1 = context.Resolve<TestClassMany> ();
+			Assert.That (obj1.list1 is List<int>);
+			Assert.That (obj1.list2 is List<string>);
+			Assert.That (obj1.collection1 is List<int>);
+			Assert.That (obj1.collection2 is List<string>);
+
+			Assert.AreSame (obj1.list1, obj1.collection1);
+			Assert.AreSame (obj1.list2, obj1.collection2);
+			Assert.AreNotSame (obj1.list2, obj1.collection1);
+			Assert.AreNotSame (obj1.list2, obj1.list1);
+			Assert.AreNotSame (obj1.collection2, obj1.collection1);
 		}
 
 		[Test]

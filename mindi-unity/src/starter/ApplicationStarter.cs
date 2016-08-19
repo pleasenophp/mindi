@@ -186,7 +186,7 @@ namespace MinDI
  * 
  * v 9.9.2) See how these things work on methods injection - maybe it's good to leave injection methods here 
  * 
- * 9.9.4) Make singleton sorted in Minioc. For the generic binding allow to use multiple binding as well.
+ * v 9.9.4) Make singleton sorted in Minioc. For the generic binding allow to use multiple binding as well.
  * 
  * 9.9.5) Check when an object has at least one Injection attribute or method, but is not IDIClosedContext - throw exception
  * 
@@ -195,6 +195,8 @@ namespace MinDI
  * 9.9.9) Version number to DLLs and other release prepare things - going to beta stage
  *  
  * 10) Make internal documentation and object diagrams
+ * 
+ * 10.0.1) Scene adaptation for Unity 5? Keep backwards compatibility with Unity4
  * 
  * 10.1) In the binders remove the configuration delegate and allow to configure MakeDefault through signature
  * Also see if we need to have subjective bindings.

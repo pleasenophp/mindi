@@ -70,7 +70,6 @@ namespace MinDI.Binders {
 		}
 
 
-		// TODO - support generic bind many
 		/// <summary>
 		/// Binds the generic type definition.
 		/// </summary>
@@ -79,28 +78,23 @@ namespace MinDI.Binders {
 		/// <param name = "resolutionType"></param>
 		/// <param name="types">Types.</param>
 		public IBinding BindGeneric(Type interfaceType, Type resolutionType, string name = null, bool makeDefault = false) {
-			if (!interfaceType.IsGenericTypeDefinition) {
-				throw new MindiException(string.Format("The type {0} expected to be a generic type definition", interfaceType));
+			return BindGenericMany (new List<Type> { interfaceType }, resolutionType, name, makeDefault);
+		}
+
+		protected void ValidateGenericType(Type type)
+		{
+			if (!type.IsGenericTypeDefinition) {
+				throw new MindiException (string.Format ("The type {0} expected to be a generic type definition", type));
 			}
-
-			if (!resolutionType.IsGenericTypeDefinition) {
-				throw new MindiException(string.Format("The type {0} expected to be a generic type definition", resolutionType));
-			}
-
-
-			IBinding binding = CreateGenericBinding(interfaceType, resolutionType, name, makeDefault);
-			context.Register(binding);
-			return binding;
 
 		}
 
-
-		protected IBinding CreateGenericBinding(Type interfaceType, Type resolutionType, string name, bool makeDefault) {
+		protected IBinding CreateGenericBinding(IList<Type> interfaceTypes, Type resolutionType, string name, bool makeDefault) {
 			if (string.IsNullOrEmpty(name)) {
 				name = BindHelper.GetDefaultBindingName(context);
 			}
 
-			IBinding binding = Binding.CreateForGeneric(context, new List<Type>{ interfaceType }, resolutionType, this.instantiationType, makeDefault, name);
+			IBinding binding = Binding.CreateForGeneric(context, interfaceTypes, resolutionType, this.instantiationType, makeDefault, name);
 			return binding;
 		}
 
