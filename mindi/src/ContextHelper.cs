@@ -28,21 +28,6 @@ namespace MinDI {
 			return CreateContext<T>(parent, contextName);
 		}
 
-		/*
-		/// <summary>
-		/// Chains an interface on the new context, rebinding it as a singletone
-		/// This is usefull to build complex hierarchy of the objects
-		/// Returns the new context. 
-		/// </summary>
-		/// <param name="context">Context.</param>
-		/// <typeparam name="T">The interface type parameter.</typeparam>
-		public static IDIContext Chain<T>(this IDIContext context) where T:class {
-			IDIContext newContext = CreateContext(context);
-			newContext.s().Rebind<T>();
-			return newContext;
-		}
-		*/
-
 
 		public static bool HasContext(this Assembly assembly) {
 			object[] attributes = assembly.GetCustomAttributes(typeof(ContextAssemblyAttribute), false);	
