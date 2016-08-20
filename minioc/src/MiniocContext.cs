@@ -182,12 +182,14 @@ namespace minioc
 				return;
 			}
 
+			// TODO - DANGEROUS ! THIS CODE BECOME NOT NEEDED AND TESTS DO NOT FAIL
 			IBinding descriptor = stateInstance.bindingDescriptor;
 			// If this instance is concrete on another layer, we inject dependencies on its own layer only, to avoid subjectivization
 			if (descriptor != null && descriptor.instantiationType == InstantiationType.Concrete && descriptor.context != this) {
 				descriptor.context.InjectDependencies(instance, construction);
 				return;
 			}
+			// *********
 
 			if (stateInstance.diState == DIState.NotResolved) {
 				stateInstance.diState = DIState.Resolving;
