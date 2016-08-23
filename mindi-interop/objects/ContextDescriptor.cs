@@ -52,6 +52,9 @@ namespace MinDI {
 			get {
 				return _descriptor;
 			}
+			set {
+				_descriptor = value;
+			}
 		}
 			
 

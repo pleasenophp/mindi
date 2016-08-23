@@ -123,7 +123,15 @@ namespace MinDI.Introspection {
 
 
 		public object Resolve() {
-			return instantiationFactory();
+			object obj = instantiationFactory();
+
+			// Saving the binding descriptor on resolved object
+			IDIClosedContext cctx = obj as IDIClosedContext;
+			if (cctx != null) {
+				cctx.descriptor.bindingDescriptor = this;
+			}
+
+			return obj;
 		}
 
 		private static IList<Type> CreateGenericBindingTypes(IList<Type> genericTypes, Type[] genericArguments) {

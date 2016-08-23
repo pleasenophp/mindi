@@ -4,6 +4,7 @@ using System.Threading;
 using NUnit.Framework;
 using UnityEngine;
 using MinDI.Introspection;
+using MinDI.StateObjects;
 
 namespace MinDI.Tests
 {
@@ -43,17 +44,89 @@ namespace MinDI.Tests
 		}
 
 
+		interface IPineapple
+		{
+			IOrange orange { get; }
+		}
+
+		interface IOrange
+		{
+		}
+
+		class Pineapple : ContextObject, IPineapple
+		{
+			[Injection]
+			public IOrange orange { get; set; }
+		}
+
+		class Orange1 : ContextObject, IOrange
+		{
+		}
+
+		class Orange2 : ContextObject, IOrange
+		{
+		}
+
+
 		[Test]
-		public void TestNullNameResolve() {
-			IDIContext context = ContextHelper.CreateContext();
+		public void TestNullNameResolve ()
+		{
+			IDIContext context = ContextHelper.CreateContext ();
 
-			context.m().Bind<IApple>(() => new Apple());
+			context.m ().Bind<IPineapple> (() => new Pineapple ());
+			context.m ().Bind<IOrange> (() => new Orange1 ());
 
-			IApple appleInstance = context.Resolve<IApple>(null, null);
-			Assert.IsNotNull(appleInstance);
+			IPineapple appleInstance = context.Resolve<IPineapple> (null, null);
+			Assert.IsNotNull (appleInstance);
 
-			appleInstance = context.Resolve<IApple>("");
-			Assert.IsNotNull(appleInstance);
+			appleInstance = context.Resolve<IPineapple> ("");
+			Assert.IsNotNull (appleInstance);
+		}
+
+		[Test]
+		public void TestResolvedInstanceHasBindingDescriptor ()
+		{
+			IDIContext context = ContextHelper.CreateContext ();
+			context.m ().Bind<IOrange> (() => new Orange1 ());
+
+			IOrange orange = context.Resolve<IOrange> ();
+			IDIClosedContext ctx = orange as IDIClosedContext;
+
+			Assert.IsNotNull (ctx.descriptor.bindingDescriptor);
+		}
+
+		[Test]
+		public void TestSTNotSubjective ()
+		{
+			IDIContext context = ContextHelper.CreateContext ();
+			context.m ().Bind<IOrange> (() => new Orange1 ());
+			context.s ().Bind<IPineapple> (() => new Pineapple ());
+			IDIContext childContext = context.Reproduce ();
+			childContext.m ().Bind<IOrange> (() => new Orange2 ());
+
+			IPineapple apple2 = childContext.Resolve<IPineapple> ();
+			IPineapple apple1 = context.Resolve<IPineapple> ();
+
+			Assert.AreSame (apple1, apple2);
+			Assert.IsInstanceOf (typeof (Orange1), apple1.orange);
+			Assert.IsInstanceOf (typeof (Orange1), apple2.orange);
+		}
+
+		[Test]
+		public void TestMPSubjective ()
+		{
+			IDIContext context = ContextHelper.CreateContext ();
+			context.m ().Bind<IOrange> (() => new Orange1 ());
+			context.m ().Bind<IPineapple> (() => new Pineapple ());
+			IDIContext childContext = context.Reproduce ();
+			childContext.m ().Bind<IOrange> (() => new Orange2 ());
+
+			IPineapple apple2 = childContext.Resolve<IPineapple> ();
+			IPineapple apple1 = context.Resolve<IPineapple> ();
+
+			Assert.AreNotSame (apple1, apple2);
+			Assert.IsInstanceOf (typeof (Orange1), apple1.orange);
+			Assert.IsInstanceOf (typeof (Orange2), apple2.orange);
 		}
 
 		[Test]

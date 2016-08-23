@@ -190,7 +190,6 @@ namespace minioc
 			}
 
 			IBinding descriptor = stateInstance.descriptor.bindingDescriptor;
-
 			if (descriptor == null) {
 				throw new MindiException("Called inject dependencies on an instance that has no binding descriptor set: "+instance);
 			}
