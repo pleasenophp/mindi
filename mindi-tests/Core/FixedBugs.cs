@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using MinDI.StateObjects;
 using NUnit.Framework;
 using UnityEngine;
 
@@ -45,6 +46,18 @@ namespace MinDI.Tests
 
 			appleInstance = context.Resolve<IApple>("");
 			Assert.IsNotNull(appleInstance);
+		}
+
+		[Test]
+		public void TestResolvedInstanceHasBindingDescriptor ()
+		{
+			IDIContext context = ContextHelper.CreateContext ();
+			context.m ().Bind<IOrange> (() => new Orange1 ());
+
+			IOrange orange = context.Resolve<IOrange> ();
+			IDIClosedContext ctx = orange as IDIClosedContext;
+
+			Assert.IsNotNull(ctx.bindingDescriptor);
 		}
 
 		[Test]
