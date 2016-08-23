@@ -25,11 +25,11 @@ namespace MinDI.Tests
 			[Injection] public IOrange orange {get; set; }
 		}
 
-		class Orange1 : IOrange
+		class Orange1 : ContextObject, IOrange
 		{
 		}
 
-		class Orange2 : IOrange
+		class Orange2 : ContextObject, IOrange
 		{
 		}
 
