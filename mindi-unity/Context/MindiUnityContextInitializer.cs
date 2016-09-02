@@ -16,7 +16,6 @@ namespace MinDI.Context.Internal {
 			context.m().Bind<RootSceneFactory>(() => new RootSceneFactory());
 			context.m().Bind<ISceneObject>(() => new SceneObject());
 			context.m().Bind<IDISceneFactory>(() => new SceneFactory());
-			context.m().Bind<IAdditiveSceneLoader>(() => new AdditiveSceneLoader());
 		}
 		#endregion
 		

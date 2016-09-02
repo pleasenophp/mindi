@@ -90,8 +90,8 @@ namespace MinDI.Tests
 
 			IMyClass obj = context.Resolve<IMyClass>();
 
-	//		Assert.IsInstanceOf<AnotherClass>(obj);
-	//		Assert.IsInstanceOf<MyClass>((obj as AnotherClass).data);
+			Assert.IsInstanceOf<AnotherClass>(obj);
+			Assert.IsInstanceOf<MyClass>((obj as AnotherClass).data);
 		}
     }
 }

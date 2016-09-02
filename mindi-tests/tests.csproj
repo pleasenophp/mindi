@@ -62,10 +62,6 @@
       <Project>{EF726DF6-62BB-4D9E-8874-C7AD3C1C7C79}</Project>
       <Name>minioc</Name>
     </ProjectReference>
-    <ProjectReference Include="..\mindi-unity\mindi-unity.csproj">
-      <Project>{33C63225-4DA3-4745-B433-0FB65A4268FD}</Project>
-      <Name>mindi-unity</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

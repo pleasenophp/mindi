@@ -16,7 +16,7 @@ namespace MinDI.Unity {
 	 * IDISceneFactory itself is a multiple on the root context. ISceneObject is multiple on the root context.
 	 * 
 	 */
-	public class AdditiveSceneLoader : ContextObject, IAdditiveSceneLoader {
+	public abstract class AdditiveSceneLoader : ContextObject, IAdditiveSceneLoader {
 
 		[Injection]
 		public IDISceneFactory sceneFactory {get; set;}
@@ -47,25 +47,11 @@ namespace MinDI.Unity {
 		}
 
 		public T Unload<T>(T obj) where T:class, ISceneObject {
-			this.sceneFactory.DestroyInstance(obj);
-			return default(T);
-		}
-		
-		private IEnumerator LoadAdditiveCoroutine<T>(string name, ISceneArguments arguments, Action<T> callback) where T:class, ISceneObject {
-			AsyncOperation async = Application.LoadLevelAdditiveAsync(name);
-			yield return async;
-
-			T sceneObject = null;
-			if (arguments == null) {
-				sceneObject = this.sceneFactory.Create<T>(name, false);
-			}
-			else {
-				sceneObject = this.sceneFactory.Create<T>(name, false, null, arguments.PopulateContext, arguments.CreateConstruction);
-			}
-				
-			callback(sceneObject);
+			return UnloadAdditive(obj);
 		}
 
+		protected abstract T UnloadAdditive<T> (T obj) where T : class, ISceneObject;
+		protected abstract IEnumerator LoadAdditiveCoroutine<T> (string name, ISceneArguments arguments, Action<T> callback) where T : class, ISceneObject;
 	}
 
 }
