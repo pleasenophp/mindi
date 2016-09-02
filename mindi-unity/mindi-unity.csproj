@@ -68,6 +68,8 @@
     <Compile Include="Interfaces\scenes\ISceneArguments.cs" />
     <Compile Include="src\factories\SceneArguments.cs" />
     <Compile Include="src\starter\RootSceneStarter.cs" />
+    <Compile Include="src\factories\Unity5SceneLoader.cs" />
+    <Compile Include="src\factories\Unity5AdditiveSceneLoader.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
