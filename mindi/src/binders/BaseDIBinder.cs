@@ -13,7 +13,7 @@ namespace MinDI.Binders {
 		protected InstantiationType instantiationType;
 
 		// Setting this allows to implement custom factory wrapper
-		protected Func<Func<object>, object> customFactoryWrapper = null;
+		protected Func<IList<Type>, Func<object>, object> customFactoryWrapper = null;
 
 		protected BaseDIBinder(IDIContext context) {
 			this.contextInjection = context;
@@ -35,7 +35,7 @@ namespace MinDI.Binders {
 			Func<object> factory = null;
 
 			if (customFactoryWrapper != null) {
-				factory = () => customFactoryWrapper (create);
+				factory = () => customFactoryWrapper(types, create);
 			} else {
 				factory = create;
 			}

@@ -22,7 +22,7 @@ namespace MinDI.Tests
 			public TestBinder (IDIContext context) : base (context)
 			{
 				this.instantiationType = Introspection.InstantiationType.Abstract;
-				this.customFactoryWrapper = (f) => {
+				this.customFactoryWrapper = (t, f) => {
 					return new AnotherClass (f ());
 				};
 			}
