@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using MinDI.Binders;
 using NUnit.Framework;
 using UnityEngine;
 
@@ -16,9 +17,30 @@ namespace MinDI.Tests
 			Zane
 		}
 
+		public class TestBinder : BaseDIBinder
+		{
+			public TestBinder (IDIContext context) : base (context)
+			{
+				this.instantiationType = Introspection.InstantiationType.Abstract;
+				this.customFactoryWrapper = (f) => {
+					return new AnotherClass (f ());
+				};
+			}
+		}
+
 		private interface IMyClass {}
 
 		private class MyClass : IMyClass {
+		}
+
+		private class AnotherClass : IMyClass
+		{
+			public object data { get; set; }
+
+			public AnotherClass (object data)
+			{
+				this.data = data;
+			}
 		}
 
 		[Test]
@@ -46,6 +68,30 @@ namespace MinDI.Tests
 
 			IMyClass oneMorerObj = context.Resolve<IMyClass>();
 			Assert.AreSame(obj, oneMorerObj);
+		}
+
+		[Test]
+		public void TestwWithoutCustomFactoryWrapper ()
+		{
+			IDIContext context = ContextHelper.CreateContext();
+			context.m().Bind<IMyClass>(() => new MyClass());
+
+			IMyClass obj = context.Resolve<IMyClass> ();
+			Assert.IsInstanceOf<MyClass>(obj);
+		}
+
+
+		[Test]
+		public void TestCustomFactoryWrapper()
+		{
+			IDIContext context = ContextHelper.CreateContext();
+			TestBinder testBinder = new TestBinder (context);
+			testBinder.Bind<IMyClass>(() => new MyClass());
+
+			IMyClass obj = context.Resolve<IMyClass>();
+
+	//		Assert.IsInstanceOf<AnotherClass>(obj);
+	//		Assert.IsInstanceOf<MyClass>((obj as AnotherClass).data);
 		}
     }
 }

@@ -12,6 +12,9 @@ namespace MinDI.Binders {
 	{
 		protected InstantiationType instantiationType;
 
+		// Setting this allows to implement custom factory wrapper
+		protected Func<Func<object>, object> customFactoryWrapper = null;
+
 		protected BaseDIBinder(IDIContext context) {
 			this.contextInjection = context;
 		}
@@ -29,11 +32,19 @@ namespace MinDI.Binders {
 		}
 
 		protected IBinding Bind(InstantiationType inst, IList<Type> types, Func<object> create, string name = null, bool makeDefault = false) {
-			IBinding binding = CreateBinding (inst, types, create, name, makeDefault);
+			Func<object> factory = null;
+
+			if (customFactoryWrapper != null) {
+				factory = () => customFactoryWrapper (create);
+			} else {
+				factory = create;
+			}
+
+			IBinding binding = CreateBinding(inst, types, factory, name, makeDefault);
 			this.context.Register(binding);
 			return binding;
 		}
-			
+
 		/// <summary>
 		/// Rebind the binding from parent context to a new binder.
 		/// This can be usefull to e.g. rebind the library binding to a singletone
