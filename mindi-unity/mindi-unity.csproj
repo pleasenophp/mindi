@@ -36,7 +36,6 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="src\objects\ContextMonoBehaviour.cs" />
-    <Compile Include="src\mb\DestroyBehaviour.cs" />
     <Compile Include="src\mb\MBInstantiationType.cs" />
     <Compile Include="src\mb\MBLifeTime.cs" />
     <Compile Include="src\mb\RemoteObjectsRecord.cs" />

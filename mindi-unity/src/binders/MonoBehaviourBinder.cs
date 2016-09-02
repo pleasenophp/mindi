@@ -42,34 +42,6 @@ namespace MinDI.Binders {
 		public IBinding Bind<TInstance> (string name = null) where TInstance:MonoBehaviour {
 			return Bind<TInstance, TInstance>(name);
 		}
-			
-		// TODO - when binding to existing game object, need to check that the lifetime of this object
-		// is greater or equal than the lifetime of our mono behaviour. Else - refuse to bind.
-		// If the GO is in the ROR that is higher or equal than this ROR in the tree then it's ok
-		// If the GO is in the ROR, we cannot find from this, so it's either in parralel ROR,
-		// or in the lower ROR, so we cannot state that lifetime is the same or greater - not allowing
-
-		// Maybe leave only BindToExisting and get rid of destroy behaviour. When bind to existing allow only singletone bindings.
-		public IBinding BindToGameObject<T, TInstance> (Func<GameObject> objectLocator, string name = null) 
-			where T:class where TInstance:MonoBehaviour, T
-
-		{
-			return baseBinder.Bind<T>(() => this.Resolve<T, TInstance>(objectLocator), name);
-		}
-
-		public IBinding BindToGameObject<TInstance> (Func<GameObject> objectLocator, string name = null)
-			where TInstance:MonoBehaviour
-		{
-			return BindToGameObject<TInstance, TInstance>(objectLocator, name);
-		}
-
-			
-		public IBinding BindToExisting<T> (Func<GameObject> objectLocator, string name = null) 
-			where T:class
-
-		{
-			return baseBinder.Bind<T>(() => this.ResolveExisting<T>(objectLocator), name);
-		}
 
 		public IBinding BindPrefab<T, TInstance> (Func<GameObject> prefabLocator, string bindingName = null) 
 			where T:class where TInstance:MonoBehaviour, T
@@ -121,32 +93,7 @@ namespace MinDI.Binders {
 			return obj.AddComponent<TInstance>();
 		}
 
-		private T ResolveExisting<T> (Func<GameObject> objectLocator) 
-			where T:class
-		{
-			GameObject obj = objectLocator();
-			if (obj == null) {
-				throw new MindiException(string.Format("Binding to existing MonoBehaviour for type {0}: cannot locate the game object", 
-					typeof(T)));
-			}
-
-			Component[] components = obj.GetComponents<Component>();
-			T instance = null;
-			foreach (Component comp in components) {
-				instance = comp as T;
-				if (instance != null) {
-					break;
-				}
-			}
-
-			if (instance == null) {
-				throw new MindiException(string.Format("Binding to existing MonoBehaviour for type {0}: cannot locate a component of this type on the object {1}", 
-					typeof(T), obj.name));
-			}
-				
-			return instance;
-		}
-
+	
 		private T ResolveResource<T, TInstance>(string path) 
 				where T:class where TInstance:MonoBehaviour, T
 		{
@@ -191,15 +138,6 @@ namespace MinDI.Binders {
 		}
 
 		private void BindInstantiation(GameObject obj, MBInstantiationType instantiation) {
-			DestroyBehaviour destroyBehaviour = obj.GetComponent<DestroyBehaviour>();
-			if (destroyBehaviour != null) {
-				destroyBehaviour.instantiationType = MBInstantiationType.ExistingObject;
-				return;
-			}
-
-			destroyBehaviour = obj.AddComponent<DestroyBehaviour>();
-			destroyBehaviour.instantiationType = instantiation;
-
 			objectsHash.hash.Add(obj.GetInstanceID());
 		}
 

@@ -26,14 +26,8 @@ namespace MinDI.StateObjects {
 		}
 
 		private void DestroyMB(MonoBehaviour mb, IRemoteObjectsHash objectsHash) {
-			DestroyBehaviour destroyBehaviour = mb.GetComponent<DestroyBehaviour>();
-			if (destroyBehaviour == null || destroyBehaviour.instantiationType == MBInstantiationType.ExistingObject) {
-				GameObject.Destroy(mb);
-			}
-			else if (destroyBehaviour.instantiationType == MBInstantiationType.NewObject) {
-				objectsHash.hash.Remove(mb.gameObject.GetInstanceID());
-				GameObject.Destroy(mb.gameObject);
-			}
+			objectsHash.hash.Remove(mb.gameObject.GetInstanceID());
+			GameObject.Destroy(mb.gameObject);
 		}
 			
 		private void DestroyFactoryObject(FactoryObjectRecord obj) {
