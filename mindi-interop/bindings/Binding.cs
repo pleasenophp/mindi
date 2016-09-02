@@ -127,7 +127,7 @@ namespace MinDI.Introspection {
 
 			// Saving the binding descriptor on resolved object
 			IDIClosedContext cctx = obj as IDIClosedContext;
-			if (cctx != null) {
+			if (cctx != null && cctx.IsValid()) {
 				cctx.descriptor.bindingDescriptor = this;
 			}
 

@@ -87,6 +87,22 @@ namespace MinDI.Tests
 		public void TestResolvedInstanceHasBindingDescriptor ()
 		{
 			IDIContext context = ContextHelper.CreateContext ();
+			IOrange orange = new Orange1();
+			(orange as IDIClosedContext).Invalidate();
+			context.s().BindInstance(orange);
+			context.m().Bind<IPineapple>(() => new Pineapple());
+
+			IPineapple pineApple = context.Resolve<IPineapple>();
+
+			Assert.IsNotNull(pineApple);
+			Assert.IsNotNull(pineApple.orange);
+		}
+
+
+		[Test]
+		public void TestResolveObjectWithInvalidatedContext ()
+		{
+			IDIContext context = ContextHelper.CreateContext ();
 			context.m ().Bind<IOrange> (() => new Orange1 ());
 
 			IOrange orange = context.Resolve<IOrange> ();
