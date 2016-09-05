@@ -21,15 +21,13 @@ namespace MinDI.Unity {
 		protected override T UnloadAdditive<T> (T obj)
 		{
 			this.sceneFactory.DestroyInstance (obj);
-
-			// TODO - need to unload the scene imn unity
-			// SceneManager.UnloadScene();
+			SceneManager.UnloadScene(obj.name);
 			return default (T);
 		}
 
 		protected override IEnumerator LoadAdditiveCoroutine<T> (string name, ISceneArguments arguments, Action<T> callback)
 		{
-			AsyncOperation async = SceneManager.LoadSceneAsync(name);
+			AsyncOperation async = SceneManager.LoadSceneAsync(name, LoadSceneMode.Additive);
 			yield return async;
 
 			T sceneObject = null;
