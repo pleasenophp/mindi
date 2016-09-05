@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using MinDI.Unity;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 namespace MinDI
 {
@@ -13,7 +14,7 @@ namespace MinDI
 		}
 
 		void DoInitialization() {
-			if (Application.loadedLevelName != ApplicationStarter.RootSceneName) {
+			if (SceneHelper.GetLoadedLevelName () != ApplicationStarter.RootSceneName) {
 				LoadRootScene();
 				return;
 			}
@@ -29,7 +30,7 @@ namespace MinDI
 			}
 
 			if (backToThisScene) {
-				RootContainer.overrideAutoStartScene = Application.loadedLevelName;
+				RootContainer.overrideAutoStartScene = SceneHelper.GetLoadedLevelName();
 			}
 			else {
 				RootContainer.overrideAutoStartScene = null;
@@ -43,7 +44,7 @@ namespace MinDI
 		/*
 		private IEnumerator LoadRootSceneCoroutine() {
 			yield return 1;
-			Application.LoadLevel(ApplicationStarter.RootSceneName);
+			SceneManager.LoadScene(ApplicationStarter.RootSceneName);
 		}
 		*/
 	}

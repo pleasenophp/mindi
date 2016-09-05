@@ -3,6 +3,7 @@ using System.Collections;
 using MinDI.Context;
 using MinDI.StateObjects;
 using MinDI.Unity;
+using UnityEngine.SceneManagement;
 
 namespace MinDI
 {
@@ -38,7 +39,8 @@ namespace MinDI
 
 		private void DoInitialization() {
 			// Ignoring starter on non-root scene
-			if (Application.loadedLevelName != RootSceneName) {
+
+			if (SceneHelper.GetLoadedLevelName() != RootSceneName) {
 				if (RootContainer.context == null) {
 					throw new MindiException("Don't use starter on non-root scene. Use _rootRedirect instead.");
 				}
@@ -166,16 +168,18 @@ namespace MinDI
  *  
  * 10) Make internal documentation and object diagrams
  * 
- * 10.0.1) Scene adaptation for Unity 5? Keep backwards compatibility with Unity4
+ * 10.0.1) Scene adaptation for Unity 5? Keep backwards compatibility with Unity4. Switch completely to Unity5 scene system, by leaving 1 SceneLoader and change don't destroy on load system, just keeping root scene always loaded instead
  * 
- * 10.1) In the binders remove the configuration delegate and allow to configure MakeDefault through signature
+ * v 10.1) In the binders remove the configuration delegate and allow to configure MakeDefault through signature
  * Also see if we need to have subjective bindings.
  * 
- * 10.5) Sort out the lifetime control when resolving the mono behaviours to existing objects. 
+ * x 10.5) Sort out the lifetime control when resolving the mono behaviours to existing objects. 
  * And rethink the lifetime of binding to instance (should be able if instance is direcly created by scene, and object that depends on MB is from this scene)
+ * NOTE: currently removed the code out - not to bind to existing MB and existing objects. This feature appeared to be not needed. Can be restored later. 
  * 
- * 10.6) Make the binding to existing MB not allowed to resolve on factory. Also see if we can add additional control for the construction dependencies for the same thing
+ * x 10.6) Make the binding to existing MB not allowed to resolve on factory. Also see if we can add additional control for the construction dependencies for the same thing
  * 		  Maybe this will automatically solve itself if binding to existing MB is only singletone.
+ * NOTE: currently removed the code out - not to bind to existing MB and existing objects. This feature appeared to be not needed. Can be restored later. 
  * 
  * 11) Make programmer documentation and TODOs for the further guides
  * 

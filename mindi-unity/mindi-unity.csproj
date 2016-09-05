@@ -70,6 +70,8 @@
     <Compile Include="src\starter\RootSceneStarter.cs" />
     <Compile Include="src\factories\Unity5SceneLoader.cs" />
     <Compile Include="src\factories\Unity5AdditiveSceneLoader.cs" />
+    <Compile Include="src\helpers\SceneHelper.cs" />
+    <Compile Include="Context\MindiUnitySceneLoadersContextInitializer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -84,6 +86,7 @@
     <Folder Include="src\core\" />
     <Folder Include="src\context\" />
     <Folder Include="Interfaces\scenes\" />
+    <Folder Include="src\helpers\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\mindi\mindi.csproj">

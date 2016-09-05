@@ -2,7 +2,7 @@
 using System.Collections;
 using MinDI;
 using System;
-
+using UnityEngine.SceneManagement;
 
 namespace MinDI.Unity {
 
@@ -21,12 +21,15 @@ namespace MinDI.Unity {
 		protected override T UnloadAdditive<T> (T obj)
 		{
 			this.sceneFactory.DestroyInstance (obj);
+
+			// TODO - need to unload the scene imn unity
+			// SceneManager.UnloadScene();
 			return default (T);
 		}
 
 		protected override IEnumerator LoadAdditiveCoroutine<T> (string name, ISceneArguments arguments, Action<T> callback)
 		{
-			AsyncOperation async = Application.LoadLevelAdditiveAsync (name);
+			AsyncOperation async = SceneManager.LoadSceneAsync(name);
 			yield return async;
 
 			T sceneObject = null;
