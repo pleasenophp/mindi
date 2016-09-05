@@ -2,9 +2,12 @@
 using System.Collections;
 using MinDI;
 using System;
+using UnityEngine.SceneManagement;
 
 namespace MinDI.Unity {
 
+
+	// TODO - switch completely to Unity5 scene system, by leaving 1 SceneLoader and change don't destroy on load system, just keeping root scene always loaded instead
 	public class Unity5SceneLoader : SceneLoader
 	{
 		private interface ILoading
@@ -30,9 +33,9 @@ namespace MinDI.Unity {
 			{
 				T instance = null;
 				if (arguments == null) {
-					instance = factory.Create<T> (Application.loadedLevelName, true);
+					instance = factory.Create<T> (SceneHelper.GetLoadedLevelName(), true);
 				} else {
-					instance = factory.Create<T> (Application.loadedLevelName, true, null, arguments.PopulateContext, arguments.CreateConstruction);
+					instance = factory.Create<T> (SceneHelper.GetLoadedLevelName(), true, null, arguments.PopulateContext, arguments.CreateConstruction);
 				}
 
 				if (callback != null) {
@@ -49,6 +52,16 @@ namespace MinDI.Unity {
 		private ISceneObject currentScene = null;
 		private ILoading loading = null;
 
+		protected override void OnInjected ()
+		{
+			SceneManager.sceneLoaded += this.OnSceneLoaded;
+		}
+
+		protected override void OnDestruction ()
+		{
+			SceneManager.sceneLoaded -= this.OnSceneLoaded;
+		}
+
 		public override void Load<T> (string name, ISceneArguments arguments = null, Action<T> callback = null)
 		{
 			if (currentScene != null) {
@@ -64,28 +77,30 @@ namespace MinDI.Unity {
 
 		private void LoadScene(string sceneName)
 		{
-			Application.LoadLevel (sceneName);
+			SceneManager.LoadScene(sceneName);
+
+			// There seems to be impossible to check the scene is actually loading in Unity5
+			/*
 			if (!Application.isLoadingLevel) {
 				loading = null;
 				throw new MindiException ("The scene not found with name: " + sceneName);
 			}
+			*/
 		}
 
-		void OnLevelWasLoaded (int level)
+		void OnSceneLoaded (Scene scene, LoadSceneMode mode)
 		{
-			string loadedLevelName = Application.loadedLevelName.ToLower ();
-
+			string loadedLevelName = scene.name.ToLower();
 			if (loadedLevelName == ApplicationStarter.RootSceneName.ToLower ()) {
 				return;
 			}
 
 			if (loading == null || loading.loadingLevelName.ToLower () != loadedLevelName) {
-				Debug.LogError ("The level " + Application.loadedLevelName + " was loaded incorrectly. Please use ISceneLoader to load the level with MinDI.");
+				Debug.LogError ("The level " + loadedLevelName+" was loaded incorrectly. Please use ISceneLoader to load the level with MinDI.");
 
 				if (loading != null) {
 					Debug.LogWarning ("Loading level was set to: " + loading.loadingLevelName);
 				}
-
 			}
 
 			if (loading != null) {
