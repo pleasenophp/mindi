@@ -90,6 +90,11 @@ namespace MinDI.Unity {
 
 		void OnSceneLoaded (Scene scene, LoadSceneMode mode)
 		{
+			// Don't need this callback in the additive mode
+			if (mode == LoadSceneMode.Additive) {
+				return;
+			}
+
 			string loadedLevelName = scene.name.ToLower();
 			if (loadedLevelName == ApplicationStarter.RootSceneName.ToLower ()) {
 				return;
