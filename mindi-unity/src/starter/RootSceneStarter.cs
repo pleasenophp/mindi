@@ -35,13 +35,17 @@ namespace MinDI
 				RootContainer.overrideAutoStartScene = null;
 			}
 
-			StartCoroutine(LoadRootSceneCoroutine());
+			// TODO - trying without coroutine, as the bug in Unity must be fixed
+			// StartCoroutine(LoadRootSceneCoroutine());
+			Application.LoadLevel(ApplicationStarter.RootSceneName);
 		}
 
+		/*
 		private IEnumerator LoadRootSceneCoroutine() {
 			yield return 1;
 			Application.LoadLevel(ApplicationStarter.RootSceneName);
 		}
+		*/
 	}
 }
 
