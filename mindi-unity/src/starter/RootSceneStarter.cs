@@ -38,7 +38,7 @@ namespace MinDI
 
 			// TODO - trying without coroutine, as the bug in Unity must be fixed
 			// StartCoroutine(LoadRootSceneCoroutine());
-			Application.LoadLevel(ApplicationStarter.RootSceneName);
+			SceneManager.LoadScene(ApplicationStarter.RootSceneName);
 		}
 
 		/*
