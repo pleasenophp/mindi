@@ -32,7 +32,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="UnityEngine">
-      <HintPath>..\lib\UnityEngine.dll</HintPath>
+      <HintPath>..\..\lib\UnityEngine.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -84,5 +84,15 @@
     <Folder Include="src\core\" />
     <Folder Include="src\context\" />
     <Folder Include="Interfaces\scenes\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\mindi-interop\mindi-interop.csproj">
+      <Project>{021BCAE4-375A-4581-92CD-7217F6D37BB8}</Project>
+      <Name>mindi-interop</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\mindi\mindi.csproj">
+      <Project>{26DAE650-5AD8-42FB-B67E-C9ED91FD6B1A}</Project>
+      <Name>mindi</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>

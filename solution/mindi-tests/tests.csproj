@@ -31,11 +31,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="nunit.framework">
-      <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEngine">
-      <HintPath>..\lib\UnityEngine.dll</HintPath>
+      <HintPath>..\..\lib\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework, Version=2.6.0.12051, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77">
+      <Private>False</Private>
     </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
@@ -57,5 +57,23 @@
   <ItemGroup>
     <Folder Include="Core\" />
     <Folder Include="MinIOC\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\mindi\mindi.csproj">
+      <Project>{26DAE650-5AD8-42FB-B67E-C9ED91FD6B1A}</Project>
+      <Name>mindi</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\mindi-interop\mindi-interop.csproj">
+      <Project>{021BCAE4-375A-4581-92CD-7217F6D37BB8}</Project>
+      <Name>mindi-interop</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\mindi-unity\mindi-unity.csproj">
+      <Project>{33C63225-4DA3-4745-B433-0FB65A4268FD}</Project>
+      <Name>mindi-unity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\minioc\minioc.csproj">
+      <Project>{EF726DF6-62BB-4D9E-8874-C7AD3C1C7C79}</Project>
+      <Name>minioc</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>

@@ -205,5 +205,6 @@ FakesAssemblies/
 *.opt
 
 .DS_Store
-
+test-results
+test-results/
 
