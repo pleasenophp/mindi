@@ -66,10 +66,4 @@
       </Properties>
     </MonoDevelop>
   </ProjectExtensions>
-  <ItemGroup>
-    <ProjectReference Include="..\mindi-interop\mindi-interop.csproj">
-      <Project>{021BCAE4-375A-4581-92CD-7217F6D37BB8}</Project>
-      <Name>mindi-interop</Name>
-    </ProjectReference>
-  </ItemGroup>
 </Project>
