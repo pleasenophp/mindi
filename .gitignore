@@ -208,3 +208,6 @@ FakesAssemblies/
 test-results
 test-results/
 
+# Makefile
+*.mk
+
