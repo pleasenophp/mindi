@@ -15,9 +15,12 @@ namespace MinDI
 		#region IContextBuilderTypesProvider implementation
 		public IList<Type> GetTypes() {
 			IList<Type> result = new List<Type>();
+		    Assembly executingAssembly = Assembly.GetCallingAssembly();
+		    Assembly callingAssembly = Assembly.GetCallingAssembly();
+		    Assembly entryAssembly = Assembly.GetEntryAssembly();
 
 			foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies()) {
-				if (Assembly.GetExecutingAssembly() != assembly && Assembly.GetCallingAssembly() != assembly && 
+				if (executingAssembly != assembly && callingAssembly != assembly && entryAssembly != assembly &&
 					!assembly.IsUnityProjectAssembly() && !assembly.HasContext()) {
 					continue;
 				}

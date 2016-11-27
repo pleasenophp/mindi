@@ -59,8 +59,9 @@ namespace minioc.resolution.injection {
 		}
 	
 		protected void ThrowResolutionException(Type type, string name, object instance, Exception e) {
-			throw new MiniocException(string.Format("No binding found for field or parameter of type '{0} named {1}' of '{2}'", type,
-				name, instance), e);
+		        throw new MiniocException(
+		            string.Format("No binding found for field or parameter of type '{0}', named '{1}' in the instance '{2}'", type,
+		                name, instance), e);
 		}
 
 	}
