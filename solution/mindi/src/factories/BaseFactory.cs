@@ -10,7 +10,7 @@ using MinDI.Introspection;
 
 namespace MinDI.Factories {
 	/// <summary>
-	/// Standard factory to resolve an object from context
+	/// General factory class, don't derive from this object
 	/// </summary>
 	public abstract class BaseFactory<T> : OpenContextObject, IDestroyingFactory
 		where T:class
