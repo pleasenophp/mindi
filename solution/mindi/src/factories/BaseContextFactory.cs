@@ -13,7 +13,7 @@ using MinDI.Resolution;
 
 namespace MinDI {
 	/// <summary>
-	/// Standard factory to resolve an object from context
+	/// Abstract factory to implement custom factories, derive from this object
 	/// </summary>
 	public abstract class BaseContextFactory<T> : BaseFactory<T>, IDestroyingFactory
 		where T:class
