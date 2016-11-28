@@ -42,10 +42,6 @@ namespace MinDI {
 			return assembly.FullName.Contains("Unity") || assembly.FullName.Contains("Assembly-CSharp");
 		}
 
-	
-
-	
-
 		private static IDIContext InternalCreateContext(IDIContext parent, string name) {
 			IDIContext context = new MiniocContext(parent, name);
 

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -63,10 +63,6 @@
     <ProjectReference Include="..\mindi-interop\mindi-interop.csproj">
       <Project>{021BCAE4-375A-4581-92CD-7217F6D37BB8}</Project>
       <Name>mindi-interop</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\mindi-unity\mindi-unity.csproj">
-      <Project>{33C63225-4DA3-4745-B433-0FB65A4268FD}</Project>
-      <Name>mindi-unity</Name>
     </ProjectReference>
     <ProjectReference Include="..\minioc\minioc.csproj">
       <Project>{EF726DF6-62BB-4D9E-8874-C7AD3C1C7C79}</Project>
