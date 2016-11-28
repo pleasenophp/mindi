@@ -2,13 +2,11 @@ using System;
 using System.Collections;
 using minioc;
 
-
 using MinDI.Context;
 using MinDI.StateObjects;
 using MinDI.Introspection;
 using MinDI.Factories;
 using MinDI.Resolution;
-
 
 namespace MinDI {
 	/// <summary>
