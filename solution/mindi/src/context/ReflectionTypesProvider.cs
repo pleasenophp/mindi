@@ -1,12 +1,11 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using minioc;
-
 
 using System.Reflection;
 using MinDI.Context;
+using MinDI.Helpers;
 
 namespace MinDI
 {
@@ -14,6 +13,9 @@ namespace MinDI
 	{
 		#region IContextBuilderTypesProvider implementation
 		public IList<Type> GetTypes() {
+		    PreloadAssemblies();
+
+		    // Load types
 			IList<Type> result = new List<Type>();
 		    Assembly executingAssembly = Assembly.GetCallingAssembly();
 		    Assembly callingAssembly = Assembly.GetCallingAssembly();
@@ -35,20 +37,27 @@ namespace MinDI
 				}
 				catch (Exception ex) {
 					System.Diagnostics.Debug.WriteLine(string.Format("MinDI failed loading assembly {0}. The exception is: {1}", assembly.FullName, ex.Message));
-					ReflectionTypeLoadException tle = ex as ReflectionTypeLoadException;
-					if (tle != null) {
-						foreach (var le in tle.LoaderExceptions) {
-							System.Diagnostics.Debug.WriteLine(string.Format("The loader exception occured for {0}: {1}", assembly.FullName, le.Message));
-						}
-					}
-
-					continue;
+					var tle = ex as ReflectionTypeLoadException;
+				    if (tle == null) continue;
+				    foreach (Exception le in tle.LoaderExceptions) {
+				        System.Diagnostics.Debug.WriteLine(string.Format("The loader exception occured for {0}: {1}", assembly.FullName, le.Message));
+				    }
 				}
 			}
 
 			return result;
 		}
-		#endregion
+
+	    private static void PreloadAssemblies()
+	    {
+	        var files = FileHelper.AllFilesInApplicationFolder().Where(f => f.Extension == ".dll");
+	        foreach (FileInfo f in files)
+	        {
+	            Assembly.LoadFrom(f.FullName);
+	        }
+	    }
+
+	    #endregion
 
 	}
 
