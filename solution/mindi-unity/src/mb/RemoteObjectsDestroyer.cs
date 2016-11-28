@@ -27,6 +27,12 @@ namespace MinDI.StateObjects {
 
 		private void DestroyMB(MonoBehaviour mb, IRemoteObjectsHash objectsHash) {
 			objectsHash.hash.Remove(mb.gameObject.GetInstanceID());
+		    IDIClosedContext ct = mb as IDIClosedContext;
+		    if (ct != null)
+		    {
+		        ct.BeforeFactoryDestruction();
+		    }
+
 			GameObject.Destroy(mb.gameObject);
 		}
 			
@@ -36,7 +42,7 @@ namespace MinDI.StateObjects {
 
 		private void DestroyDefault(UnityEngine.Object obj, IRemoteObjectsHash objectsHash) {
 			objectsHash.hash.Remove(obj.GetInstanceID());
-			UnityEngine.Object.Destroy(obj);
+		    UnityEngine.Object.Destroy(obj);
 		}
 
 
