@@ -62,21 +62,23 @@
  * 
  * v 9.9.4) Make singleton sorted in Minioc. For the generic binding allow to use multiple binding as well.
  *
- * 9.9.4.1) Possoble BUG - if several name bindings are registered, and there is no default binding, one of the bindings becomes default. Check if we want this behaviour.  
+ * 9.9.4.1) Possible BUG - if several name bindings are registered, and there is no default binding, one of the bindings becomes default. Check if we want this behaviour.  
  * 	Maybe should only assign unnamed binding as default automatically, and if no default binding exist then quit
  * 
  * 9.9.5) Check when an object has at least one Injection attribute or method, but is not IDIClosedContext - throw exception
  * 
  * v 9.9.6) Make the scene loader accept the custom parameters
+ *
+ * 9.9.7) Expression way to init constructors.
  * 
- * 9.9.9) Version number to DLLs and other release prepare things - going to beta stage
- 
- 9.9.9.91) We need good integration tests in unity
+ * 9.9.9) Version number to DLLs and other release prepare things - going to beta stage, put into github
  *  
- * 10) Make internal documentation and object diagrams
+ * 10) Make initial documentation (maybe a blog posts)
  * 
  * v 10.0.1) Scene adaptation for Unity 5? Keep backwards compatibility with Unity4
  * 
+ * 10.0.2) We need good integration tests in unity
+ *
  * v 10.1) In the binders remove the configuration delegate and allow to configure MakeDefault through signature
  * Also see if we need to have subjective bindings.
  * 
@@ -89,12 +91,6 @@
  * 11) Make programmer documentation and TODOs for the further guides
  * 
  * v 13) Add better code to coroutine manager
- * 
- * 14) Add some editor helper scripts
- * 		* implement interface
- * 		* extract interface
- * 		* create factory
- * 		
  * 
  * 
  * 
