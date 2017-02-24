@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using MinDI.Factories;
 using System;
 using MinDI.Resolution;
+using Object = UnityEngine.Object;
 
 namespace MinDI.Unity {
 
@@ -66,12 +67,12 @@ namespace MinDI.Unity {
 		}
 
 		private void TrackObjects(IDIContext sceneContext) {
-			IRemoteObjectsHash hashObject = sceneContext.Resolve<IRemoteObjectsHash>();
-			IRemoteObjectsRecord ror = sceneContext.Resolve<IRemoteObjectsRecord>();
+			var hashObject = sceneContext.Resolve<IRemoteObjectsHash>();
+			var ror = sceneContext.Resolve<IRemoteObjectsRecord>();
 
-			var objects = Resources.FindObjectsOfTypeAll(typeof(GameObject));
+			GameObject[] objects = Resources.FindObjectsOfTypeAll<GameObject>();
 			foreach (GameObject obj in objects) {
-
+				// Find all the objects on the scene that have no hash, that's the new objects, and track them on this scene
 				if (obj.hideFlags != HideFlags.None) {
 					continue;
 				}
@@ -80,12 +81,11 @@ namespace MinDI.Unity {
 					continue;
 				}
 					
-				if (hashObject.hash.Contains(obj.GetInstanceID())) {
+				if (hashObject.Contains(obj.GetInstanceID())) {
 					continue;
 				}
-				hashObject.hash.Add(obj.GetInstanceID());
 
-				// Find all the objects on the scene that have no hash, that's the new objects, and track them on this scene
+				hashObject.Register(obj);
 				ror.Register(obj);
 
 				// Injecting mono behaviours
