@@ -35,12 +35,12 @@ namespace MinDI {
 					}
 				}
 				catch (Exception ex) {
-					System.Diagnostics.Debug.WriteLine("MinDI failed loading assembly {0}. The exception is: {1}", assembly.FullName,
-						ex.Message);
+					System.Diagnostics.Debug.WriteLine(string.Format("MinDI failed loading assembly {0}. The exception is: {1}", assembly.FullName,
+						ex.Message));
 					var tle = ex as ReflectionTypeLoadException;
 					if (tle == null) continue;
 					foreach (Exception le in tle.LoaderExceptions) {
-						System.Diagnostics.Debug.WriteLine("The loader exception occured for {0}: {1}", assembly.FullName, le.Message);
+						System.Diagnostics.Debug.WriteLine(string.Format("The loader exception occured for {0}: {1}", assembly.FullName, le.Message));
 					}
 				}
 			}
