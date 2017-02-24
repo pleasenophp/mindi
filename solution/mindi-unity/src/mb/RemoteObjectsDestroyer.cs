@@ -8,26 +8,26 @@ namespace MinDI.StateObjects {
 
 	public class RemoteObjectsDestroyer : IRemoteObjectsDestroyer {
 		public void Destroy(object o, IRemoteObjectsHash objectsHash) {
-			MonoBehaviour mb = o as MonoBehaviour;
+			var mb = o as MonoBehaviour;
 			if (mb != null) {
 				DestroyMB(mb, objectsHash);
 				return;
 			}
 
-			FactoryObjectRecord fobj = o as FactoryObjectRecord;
+			var fobj = o as FactoryObjectRecord;
 			if (fobj != null) {
 				DestroyFactoryObject(fobj);
 			}
 
-			UnityEngine.Object obj = o as UnityEngine.Object;
+			var obj = o as UnityEngine.Object;
 			if (obj != null) {
 				DestroyDefault(obj, objectsHash);
 			}
 		}
 
 		private void DestroyMB(MonoBehaviour mb, IRemoteObjectsHash objectsHash) {
-			objectsHash.hash.Remove(mb.gameObject.GetInstanceID());
-		    IDIClosedContext ct = mb as IDIClosedContext;
+			objectsHash.Remove(mb.gameObject);
+		    var ct = mb as IDIClosedContext;
 		    if (ct != null)
 		    {
 		        ct.BeforeFactoryDestruction();
@@ -41,11 +41,9 @@ namespace MinDI.StateObjects {
 		}
 
 		private void DestroyDefault(UnityEngine.Object obj, IRemoteObjectsHash objectsHash) {
-			objectsHash.hash.Remove(obj.GetInstanceID());
+			objectsHash.Remove(obj);
 		    UnityEngine.Object.Destroy(obj);
 		}
-
-
 	}
 }
 
