@@ -21,6 +21,7 @@ namespace MinDI.Unity {
 		protected override T UnloadAdditive<T> (T obj)
 		{
 			this.sceneFactory.DestroyInstance (obj);
+			// TODO - change to the new method in Unity5
 			SceneManager.UnloadScene(obj.name);
 			return default (T);
 		}
