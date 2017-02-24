@@ -2,19 +2,17 @@ using System;
 using System.Collections;
 using MinDI.StateObjects;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace MinDI.Binders {
 
 	public class MonoBehaviourBinder : OpenContextObject {
-		private BaseDIBinder baseBinder;
+		private readonly BaseDIBinder baseBinder;
 
-		private IRemoteObjectsHash _objectsHash = null;
+		private IRemoteObjectsHash _objectsHash;
 		private IRemoteObjectsHash objectsHash {
 			get {
-				if (_objectsHash == null) {
-					_objectsHash = this.context.Resolve<IRemoteObjectsHash>();
-				}
-				return _objectsHash;
+				return _objectsHash ?? (_objectsHash = this.context.Resolve<IRemoteObjectsHash>());
 			}
 		}
 
@@ -84,10 +82,10 @@ namespace MinDI.Binders {
 			if (obj == null) {
 				string objectName = typeof(TInstance).Name;
 				obj = new GameObject(objectName);
-				BindInstantiation(obj, MBInstantiationType.NewObject);
+				objectsHash.Register(obj);
 			}
 			else {
-				BindInstantiation(obj, MBInstantiationType.ExistingObject);
+				objectsHash.Register(obj);
 			}
 				
 			return obj.AddComponent<TInstance>();
@@ -97,7 +95,7 @@ namespace MinDI.Binders {
 		private T ResolveResource<T, TInstance>(string path) 
 				where T:class where TInstance:MonoBehaviour, T
 		{
-			GameObject prefab = Resources.Load<GameObject>(path);
+			var prefab = Resources.Load<GameObject>(path);
 
 			if (prefab == null) {
 				throw new MindiException("Cannot load the resource by path "+path);
@@ -121,24 +119,20 @@ namespace MinDI.Binders {
 			where T:class where TInstance:MonoBehaviour, T
 		{
 			// This is hack for UnityEditor mode only - to not bind loaded prefabs to the scene
-			objectsHash.hash.Add(prefab.GetInstanceID());
+			objectsHash.Register(prefab);
 
-			GameObject obj = (GameObject)GameObject.Instantiate(prefab);
+			GameObject obj = (GameObject)Object.Instantiate(prefab);
 			obj.name = typeof(TInstance).Name;
 
-			BindInstantiation(obj, MBInstantiationType.NewObject);
-			TInstance instance = obj.GetComponent<TInstance>();
+			objectsHash.Register(obj);
+			var instance = obj.GetComponent<TInstance>();
 
 			if (instance == null) {
-				throw new MindiException(String.Format("No MonoBehaviour of type {0} found on prefab {1}", 
+				throw new MindiException(string.Format("No MonoBehaviour of type {0} found on prefab {1}",
 					typeof(TInstance), prefab.name));
 			}
 
 			return instance;
-		}
-
-		private void BindInstantiation(GameObject obj, MBInstantiationType instantiation) {
-			objectsHash.hash.Add(obj.GetInstanceID());
 		}
 
 	}

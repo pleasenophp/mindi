@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace MinDI.StateObjects {
+﻿namespace MinDI.StateObjects {
 	public interface IRemoteObjectsHash {
-		HashSet<int> hash {get;}
 		void Register(object instance);
+		void Remove(object instance);
+		bool Contains(int id);
 	}
 }
 
