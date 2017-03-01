@@ -8,8 +8,8 @@ using System;
 
 namespace minioc.context {
 	internal class NamedBindings {
-		private Type type;
-		private IDictionary<string, IBinding> namedBindings = new Dictionary<string, IBinding>();
+		private readonly Type type;
+		private readonly IDictionary<string, IBinding> namedBindings = new Dictionary<string, IBinding>();
 		private IBinding defaultBinding;
 
 		public NamedBindings(Type type) {
@@ -22,7 +22,7 @@ namespace minioc.context {
 			}
 
 			if (namedBindings.Get(binding.name) != null) {
-				throw new MiniocException(string.Format("A binding named '{0}' already exist for type {1}", 
+				throw new MiniocException(string.Format("A binding named '{0}' already exist for type {1}",
 					binding.name, type));
 			}
 

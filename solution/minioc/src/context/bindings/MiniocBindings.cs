@@ -7,7 +7,7 @@ using MinDI.Introspection;
 
 namespace minioc.context {
 	internal class MiniocBindings {
-		private Dictionary<Type, NamedBindings> bindings = new Dictionary<Type, NamedBindings>();
+		private readonly Dictionary<Type, NamedBindings> bindings = new Dictionary<Type, NamedBindings>();
 
 		public void Add(IBinding binding) {
 			foreach (Type type in binding.types) {

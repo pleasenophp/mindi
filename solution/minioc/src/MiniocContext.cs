@@ -181,6 +181,9 @@ namespace minioc
 			if (instance == null) {
 				return;
 			}
+
+		    // We need to call getInjectionStrategies early here so we can through exception if e.g. there are Injection attributes, but the object is not IDIClosedContext
+		    var strategies = _injector.getInjectionStrategies(instance);
 				
 			// Not injecting any dependencies if the object is not context object
 			IDIClosedContext stateInstance = instance as IDIClosedContext;
@@ -202,7 +205,7 @@ namespace minioc
 
 			if (stateInstance.descriptor.diState == DIState.NotResolved) {
 				stateInstance.descriptor.diState = DIState.Resolving;
-				_injector.injectDependencies(instance, construction);
+				_injector.injectDependencies(instance, strategies, construction);
 				RegisterRemoteObject(instance);
 				stateInstance.AfterInjection();
 				stateInstance.descriptor.diState = DIState.Resolved;

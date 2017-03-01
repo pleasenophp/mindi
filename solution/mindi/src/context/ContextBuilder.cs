@@ -15,23 +15,35 @@ namespace MinDI {
 	/// NOTE - also will need some code if we want to easily override library context initializers (see if we really want this)
 	/// </summary>
 	public static class ContextBuilder {
-		private static IDictionary<Type, List<IContextInitializer>> initializers = null;
+	    private static IDictionary<Type, List<IContextInitializer>> initializers = null;
 
 		private static IContextBuilderTypesProvider typesProvider;
-		public static IContextBuilderTypesProvider TypesProvider {
-			get {
-				if (typesProvider == null) {
-					typesProvider = new ReflectionTypesProvider();
-				}
 
-				return typesProvider;
-			}
+	    /// <summary>
+	    /// Set it to override the types provider with a custom one
+	    /// </summary>
+		public static IContextBuilderTypesProvider TypesProvider {
+		    get
+		    {
+		        return typesProvider ?? (typesProvider = new ReflectionTypesProvider());
+		    }
 			set {
 				typesProvider = value;
 			}
 		}
-		
-		public static IList<T> Initialize<T>(this IDIContext context, FilteredInitializerAttribute filter = null) where T:class, IContextInitializer {	
+
+	    /// <summary>
+	    /// If set, the types provider will try to preload assemblies from files.
+	    /// Don't set it for mobile platforms and WebGL, where there is no access to file system
+	    /// </summary>
+	    public static bool PreloadAssemblies { get; set; }
+
+	    static ContextBuilder()
+	    {
+	        PreloadAssemblies = true;
+	    }
+
+	    public static IList<T> Initialize<T>(this IDIContext context, FilteredInitializerAttribute filter = null) where T:class, IContextInitializer {
 			if (!typeof(T).IsInterface) {
 				return new List<T>{InitSingle<T>(context)};
 			}

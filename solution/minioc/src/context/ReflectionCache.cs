@@ -5,6 +5,7 @@ using System.Reflection;
 using minioc.resolution.injection;
 using minioc.misc;
 using MinDI;
+using MinDI.StateObjects;
 
 namespace minioc.context {
 	internal class ReflectionCache {
@@ -51,16 +52,28 @@ namespace minioc.context {
 
 			PropertyInfo[] injectedProperties =
 				properties.Where(p => p.GetCustomAttributes(typeof(InjectionAttribute), true).Any()).ToArray();
+
+		    if (injectedProperties.Length > 0 && !typeof(IDIClosedContext).IsAssignableFrom(type))
+		    {
+		        throw new MiniocException(string.Format("The type {0} contains Injection properties, " +
+		                                                "but is not implementing IDIClosedContext. Maybe you forgot to derive it from ContextObject or similar.", type));
+		    }
 			
 			return new PropertiesInjectionStrategy(injectedProperties);
 		}
 			
 		private IInjectionStrategy tryInjectMethods(Type type) {
-			List<MethodInfo> methodInfos = type.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
-				.Where(m => m.GetCustomAttributes(typeof(InjectionAttribute), true).Any()).ToList();
+			MethodInfo[] methodInfos = type.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
+				.Where(m => m.GetCustomAttributes(typeof(InjectionAttribute), true).Any()).ToArray();
 
 			// Call sort if order is introduced
 			// methodInfos.Sort(injectionOrderSorter);
+
+		    if (methodInfos.Length > 0 && !typeof(IDIClosedContext).IsAssignableFrom(type))
+		    {
+		        throw new MiniocException(string.Format("The type {0} contains Injection methods, " +
+		                                                "but is not implementing IDIClosedContext. Maybe you forgot to derive it from ContextObject or similar.", type));
+		    }
 
 			return new MethodInjectionStrategy(methodInfos);
 		}
