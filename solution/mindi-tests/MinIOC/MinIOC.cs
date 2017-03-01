@@ -39,6 +39,15 @@ namespace MinDI.Tests.MinIOC
 
 		}
 		
+		class WrongApple : IApple {
+			[Injection] public IDIContext testContext {get; set;}
+
+			public void TestContext(IDIContext cont) {
+				Assert.AreSame(cont, testContext);
+			}
+
+		}
+
 		class YellowApple : GreenApple, IApple {
 		}
 
@@ -210,6 +219,20 @@ namespace MinDI.Tests.MinIOC
 			});
 
 		}
+
+        [Test]
+        public void TestInjectionPropertiesNotClosedContextException()
+        {
+			IDIContext context = new MiniocContext();
+
+			context.s().BindInstance<IDIContext>(context);
+			context.s().Bind<IApple>(()=>new WrongApple());
+
+            Assert.Throws<MiniocException>(() =>
+            {
+                context.Resolve<IApple>();
+            });
+        }
     }
 }
 

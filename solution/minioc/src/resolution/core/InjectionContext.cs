@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
-using minioc.resolution.dependencies;
-using MinDI;
+using minioc.resolution.injection;
 using MinDI.Resolution;
 
 namespace minioc.resolution.core {
-	internal interface InjectionContext {
-		void injectDependencies(object instance, Func<IConstruction> construction);
+	internal interface InjectionContext
+	{
+	    IList<IInjectionStrategy> getInjectionStrategies(object instance);
+	    void injectDependencies(object instance, IList<IInjectionStrategy> injectionStrategies, Func<IConstruction> construction);
 	}
 }

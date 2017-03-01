@@ -52,16 +52,20 @@ namespace MinDI {
 			return AppDomain.CurrentDomain.GetAssemblies();
 		}
 
-		private static void PreloadAssemblies() {
-#if !UNITY_WEBGL
-			IEnumerable<FileInfo> files = FileHelper.AllFilesInApplicationFolder().Where(f => f.Extension == ".dll");
-			foreach (FileInfo f in files) {
-				Assembly.LoadFrom(f.FullName);
-			}
-#endif
+	    private static void PreloadAssemblies()
+	    {
+	        if (!ContextBuilder.PreloadAssemblies)
+	        {
+	            return;
+	        }
 
-		}
-
+	        var files = FileHelper.AllFilesInApplicationFolder().Where(f => f.Extension == ".dll");
+	        foreach (FileInfo f in files)
+	        {
+	            Assembly.LoadFrom(f.FullName);
+	        }
+	    }
+	
 
 	}
 

@@ -4,7 +4,6 @@ using minioc.misc;
 using minioc.resolution.dependencies;
 using minioc.resolution.injection;
 using minioc.resolution.core;
-using MinDI;
 using MinDI.Resolution;
 
 namespace minioc.context {
@@ -21,13 +20,12 @@ namespace minioc.context {
 			return _reflectionCache.getInjectorStrategies(type);
 		}
 
-		public void injectDependencies(object instance, Func<IConstruction> construction) {
-			if (instance == null) {
-				throw new MiniocException("Cannot inject dependencies on null value");
-			}
-        
+	    public IList<IInjectionStrategy> getInjectionStrategies(object instance) {
 			IList<IInjectionStrategy> injectionStrategies = getInjectionStrategies(instance.GetType());
+	        return injectionStrategies;
+	    }
 
+		public void injectDependencies(object instance, IList<IInjectionStrategy> injectionStrategies, Func<IConstruction> construction) {
 			foreach (IInjectionStrategy strategy in injectionStrategies) {
 				strategy.inject(instance, _dependencyResolver, construction != null?construction().GetExplicitContext():null);
 			}
