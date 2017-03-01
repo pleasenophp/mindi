@@ -50,6 +50,11 @@ namespace MinDI
 
 	    private static void PreloadAssemblies()
 	    {
+	        if (!ContextBuilder.PreloadAssemblies)
+	        {
+	            return;
+	        }
+
 	        var files = FileHelper.AllFilesInApplicationFolder().Where(f => f.Extension == ".dll");
 	        foreach (FileInfo f in files)
 	        {

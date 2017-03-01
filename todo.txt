@@ -68,8 +68,6 @@
  * 9.9.5) Check when an object has at least one Injection attribute or method, but is not IDIClosedContext - throw exception
  * 
  * v 9.9.6) Make the scene loader accept the custom parameters
- *
- * 9.9.7) Expression way to init constructors.
  * 
  * 9.9.9) Version number to DLLs and other release prepare things - going to beta stage, put into github
  *  
@@ -77,7 +75,9 @@
  * 
  * v 10.0.1) Scene adaptation for Unity 5? Keep backwards compatibility with Unity4
  * 
- * 10.0.2) We need good integration tests in unity
+ * 10.0.2) Expression way to init constructors.
+ *
+ * 10.0.3) We need good integration tests in unity
  *
  * v 10.1) In the binders remove the configuration delegate and allow to configure MakeDefault through signature
  * Also see if we need to have subjective bindings.
