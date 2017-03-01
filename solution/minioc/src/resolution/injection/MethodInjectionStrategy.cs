@@ -10,9 +10,9 @@ using MinDI.StateObjects;
 
 namespace minioc.resolution.injection {
 	internal class MethodInjectionStrategy : BaseInjectionStrategy {
-		private readonly IList<MethodInfo> _methodInfos;
+		private readonly MethodInfo[] _methodInfos;
 
-		public MethodInjectionStrategy(List<MethodInfo> methodInfos) {
+		public MethodInjectionStrategy(MethodInfo[] methodInfos) {
 			_methodInfos = methodInfos;
 		}
 
@@ -23,7 +23,7 @@ namespace minioc.resolution.injection {
 		}
 
 		public override bool IsVoid() {
-			return _methodInfos.Count == 0;
+			return _methodInfos.Length == 0;
 		}
 
 		protected void inject(MethodInfo methodInfo, object instance, IDependencyResolver dependencyResolver, IDependencyResolver explicitDependencies) {

@@ -26,7 +26,7 @@ namespace MinDI.Tests
 		interface ISkin {
 		}
 
-		class Apple : IApple {
+		class Apple : ContextObject, IApple {
 
 			[SoftRequirement] public ISkin skin { get; set;}
 			[SoftRequirement] public ISeed seed { get; set;}

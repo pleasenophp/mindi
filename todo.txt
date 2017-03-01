@@ -61,9 +61,6 @@
  * v 9.9.2) See how these things work on methods injection - maybe it's good to leave injection methods here 
  * 
  * v 9.9.4) Make singleton sorted in Minioc. For the generic binding allow to use multiple binding as well.
- *
- * 9.9.4.1) Possible BUG - if several name bindings are registered, and there is no default binding, one of the bindings becomes default. Check if we want this behaviour.  
- * 	Maybe should only assign unnamed binding as default automatically, and if no default binding exist then quit
  * 
  * 9.9.5) Check when an object has at least one Injection attribute or method, but is not IDIClosedContext - throw exception
  * 
