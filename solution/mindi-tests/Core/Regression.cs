@@ -11,40 +11,17 @@ namespace MinDI.Tests
     [TestFixture]
     [Category("Unit tests")]
     internal class Regression {
-
-		private interface IMyClass {}
-
-		private class MyClass : IMyClass {
+        interface IApple {
 		}
 
-		interface IApple {
-		}
-
-		interface ISeed {
-		}
-
-		interface ISkin {
-		}
-
-		class Apple : ContextObject, IApple {
-
-			[SoftRequirement] public ISkin skin { get; set;}
-			[SoftRequirement] public ISeed seed { get; set;}
-
+		class Apple : IApple {
 		}
 
 		class BigApple : IApple {
 		}
 
-		class Seed : ISeed {
-			
-		}
 
-		class Skin: ISkin {
-		}
-
-
-		interface IPineapple
+        interface IPineapple
 		{
 			IOrange orange { get; }
 		}
