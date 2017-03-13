@@ -1,9 +1,4 @@
-﻿using UnityEngine;
-using System.Collections;
-using MinDI;
-using MinDI.Context;
-using MinDI.StateObjects;
-using MinDI.Introspection;
+﻿using MinDI.Context;
 using System.Collections.Generic;
 using System;
 using MinDI.Resolution;
@@ -19,7 +14,7 @@ namespace MinDI.Unity {
 				throw new MindiException("RootSceneFactory can only work in the Remote objects environment");
 			}
 
-			IList<ISceneContextInitializer> initializers = ContextBuilder.Initialize<ISceneContextInitializer>(context, new SceneContextAttribute(sceneName));
+			IList<ISceneContextInitializer> initializers = context.Initialize<ISceneContextInitializer>(new SceneContextAttribute(sceneName));
 			return CreateScene<T>(context, initializers, sceneName, bindingName, construction);
 		}
 

@@ -11,22 +11,18 @@ namespace MinDI {
 	/// Usually it's a factory that should have such a privilegy.
 	/// </summary>
 	[Serializable]
-	public class OpenContextObject : ContextObject, IDIClosedContext {
+	public class OpenContextObject : ContextObject {
 		[NonSerialized]
-		private IDIContext _contextCache = null;
+		private IDIContext _contextCache;
 
 		protected IDIContext context {
 			get {
-				IDIClosedContext ctx = this as IDIClosedContext;
-				if (ctx == null || !ctx.IsValid()) {
+				IDIClosedContext ctx = this;
+				if (!ctx.IsValid()) {
 					return null;
 				}
 
-				if (_contextCache == null) {
-					_contextCache = ctx.descriptor.context;
-				}
-
-				return _contextCache;
+				return _contextCache ?? (_contextCache = ctx.descriptor.context);
 			}
 		}
 	}

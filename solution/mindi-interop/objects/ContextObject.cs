@@ -8,6 +8,8 @@ namespace MinDI {
 	[Serializable]
 	public abstract class ContextObject : IDIClosedContext {
 
+		protected bool isInjected = false;
+
 		[NonSerialized]
 		private ContextDescriptor _descriptor = new ContextDescriptor();
 
@@ -18,7 +20,6 @@ namespace MinDI {
 			}
 		}
 
-
 		ContextDescriptor IDIClosedContext.descriptor {
 			get {
 				return _descriptor;
@@ -26,10 +27,14 @@ namespace MinDI {
 		}
 
 		void IDIClosedContext.AfterInjection() {
+			if (isInjected) return;
 			OnInjected();
+			isInjected = true;
 		}
 
 		void IDIClosedContext.BeforeFactoryDestruction() {
+			if (!isInjected) return;
+			isInjected = false;
 			OnDestruction();
 		}
 

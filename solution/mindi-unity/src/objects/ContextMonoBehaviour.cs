@@ -13,6 +13,8 @@ namespace MinDI {
 		[NonSerialized]
 		private ContextDescriptor _descriptor = new ContextDescriptor();
 
+		protected bool isInjected = false;
+
 		[Injection]
 		protected IDIContext contextInjection {
 			set {
@@ -22,11 +24,15 @@ namespace MinDI {
 
 
 		void IDIClosedContext.AfterInjection() {
+			if (isInjected) return;
 			OnInjected();
+			isInjected = true;
 		}
 
 		void IDIClosedContext.BeforeFactoryDestruction() {
+			if (!isInjected) return;
 			OnDestruction();
+			isInjected = false;
 		}
 
 		bool IDIClosedContext.IsValid() {

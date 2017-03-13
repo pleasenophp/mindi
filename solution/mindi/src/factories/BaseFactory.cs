@@ -8,7 +8,12 @@ using MinDI.StateObjects;
 using MinDI.Introspection;
 
 
-namespace MinDI.Factories {
+namespace MinDI.Factories.Internal {
+
+	// TODO - we need to review how we create / destroy usual objects and remote objects
+	// Currently the destructions is sometimes called 2-3 times. The problem is workarounded in the ContextObject, but it might be possible to avoid it in the factory level.
+
+
 	/// <summary>
 	/// General factory class, don't derive from this object
 	/// </summary>
@@ -31,7 +36,8 @@ namespace MinDI.Factories {
 				return;
 			}
 
-			IDIClosedContext contextObject = instance as IDIClosedContext;
+			// NOTE - this might be good to do only if it's not remote objects environment
+			var contextObject = instance as IDIClosedContext;
 			if (contextObject != null && contextObject.IsValid()) {
 				contextObject.BeforeFactoryDestruction();
 			}
@@ -47,22 +53,22 @@ namespace MinDI.Factories {
 
 		// Register creation of an instance made on this factory in the parent ROR
 		protected void RegisterCreation(T instance) {
-			IRemoteObjectsRecord ror = this.context.Resolve<IRemoteObjectsRecord>();
+			var ror = this.context.Resolve<IRemoteObjectsRecord>();
 			ror.Register(new FactoryObjectRecord(this, instance));
 		}
 
 		// Register destruction of an instance made on this factory in the parent ROR
 		protected void RegisterDestruction(object instance) {
-			IRemoteObjectsRecord ror = this.context.Resolve<IRemoteObjectsRecord>();
+			var ror = this.context.Resolve<IRemoteObjectsRecord>();
 			ror.DestroyByType<FactoryObjectRecord>((f) => f.instance == instance && f.factory == this);
 		}
 
-		protected void BindObjectsRecord(IDIContext context) {
-			context.s().Rebind<IRemoteObjectsRecord>(null, "factory");
+		protected void BindObjectsRecord(IDIContext ctx) {
+			ctx.s().Rebind<IRemoteObjectsRecord>(null, "factory");
 		}
 
 		protected void VerifyObjectCreation (string name, object instance, IDIContext resolutionContext) {
-			IDIClosedContext contextObject = instance as IDIClosedContext;
+			var contextObject = instance as IDIClosedContext;
 			if (contextObject == null || !contextObject.IsValid()) {
 				IBinding desc = resolutionContext.Introspect<T>(name);
 				VerifyInstantiationContext(desc, resolutionContext, instance);
@@ -79,13 +85,13 @@ namespace MinDI.Factories {
 
 		protected void VerifyInstantiationContext(IBinding desc, IDIContext resolutionContext, object instance) {
 			if (desc != null && desc.instantiationType == InstantiationType.Concrete && desc.context != resolutionContext) {
-				throw new MindiException(string.Format("Cannot instantiate an object {0} on factory {1}, because it is already a singleton on different context, than the one, this factory resolves objects on. " +
-					"Consider making object multiple, or rebind it as singletone on this factory chaining context.", instance, this));
+				throw new MindiException(string.Format("Cannot instantiate an object {0} on factory {1}, because it is already a singleton on different ctx, than the one, this factory resolves objects on. " +
+					"Consider making object multiple, or rebind it as singletone on this factory chaining ctx.", instance, this));
 			}
 		}
 
 		protected void VerifyObjectDestruction(object instance) {
-			IDIClosedContext contextObject = instance as IDIClosedContext;
+			var contextObject = instance as IDIClosedContext;
 			if (contextObject == null || !contextObject.IsValid()) {
 				return;
 			}
@@ -101,14 +107,14 @@ namespace MinDI.Factories {
 		}
 
 		protected void DestroyRemoteObjects(object instance) {
-			IDIClosedContext contextObject = instance as IDIClosedContext;
+			var contextObject = instance as IDIClosedContext;
 			if (contextObject != null && contextObject.IsValid()) {
-				IRemoteObjectsRecord ror = contextObject.descriptor.context.Resolve<IRemoteObjectsRecord>();
+				var ror = contextObject.descriptor.context.Resolve<IRemoteObjectsRecord>();
 				ror.DestroyAll();
 			}
 			else {
-				IRemoteObjectsDestroyer rod = this.context.Resolve<IRemoteObjectsDestroyer>();
-				IRemoteObjectsHash hash = this.context.Resolve<IRemoteObjectsHash>();
+				var rod = this.context.Resolve<IRemoteObjectsDestroyer>();
+				var hash = this.context.Resolve<IRemoteObjectsHash>();
 				rod.Destroy(instance, hash);
 			}
 		}
