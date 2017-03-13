@@ -1,16 +1,15 @@
 using System;
-using System.Collections.Generic;
 using MinDI.StateObjects;
-using MinDI.Introspection;
 
 namespace MinDI {
 
 
 	[Serializable]
 	public abstract class RemotingContextObject : MarshalByRefObject, IDIClosedContext {
-
 		[NonSerialized]
 		private ContextDescriptor _descriptor = new ContextDescriptor();
+
+		protected bool isInjected = false;
 
 		[Injection]
 		protected IDIContext contextInjection {
@@ -20,11 +19,15 @@ namespace MinDI {
 		}
 
 		void IDIClosedContext.AfterInjection() {
+			if (isInjected) return;
 			OnInjected();
+			isInjected = true;
 		}
 
 		void IDIClosedContext.BeforeFactoryDestruction() {
+			if (!isInjected) return;
 			OnDestruction();
+			isInjected = false;
 		}
 
 		bool IDIClosedContext.IsValid() {

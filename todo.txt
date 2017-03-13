@@ -66,17 +66,18 @@
  * 
  * v 9.9.6) Make the scene loader accept the custom parameters
  * 
- * 9.9.9) Version number to DLLs and other release prepare things - going to beta stage, put into github
+ * 9.9.9) Version number to DLLs and other release prepare things - going to beta stage, put into github, remove this TODO list from the repository and create some issues on github
  *  
  * 10) Make initial documentation (maybe blog posts)
  * 
  * v 10.0.1) Scene adaptation for Unity 5? Keep backwards compatibility with Unity4
  * 
- * 10.0.2) Expression way to init constructors.
+ * 10.0.2) Expression or interface way to init constructors.
  *
- * 10.0.3) We need good integration tests in unity
+ * 10.1) IMPORTANT!! Review how we create objects on factory and how we destroy. Maybe the whole usage of the remote object records can be simplified. We need good integration tests in unity and more factory creation / destruction tests in general. 
+ * After creating the tests for all the cases we can start refactoring. Also put this behaviour to a documentation.
  *
- * v 10.1) In the binders remove the configuration delegate and allow to configure MakeDefault through signature
+ * v 10.2) In the binders remove the configuration delegate and allow to configure MakeDefault through signature
  * Also see if we need to have subjective bindings.
  * 
  * v 10.5) Sort out the lifetime control when resolving the mono behaviours to existing objects. 
@@ -84,8 +85,6 @@
  * 
  * v 10.6) Make the binding to existing MB not allowed to resolve on factory. Also see if we can add additional control for the construction dependencies for the same thing
  * 		  Maybe this will automatically solve itself if binding to existing MB is only singletone.
- * 
- * 11) Make programmer documentation and TODOs for the further guides
  * 
  * v 13) Add better code to coroutine manager
  * 
