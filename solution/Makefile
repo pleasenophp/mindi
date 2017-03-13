@@ -13,3 +13,6 @@ build:
 test:
 	$(NUNIT) mindi-tests/bin/Debug/mindi-tests.dll
 
+install:
+	./deploy.sh
+
