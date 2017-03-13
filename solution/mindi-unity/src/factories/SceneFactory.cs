@@ -1,15 +1,11 @@
 ﻿using UnityEngine;
-using System.Collections;
-using MinDI;
 using MinDI.Context;
 using MinDI.StateObjects;
-using MinDI.Introspection;
 using MinDI.UnityEditor;
 using System.Collections.Generic;
-using MinDI.Factories;
 using System;
+using MinDI.Factories.Internal;
 using MinDI.Resolution;
-using Object = UnityEngine.Object;
 
 namespace MinDI.Unity {
 
