@@ -13,9 +13,14 @@ namespace MinDI.Unity {
 		public event Action onLateUpdate = delegate {};
 		public event Action onGui = delegate {};
 		public event Action onDrawGizmos = delegate {};
+		public event Action onPreRender = delegate {};
+		public event Action onPostRender = delegate {};
+		public event Action<RenderTexture, RenderTexture> onRenderImage = delegate {};
+		public event Action onPreCull = delegate {};
+		public event Action onRenderObject = delegate {};
 
 
-		[Injection]
+			[Injection]
 		public IDictionary<string, Stack<Coroutine>> trackedCoroutines { get; set; }
 
 		// Start one coroutine
@@ -97,14 +102,9 @@ namespace MinDI.Unity {
 			yield break;
 		}
 
-		private string GetObjectIdentifier(object obj) {
-			UnityEngine.Object unityObject = obj as UnityEngine.Object;
-			if (unityObject != null) {
-				return unityObject.GetInstanceID().ToString();
-			}
-			else {
-				return obj.GetType().FullName;
-			}
+		private static string GetObjectIdentifier(object obj) {
+			var unityObject = obj as UnityEngine.Object;
+			return unityObject != null ? unityObject.GetInstanceID().ToString() : obj.GetType().FullName;
 		}
 
 		void Update() {
@@ -127,6 +127,25 @@ namespace MinDI.Unity {
 			onDrawGizmos();
 		}
 
+		void OnPostRender() {
+			onPostRender();
+		}
+
+		void OnPreCull() {
+			onPreCull();
+		}
+
+		void OnPreRender() {
+			onPreRender();
+		}
+
+		void OnRenderImage(RenderTexture src, RenderTexture dest) {
+			onRenderImage(src, dest);
+		}
+
+		void OnRenderObject() {
+			onRenderObject();
+		}
 	}
 
 }
