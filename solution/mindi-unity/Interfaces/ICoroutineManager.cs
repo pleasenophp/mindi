@@ -1,19 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace MinDI {
-
+	[SuppressMessage("ReSharper", "EventNeverSubscribedTo.Global")]
+	[SuppressMessage("ReSharper", "UnusedMember.Global")]
+	[SuppressMessage("ReSharper", "UnusedMemberInSuper.Global")]
 	public interface ICoroutineManager {
 		event Action onUpdate;
 		event Action onFixedUpdate;
 		event Action onLateUpdate;
 		event Action onGui;
 		event Action onDrawGizmos;
-		event Action onPreRender;
-		event Action onPostRender;
-		event Action<RenderTexture, RenderTexture> onRenderImage;
-		event Action onPreCull;
 		event Action onRenderObject;
 		
 		// Start one coroutine

@@ -13,19 +13,13 @@ namespace MinDI.Unity {
 		public event Action onLateUpdate = delegate {};
 		public event Action onGui = delegate {};
 		public event Action onDrawGizmos = delegate {};
-		public event Action onPreRender = delegate {};
-		public event Action onPostRender = delegate {};
-		public event Action<RenderTexture, RenderTexture> onRenderImage = delegate {};
-		public event Action onPreCull = delegate {};
 		public event Action onRenderObject = delegate {};
 
-
-			[Injection]
-		public IDictionary<string, Stack<Coroutine>> trackedCoroutines { get; set; }
+		[Injection] public IDictionary<string, Stack<Coroutine>> trackedCoroutines { get; set; }
 
 		// Start one coroutine
 		public Coroutine StartCoroutine(string identifier, IEnumerator routine) {
-			Coroutine crt = StartCoroutine(routine);
+			var crt = StartCoroutine(routine);
 			RegisterCoroutine(identifier, crt);
 			return crt;
 		}
@@ -55,7 +49,7 @@ namespace MinDI.Unity {
 		}
 
 		public Coroutine StartCoroutines(string identifier, Action finalCall, params IEnumerator[] routines) {
-			Coroutine crt = StartCoroutine(RunCoroutines(identifier, finalCall, routines));
+			var crt = StartCoroutine(RunCoroutines(identifier, finalCall, routines));
 			RegisterCoroutine(identifier, crt);
 			return crt;
 		}
@@ -71,7 +65,7 @@ namespace MinDI.Unity {
 			}
 
 			while (coroutines.Count > 0) {
-				Coroutine crt = coroutines.Pop();
+				var crt = coroutines.Pop();
 				StopCoroutine(crt);
 			}
 		}
@@ -107,43 +101,27 @@ namespace MinDI.Unity {
 			return unityObject != null ? unityObject.GetInstanceID().ToString() : obj.GetType().FullName;
 		}
 
-		void Update() {
+		private void Update() {
 			onUpdate();
 		}
 
-		void FixedUpdate() {
+		private void FixedUpdate() {
 			onFixedUpdate();
 		}
 
-		void LateUpdate() {
+		private void LateUpdate() {
 			onLateUpdate();
 		}
 
-		void OnGUI() {
+		private void OnGUI() {
 			onGui();
 		}
 
-		void OnDrawGizmos() {
+		private void OnDrawGizmos() {
 			onDrawGizmos();
 		}
 
-		void OnPostRender() {
-			onPostRender();
-		}
-
-		void OnPreCull() {
-			onPreCull();
-		}
-
-		void OnPreRender() {
-			onPreRender();
-		}
-
-		void OnRenderImage(RenderTexture src, RenderTexture dest) {
-			onRenderImage(src, dest);
-		}
-
-		void OnRenderObject() {
+		private void OnRenderObject() {
 			onRenderObject();
 		}
 	}
