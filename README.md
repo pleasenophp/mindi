@@ -14,6 +14,7 @@ MinDI is a context-oriented IoC/DI framework, that was initially started as a pr
 * Custom factories supports for easy objects instantiation
 * Support for generic bindings
 * Support fot custom lifetime management
+* Context introspection support
 * Support for context configuration in class libraries
 * Unity3D support, Scenes and MonoBehaviours act as part of the framework
 * Lightweight framework, can be used in AOT modes
@@ -51,7 +52,7 @@ First:
 cd solution 
 ```
 
-To restore packages
+To restore packages:
 ```bash
 make restore
 ```
@@ -71,7 +72,9 @@ To use MinDI in non-Unity 3D project you need the following dlls:
 * mindi.dll
 * mindi-interop.dll
 * minioc.dll
+
 **Don't use mindi-unity.dll if you use MinDI outside of Unity 3D.**
+
 Create / symlink the solution/output-dir and use *make deploy* to automatically update the dlls. 
 
 To use inside of Unity3D, put the following dlls into Plugins/\* folder:
