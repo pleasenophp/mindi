@@ -39,7 +39,9 @@ To use with Unity 4: **git checkout unity4**
 The solution file is in the **solution** folder. You can use VS or Rider IDE to build.
 You can use Unix shell or cygwin to run Makefile commands:
 
+```bash
 cd solution 
+```
 
 To restore packages: *make restore*
 To build with xbuild: *make build*
