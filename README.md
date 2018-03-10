@@ -31,24 +31,35 @@ The framework is successfully tested on several big commercial projects.
 
 NuGet package is not available yet. You can build from source.
 
-To use with Unity 5 or 2017: git checkout unity5 
-To use with Unity 4: git checkout unity4
+To use with Unity 5 or 2017: **git checkout unity5** 
+To use with Unity 4: **git checkout unity4**
 
-**Copy UnityEngine.dll from your Unity installation into lib folder.**
+**Before building you have to manually copy UnityEngine.dll from your Unity installation into lib folder.**
 
 The solution file is in the **solution** folder. You can use VS or Rider IDE to build.
 You can use Unix shell or cygwin to run Makefile commands:
 
 cd solution 
 
-To restore packages: make restore
-To build: make build
-To run tests: make test
+To restore packages: *make restore*
+To build with xbuild: *make build*
+To run tests: *make test*
 
-See solution/deploy.sh file for the dlls that need to be copied into your project.
+See solution/deploy.sh file for the path to the dlls that need to be copied into your project.
+To use MinDI in non-Unity 3D project you need the following dlls:
+* mindi.dll
+* mindi-interop.dll
+* minioc.dll
 **Don't use mindi-unity.dll if you use MinDI outside of Unity 3D.**
+Create / symlink the solution/output-dir and use *make deploy* to automatically update the dlls. 
 
-Create / symlink the solution/output-dir and use **make deploy** to automatically update the dlls. 
+To use inside of Unity3D, put the following dlls into Plugins/\* folder:
+* mindi.dll
+* mindi-interop.dll
+* minioc.dll
+* mindi-unity.dll
+
+Then, import **mindi-unity-package.unitypackage** into your project for the Unity 3D integration prefabs and scripts.
 
 ## Usage
 
