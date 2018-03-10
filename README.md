@@ -3,7 +3,7 @@ MinDI dependency injection framework
 
 ## Overview
 
-MinDI is a context-oriented IoC/DI framework, that was initially started as a project to extend the [MinIOC](https://bitbucket.org/Baalrukh/minioc/wiki/Home) framework with some syntax sugar, but then quickly turned into its own project, with quite different features and ideology. 
+MinDI is a context-oriented IoC/DI framework, that was initially started in 2015 as a project to extend the [MinIOC](https://bitbucket.org/Baalrukh/minioc/wiki/Home) framework with some syntax sugar, but then quickly turned into its own project, with quite different features and ideology. 
 
 ## Key features:
 
@@ -17,12 +17,13 @@ MinDI is a context-oriented IoC/DI framework, that was initially started as a pr
 * Context introspection support
 * Support for context configuration in class libraries
 * Unity3D support, Scenes and MonoBehaviours act as part of the framework
+* In Unity3D allowing to use MonoBehaviours and normal object injections fully transparently. Automatically tracking the destruction of dependent mono behaviours if the object, that caused their creation was destroyed.
 * Lightweight framework, can be used in AOT modes
 * Easily extensible, integrates with other frameworks 
 
 ## Tested with
 
-* .NET 4.5 standalone applications
+* .NET/Mono 3.5/4.5 standalone applications
 * ASP.NET MVC
 * Unity 3D 4,5,2017 - OSX, Windows, WebGL, iOS
 
@@ -87,7 +88,12 @@ Then, import **mindi-unity-package.unitypackage** into your project for the Unit
 
 ## Usage
 
-There will be uploaded usage documentation later
+There will be uploaded usage documentation later, but for now you can consult those 2 tutorial projects.
+The projects are organized the way, each next commit message is a next step in the tutorial, and the message itself tells what's being added.
+Start with checking out the very first commit, see the code, build, and then update to the next commit, etc.
+
+Start with this demo to learn basic MinDI features in the standalone application: https://github.com/pleasenophp/mindi-demo
+Continue with this demo if you need to learn how to use it in Unity 3D: https://github.com/pleasenophp/mindi-unity-demo
 
 ## TODO
 
