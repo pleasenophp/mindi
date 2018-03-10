@@ -92,8 +92,8 @@ There will be uploaded usage documentation later, but for now you can consult th
 The projects are organized the way, each next commit message is a next step in the tutorial, and the message itself tells what's being added.
 Start with checking out the very first commit, see the code, build, and then update to the next commit, etc.
 
-Start with this demo to learn basic MinDI features in the standalone application: https://github.com/pleasenophp/mindi-demo
-Continue with this demo if you need to learn how to use it in Unity 3D: https://github.com/pleasenophp/mindi-unity-demo
+* Start with this demo to learn basic MinDI features in the standalone application: https://github.com/pleasenophp/mindi-demo
+* Continue with this demo if you need to learn how to use it in Unity 3D: https://github.com/pleasenophp/mindi-unity-demo
 
 ## TODO
 
