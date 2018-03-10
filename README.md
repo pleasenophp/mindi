@@ -43,7 +43,7 @@ To use with Unity 4:
 git checkout unity4
 ```
 
-*Before building you have to manually copy UnityEngine.dll from your Unity installation into **lib** folder.*
+**Before building you have to manually copy UnityEngine.dll from your Unity installation into *lib* folder.**
 
 The solution file is in the **solution** folder. You can use VS or Rider IDE to build.
 You can use Unix shell or cygwin to run Makefile commands:
