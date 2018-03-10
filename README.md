@@ -31,21 +31,40 @@ The framework is successfully tested on several big commercial projects.
 
 NuGet package is not available yet. You can build from source.
 
-To use with Unity 5 or 2017: **git checkout unity5** 
-To use with Unity 4: **git checkout unity4**
+To use with Unity 5 or 2017: 
+```bash
+git checkout unity5
+```
 
-**Before building you have to manually copy UnityEngine.dll from your Unity installation into lib folder.**
+To use with Unity 4: 
+```bash
+git checkout unity4
+```
+
+*Before building you have to manually copy UnityEngine.dll from your Unity installation into **lib** folder.*
 
 The solution file is in the **solution** folder. You can use VS or Rider IDE to build.
 You can use Unix shell or cygwin to run Makefile commands:
 
+First:
 ```bash
 cd solution 
 ```
 
-To restore packages: *make restore*
-To build with xbuild: *make build*
-To run tests: *make test*
+To restore packages
+```bash
+make restore
+```
+
+To build with xbuild: 
+```bash
+make build
+```
+
+To run tests: 
+```bash
+make test
+```
 
 See solution/deploy.sh file for the path to the dlls that need to be copied into your project.
 To use MinDI in non-Unity 3D project you need the following dlls:
