@@ -88,12 +88,15 @@ Then, import **mindi-unity-package.unitypackage** into your project for the Unit
 
 ## Usage
 
-There will be uploaded usage documentation later, but for now you can consult those 2 tutorial projects.
-The projects are organized the way, each next commit message is a next step in the tutorial, and the message itself tells what's being added.
+There will be uploaded usage documentation later, but for now you can consult this big article, that shows a lot of usage cases, and explains the main concepts behind MinDI:
+
+- https://pleasenophp.github.io/posts/meet-the-ioc-container.html
+
+Also you can use the following code-tutorials. The projects are organized the way, each next commit message is a next step in the tutorial, and the message itself tells what's being added.
 Start with checking out the very first commit, see the code, build, and then update to the next commit, etc.
 
-* Start with this demo to learn basic MinDI features in the standalone application: https://github.com/pleasenophp/mindi-demo
-* Continue with this demo if you need to learn how to use it in Unity 3D: https://github.com/pleasenophp/mindi-unity-demo
+- Start with this demo to learn basic MinDI features in the standalone application: https://github.com/pleasenophp/mindi-demo
+- Continue with this demo if you need to learn how to use it in Unity 3D: https://github.com/pleasenophp/mindi-unity-demo
 
 ## TODO
 
