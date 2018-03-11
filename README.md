@@ -36,7 +36,7 @@ The framework is successfully tested on several big commercial projects.
 
 NuGet package is not available yet. You can build from source.
 
-To use with Unity 5 or 2017: 
+To use with Unity 5 or 2017, or just in non-Unity project, use unity5 branch: 
 ```bash
 git checkout unity5
 ```
@@ -47,6 +47,9 @@ git checkout unity4
 ```
 
 **Before building you have to manually copy UnityEngine.dll from your Unity installation into *lib* folder.**
+
+Note: even if you build for non-unity3d usage, the dependency on UnityEngine.dll is still required for now. This will be fixed soon.
+As a workaround, you can manually build all projects, except mindi-unity, that you don't need if you don't need to use it with Unity 3D.
 
 The solution file is in the **solution** folder. You can use VS or Rider IDE to build.
 
@@ -118,6 +121,8 @@ The projects are organized the way, each next commit message is a next step in t
 
 ## TODO
 
+* Get rid of dependency on UnityEngine.dll if compiling just from master branch for non-unity project
+* Make automatical configure script to find UnityEngine.dll and Nunit
 * Make usage documentation 
 * Make NuGet package
 * Make Unity Asset Store package
