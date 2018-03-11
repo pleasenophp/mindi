@@ -1,29 +1,19 @@
 using System;
-using System.Collections.Generic;
 using MinDI.StateObjects;
-using MinDI.Introspection;
 
 namespace MinDI {
-
 	[Serializable]
 	public abstract class ContextObject : IDIClosedContext {
-
 		protected bool isInjected = false;
 
-		[NonSerialized]
-		private ContextDescriptor _descriptor = new ContextDescriptor();
+		[NonSerialized] private ContextDescriptor _descriptor = new ContextDescriptor();
 
-		[Injection]
-		public IDIContext contextInjection {
-			set {
-				_descriptor.context = value;
-			}
+		[Injection] public IDIContext contextInjection {
+			set { _descriptor.context = value; }
 		}
 
 		ContextDescriptor IDIClosedContext.descriptor {
-			get {
-				return _descriptor;
-			}
+			get { return _descriptor; }
 		}
 
 		void IDIClosedContext.AfterInjection() {

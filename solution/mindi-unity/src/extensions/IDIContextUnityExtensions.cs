@@ -1,5 +1,4 @@
-﻿using System;
-using MinDI.Binders;
+﻿using MinDI.Binders;
 
 namespace MinDI {
 	public static class IDIContextUnityExtensions {

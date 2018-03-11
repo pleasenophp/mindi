@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace MinDI.StateObjects {
+﻿namespace MinDI.StateObjects {
 	public class FactoryObjectRecord {
 		public object instance { get; private set;}
 		public IDestroyingFactory factory { get; private set;}

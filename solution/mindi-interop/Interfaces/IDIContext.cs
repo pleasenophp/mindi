@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using MinDI.Introspection;
 using MinDI.Resolution;
 
 namespace MinDI {

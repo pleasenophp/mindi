@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using MinDI.Resolution;
+﻿using MinDI.Resolution;
 using minioc.resolution.dependencies;
 using minioc;
 
 namespace MinDI {
 	public class Construction : IConstruction {
-		private IDIContext explicitContext;
+		private readonly IDIContext explicitContext;
 
 		private Construction() {
 			explicitContext = new MiniocContext("__construction");

@@ -1,11 +1,8 @@
-﻿using UnityEngine;
-using System.Collections;
-using MinDI;
+﻿using System.Collections;
 using System;
 
 
 namespace MinDI.Unity {
-
 	/*
 	 *  ISceneLoader -> SceneLoader: is singletone on the root context and contains an IDISceneFactory
 	 * This manager is used to load the scenes. The factory creates the scene context and sets the destroyable mono behaviour. 
@@ -17,12 +14,9 @@ namespace MinDI.Unity {
 	 * 
 	 */
 	public abstract class AdditiveSceneLoader : ContextObject, IAdditiveSceneLoader {
+		[Injection] public IDISceneFactory sceneFactory { get; set; }
 
-		[Injection]
-		public IDISceneFactory sceneFactory {get; set;}
-
-		[Injection] 
-		public ICoroutineManager coroutines {get; set;}
+		[Injection] public ICoroutineManager coroutines { get; set; }
 
 
 		public void Load(string name, Action<ISceneObject> callback) {
@@ -33,11 +27,11 @@ namespace MinDI.Unity {
 			Load<ISceneObject>(name, arguments, callback);
 		}
 
-		public void Load<T>(string name, Action<T> callback) where T:class, ISceneObject {
+		public void Load<T>(string name, Action<T> callback) where T : class, ISceneObject {
 			Load<T>(name, null, callback);
 		}
 
-		public void Load<T>(string name, ISceneArguments arguments, Action<T> callback) where T:class, ISceneObject {
+		public void Load<T>(string name, ISceneArguments arguments, Action<T> callback) where T : class, ISceneObject {
 			coroutines.StartCoroutine(LoadAdditiveCoroutine<T>(name, arguments, callback));
 		}
 
@@ -46,12 +40,11 @@ namespace MinDI.Unity {
 			return Unload<ISceneObject>(obj);
 		}
 
-		public T Unload<T>(T obj) where T:class, ISceneObject {
+		public T Unload<T>(T obj) where T : class, ISceneObject {
 			return UnloadAdditive(obj);
 		}
 
-		protected abstract T UnloadAdditive<T> (T obj) where T : class, ISceneObject;
-		protected abstract IEnumerator LoadAdditiveCoroutine<T> (string name, ISceneArguments arguments, Action<T> callback) where T : class, ISceneObject;
+		protected abstract T UnloadAdditive<T>(T obj) where T : class, ISceneObject;
+		protected abstract IEnumerator LoadAdditiveCoroutine<T>(string name, ISceneArguments arguments, Action<T> callback) where T : class, ISceneObject;
 	}
-
 }

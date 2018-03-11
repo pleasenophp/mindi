@@ -1,10 +1,8 @@
-using System.Collections.Generic;
 using System.Reflection;
 using minioc.misc;
 using MinDI;
 using minioc.resolution.dependencies;
 using MinDI.StateObjects;
-using System;
 using MinDI.Resolution;
 
 namespace minioc.resolution.injection {
@@ -40,7 +38,6 @@ namespace minioc.resolution.injection {
 			// (because we cannot control their lifetime)
 
 			IDIClosedContext ctxval = value as IDIClosedContext;
-
 			if (RemoteObjectsHelper.IsRemoteObject(value) && (ctxval == null || !ctxval.IsValid())) {
 				throw new MiniocException("Injecting a remote object that doesn't implement IDIClosedContext is not allowed ! Tried to inject object "+value+" into property "+propertyInfo.Name+" of the object "+instance);
 			}

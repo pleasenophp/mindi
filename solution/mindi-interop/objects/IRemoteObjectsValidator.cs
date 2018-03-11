@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace MinDI.StateObjects {
+﻿namespace MinDI.StateObjects {
 	public interface IRemoteObjectsValidator {
 		bool IsRemoteObject(object obj);
 	}

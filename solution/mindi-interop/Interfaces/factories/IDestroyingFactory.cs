@@ -1,14 +1,8 @@
-using System;
-using System.Collections;
-
 namespace MinDI {
-
 	/// <summary>
 	/// A factory interface to produce objects
 	/// </summary>
-	public interface IDestroyingFactory
-	{
+	public interface IDestroyingFactory {
 		void DestroyInstance(object instance);
 	}
-
 }

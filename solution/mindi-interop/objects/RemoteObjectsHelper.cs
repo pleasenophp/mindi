@@ -1,28 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace MinDI.StateObjects {
 	public static class RemoteObjectsHelper {
-		private static object locker = new object();
+		private static readonly object locker = new object();
 
-		private static IList<IRemoteObjectsValidator> validators = new List<IRemoteObjectsValidator>();
+		private static readonly IList<IRemoteObjectsValidator> validators = new List<IRemoteObjectsValidator>();
 
 		public static void AddValidator(IRemoteObjectsValidator validator) {
-			validators.Add(validator);
+			lock (locker) {
+				validators.Add(validator);
+			}
 		}
 
 		public static bool IsRemoteObject(object obj) {
 			lock (locker) {
-				foreach (IRemoteObjectsValidator validator in validators) {
-					if (validator.IsRemoteObject(obj)) {
-						return true;
-					}
-				}
-				return false;
+				return validators.Any(validator => validator.IsRemoteObject(obj));
 			}
 		}
-
-
 	}
 }
-

@@ -2,20 +2,14 @@ using System;
 using MinDI.StateObjects;
 
 namespace MinDI {
-
-
 	[Serializable]
 	public abstract class RemotingContextObject : MarshalByRefObject, IDIClosedContext {
-		[NonSerialized]
-		private ContextDescriptor _descriptor = new ContextDescriptor();
+		[NonSerialized] private ContextDescriptor _descriptor = new ContextDescriptor();
 
 		protected bool isInjected = false;
 
-		[Injection]
-		protected IDIContext contextInjection {
-			set {
-				_descriptor.context = value;
-			}
+		[Injection] protected IDIContext contextInjection {
+			set { _descriptor.context = value; }
 		}
 
 		void IDIClosedContext.AfterInjection() {
@@ -39,9 +33,7 @@ namespace MinDI {
 		}
 
 		ContextDescriptor IDIClosedContext.descriptor {
-			get {
-				return _descriptor;
-			}
+			get { return _descriptor; }
 		}
 
 		protected virtual void OnInjected() {

@@ -47,7 +47,7 @@ namespace MinDI {
 			return String.Join(":", res);
 		}
 
-		static public implicit operator string(BindingName instance) {
+		public static implicit operator string(BindingName instance) {
 			return instance.ToString();
 		}
 
