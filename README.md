@@ -1,5 +1,5 @@
 # MinDI
-MinDI dependency injection framework
+Lightweight dependency injection framework for .NET
 
 ## Overview
 
@@ -17,7 +17,7 @@ MinDI is a context-oriented IoC/DI framework, that was initially started in 2015
 * Context introspection support
 * Support for context configuration in class libraries
 * Unity3D support, Scenes and MonoBehaviours act as part of the framework
-* In Unity3D allowing to use MonoBehaviours and normal object injections fully transparently. Automatically tracking the destruction of dependent mono behaviours if the object, that caused their creation was destroyed.
+* In Unity3D allowing to use MonoBehaviours and normal object injections fully transparently. Automatically tracking the destruction of dependent mono behaviours if the object, that caused their creation, was destroyed.
 * Lightweight framework, can be used in AOT modes
 * Easily extensible, integrates with other frameworks 
 
@@ -74,11 +74,11 @@ To use MinDI in non-Unity 3D project you need the following dlls:
 * mindi-interop.dll
 * minioc.dll
 
-**Don't use mindi-unity.dll if you use MinDI outside of Unity 3D.**
+**Don't use mindi-unity.dll if you use MinDI in non - Unity 3D application.**
 
-Create / symlink the solution/output-dir and use *make deploy* to automatically update the dlls. 
+You can also create/symlink the *solution/output-dir* and use *make deploy* to automatically update the dlls. 
 
-To use inside of Unity3D, put the following dlls into Plugins/\* folder:
+To use inside of Unity3D or in a class-library, that is designed for Unity3D, add the following dlls into project (in Unity put into Plugins/\* folder)
 * mindi.dll
 * mindi-interop.dll
 * minioc.dll
@@ -92,11 +92,12 @@ There will be uploaded usage documentation later, but for now you can consult th
 
 - https://pleasenophp.github.io/posts/meet-the-ioc-container.html
 
-Also you can use the following code-tutorials. The projects are organized the way, each next commit message is a next step in the tutorial, and the message itself tells what's being added.
-Start with checking out the very first commit, see the code, build, and then update to the next commit, etc.
+Also you can use the following code-tutorials:
 
 - Start with this demo to learn basic MinDI features in the standalone application: https://github.com/pleasenophp/mindi-demo
 - Continue with this demo if you need to learn how to use it in Unity 3D: https://github.com/pleasenophp/mindi-unity-demo
+
+The projects are organized the way, each next commit message is a next step in the tutorial, and the message itself tells what's being added. Start with checking out the very first commit, see the code, build, and then update to the next commit, etc.
 
 ## TODO
 
