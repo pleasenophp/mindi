@@ -1,5 +1,5 @@
 # MinDI
-MinDI dependency injection framework
+Lightweight dependency injection framework for .NET
 
 ## Overview
 
@@ -17,7 +17,7 @@ MinDI is a context-oriented IoC/DI framework, that was initially started in 2015
 * Context introspection support
 * Support for context configuration in class libraries
 * Unity3D support, Scenes and MonoBehaviours act as part of the framework
-* In Unity3D allowing to use MonoBehaviours and normal object injections fully transparently. Automatically tracking the destruction of dependent mono behaviours if the object, that caused their creation was destroyed.
+* In Unity3D allowing to use MonoBehaviours and normal object injections fully transparently. Automatically tracking the destruction of dependent mono behaviours if the object, that caused their creation, was destroyed.
 * Lightweight framework, can be used in AOT modes
 * Easily extensible, integrates with other frameworks 
 
@@ -74,11 +74,11 @@ To use MinDI in non-Unity 3D project you need the following dlls:
 * mindi-interop.dll
 * minioc.dll
 
-**Don't use mindi-unity.dll if you use MinDI outside of Unity 3D.**
+**Don't use mindi-unity.dll if you use MinDI in non - Unity 3D application.**
 
 Create / symlink the solution/output-dir and use *make deploy* to automatically update the dlls. 
 
-To use inside of Unity3D, put the following dlls into Plugins/\* folder:
+To use inside of Unity3D or in a class-library, that is designed for Unity3D, add the following dlls into project (in Unity put into Plugins/\* folder)
 * mindi.dll
 * mindi-interop.dll
 * minioc.dll
