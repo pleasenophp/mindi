@@ -76,7 +76,7 @@ To use MinDI in non-Unity 3D project you need the following dlls:
 
 **Don't use mindi-unity.dll if you use MinDI in non - Unity 3D application.**
 
-Create / symlink the solution/output-dir and use *make deploy* to automatically update the dlls. 
+You can also create/symlink the *solution/output-dir* and use *make deploy* to automatically update the dlls. 
 
 To use inside of Unity3D or in a class-library, that is designed for Unity3D, add the following dlls into project (in Unity put into Plugins/\* folder)
 * mindi.dll
@@ -92,11 +92,12 @@ There will be uploaded usage documentation later, but for now you can consult th
 
 - https://pleasenophp.github.io/posts/meet-the-ioc-container.html
 
-Also you can use the following code-tutorials. The projects are organized the way, each next commit message is a next step in the tutorial, and the message itself tells what's being added.
-Start with checking out the very first commit, see the code, build, and then update to the next commit, etc.
+Also you can use the following code-tutorials:
 
 - Start with this demo to learn basic MinDI features in the standalone application: https://github.com/pleasenophp/mindi-demo
 - Continue with this demo if you need to learn how to use it in Unity 3D: https://github.com/pleasenophp/mindi-unity-demo
+
+The projects are organized the way, each next commit message is a next step in the tutorial, and the message itself tells what's being added. Start with checking out the very first commit, see the code, build, and then update to the next commit, etc.
 
 ## TODO
 
