@@ -1,17 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityEngine;
-using MinDI.StateObjects;
-using MinDI.Introspection;
 
 namespace MinDI.StateObjects {
-
 	public class RemoteObjectsRecord : RemoteObjectsRecordRoot {
-		[Injection]
-		public IRemoteObjectsDestroyer destroyer { get; set ;}
+		[Injection] public IRemoteObjectsDestroyer destroyer { get; set; }
 
-		private IList<object> objects;
-		private IDictionary<Type, IList<object>> typedObjects;
+		private readonly IList<object> objects;
+		private readonly IDictionary<Type, IList<object>> typedObjects;
 
 		public RemoteObjectsRecord() {
 			objects = new List<object>();
@@ -22,19 +17,17 @@ namespace MinDI.StateObjects {
 			if (obj == null) {
 				return;
 			}
-				
+
 			base.Register(obj);
 			objects.Add(obj);
 			RegisterTypedObject(obj);
 		}
-			
+
 		public override void DestroyAll() {
 			IRemoteObjectsHash objectsHash = context.Resolve<IRemoteObjectsHash>();
-
 			foreach (object o in objects) {
 				destroyer.Destroy(o, objectsHash);
 			}
-
 			objects.Clear();
 			typedObjects.Clear();
 		}
@@ -72,4 +65,3 @@ namespace MinDI.StateObjects {
 		}
 	}
 }
-

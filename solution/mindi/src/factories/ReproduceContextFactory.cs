@@ -1,8 +1,3 @@
-using System;
-using System.Collections;
-using minioc;
-
-
 using MinDI.Context;
 
 namespace MinDI {

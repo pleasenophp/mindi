@@ -1,6 +1,4 @@
-﻿using System;
-using MinDI.StateObjects;
-using MinDI.Unity;
+﻿using MinDI.Unity;
 
 namespace MinDI.Context.Internal {
 	public class MindiUnityUserContextInitializer : IApplicationContextInitializer {

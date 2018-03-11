@@ -1,22 +1,17 @@
-﻿using UnityEngine;
 using MinDI.Unity;
-using System.Collections;
 using UnityEngine.SceneManagement;
 
-namespace MinDI
-{
-	public class RootSceneStarter : ContextMonoBehaviour
-	{
+namespace MinDI {
+	public class RootSceneStarter : ContextMonoBehaviour {
 		public bool backToThisScene = true;
 
 		void Awake() {
 			DoInitialization();
 		}
 
-		void DoInitialization() {
-			if (SceneHelper.GetLoadedLevelName () != ApplicationStarter.RootSceneName) {
+		private void DoInitialization() {
+			if (SceneHelper.GetLoadedLevelName() != ApplicationStarter.RootSceneName) {
 				LoadRootScene();
-				return;
 			}
 			else {
 				throw new MindiException("RootSceneStarter cannot be loaded on the root scene!");
@@ -29,25 +24,8 @@ namespace MinDI
 				return;
 			}
 
-			if (backToThisScene) {
-				RootContainer.overrideAutoStartScene = SceneHelper.GetLoadedLevelName();
-			}
-			else {
-				RootContainer.overrideAutoStartScene = null;
-			}
-
-			// TODO - trying without coroutine, as the bug in Unity must be fixed
-			// StartCoroutine(LoadRootSceneCoroutine());
+			RootContainer.overrideAutoStartScene = backToThisScene ? SceneHelper.GetLoadedLevelName() : null;
 			SceneManager.LoadScene(ApplicationStarter.RootSceneName);
 		}
-
-		/*
-		private IEnumerator LoadRootSceneCoroutine() {
-			yield return 1;
-			SceneManager.LoadScene(ApplicationStarter.RootSceneName);
-		}
-		*/
 	}
 }
-
-

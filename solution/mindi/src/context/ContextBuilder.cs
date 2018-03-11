@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using minioc;
-
-using System.Reflection;
 using MinDI.Context;
 
 namespace MinDI {
@@ -66,7 +62,7 @@ namespace MinDI {
 				return result;
 			}
 
-			foreach (IContextInitializer instance in instances) {
+			foreach (var instance in instances) {
 				if (filter != null && IsInstanceFiltered(instance, filter)) {
 					continue;
 				}
@@ -79,7 +75,7 @@ namespace MinDI {
 
 
 		private static T InitSingle<T>(IDIContext context) where T:class, IContextInitializer {
-			T initializer = Activator.CreateInstance<T>() as T;
+			var initializer = Activator.CreateInstance<T>() as T;
 			if (initializer == null) {
 				throw new MindiException("Couldn't create an initializer instance for type "+typeof(T).FullName);
 			}
@@ -89,13 +85,8 @@ namespace MinDI {
 		}
 
 		private static bool IsInstanceFiltered(IContextInitializer instance, FilteredInitializerAttribute filter) {
-			object[] attributes = instance.GetType().GetCustomAttributes(filter.GetType(), true);
-			foreach (FilteredInitializerAttribute atr in attributes) {
-				if (atr.name == filter.name) {
-					return false;
-				}
-			}
-			return true;
+			var attributes = instance.GetType().GetCustomAttributes(filter.GetType(), true);
+			return attributes.Cast<FilteredInitializerAttribute>().All(atr => atr.name != filter.name);
 		}
 
 		private static void FetchInitializers() {
@@ -107,24 +98,11 @@ namespace MinDI {
 		}
 
 		private static void AddInitializer(Type type) {
-			Type[] interfaces = type.FindInterfaces((t, c) => {
-				if (t == typeof(IContextInitializer)) {
-					return false;
-				}
-
-				if (!typeof(IContextInitializer).IsAssignableFrom(t)) {
-					return false;
-				}
-
-				return true;
-
-			}, null);
-
+			var interfaces = type.FindInterfaces((t, c) => t != typeof(IContextInitializer) && typeof(IContextInitializer).IsAssignableFrom(t), null);
 			if (interfaces.Length == 0) {
 				throw new MindiException("Couldn't find any interface that is derived from IContextInitializer for the type "+type.FullName);
 			}
-
-			foreach (Type interfaceType in interfaces) {
+			foreach (var interfaceType in interfaces) {
 				AddInitializer(interfaceType, type);
 			}
 		}

@@ -1,7 +1,4 @@
 using System;
-using System.Collections;
-using minioc;
-
 using MinDI.Introspection;
 using System.Collections.Generic;
 

@@ -1,7 +1,4 @@
-﻿using UnityEngine;
-using System.Collections;
-
-namespace MinDI.Unity {
+﻿namespace MinDI.Unity {
 
 	internal static class RootContainer {
 		public static IDIContext context {get; set;}

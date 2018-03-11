@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace MinDI.Context {
+﻿namespace MinDI.Context {
 	public enum ContextEnvironment {
 		Normal,
 		RemoteObjects

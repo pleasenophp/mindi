@@ -1,28 +1,20 @@
 ﻿using UnityEngine;
-using System.Collections;
-using MinDI.Context;
 using MinDI.StateObjects;
 using MinDI.Unity;
-using UnityEngine.SceneManagement;
 
-namespace MinDI
-{
-	public class ApplicationStarter : ContextMonoBehaviour
-	{
+namespace MinDI {
+	public class ApplicationStarter : ContextMonoBehaviour {
 		public const string RootSceneName = "_root";
 		public const string StarterObjectName = "_starter";
 
 		public string autoStartScene;
 
-		[Injection]
-		public IActionQueue queue {get; set;}
-
-		[Injection]
-		public ISceneLoader sceneLoader {get; set;}
+		[Injection] public IActionQueue queue { get; set; }
+		[Injection] public ISceneLoader sceneLoader { get; set; }
 
 		private UnityContextStart init;
 
-		private bool ready = false;
+		private bool ready;
 
 		void Awake() {
 			this.gameObject.name = StarterObjectName;
@@ -73,7 +65,7 @@ namespace MinDI
 			// Loading auto start scene
 			LoadAutoStartScene();
 
-			ready = true;	
+			ready = true;
 		}
 
 		private void LoadAutoStartScene() {
@@ -95,4 +87,3 @@ namespace MinDI
 		}
 	}
 }
-

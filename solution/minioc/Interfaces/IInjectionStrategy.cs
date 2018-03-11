@@ -1,6 +1,4 @@
-using System.Collections.Generic;
 using minioc.resolution.dependencies;
-using MinDI;
 
 namespace minioc.resolution.injection {
 	internal interface IInjectionStrategy {

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace MinDI.Introspection {
+﻿namespace MinDI.Introspection {
 	public enum InstantiationType {
 		None,
 		Abstract,

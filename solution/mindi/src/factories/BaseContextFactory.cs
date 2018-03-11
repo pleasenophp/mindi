@@ -3,12 +3,11 @@ using MinDI.Context;
 using MinDI.Factories.Internal;
 using MinDI.Resolution;
 
-
 namespace MinDI {
 	/// <summary>
 	/// Abstract factory to implement custom factories, derive from this object
 	/// </summary>
-	public abstract class BaseContextFactory<T> : BaseFactory<T>, IDestroyingFactory
+	public abstract class BaseContextFactory<T> : BaseFactory<T>
 		where T:class
 	{
 		
@@ -52,7 +51,7 @@ namespace MinDI {
 		}
 			
 		protected T CreateInstance(string bindingName, Action<IDIContext> customContextInitializer, Func<IConstruction> construction) {
-			IDIContext newContext = this.context;
+			var newContext = this.context;
 			if (environment == ContextEnvironment.RemoteObjects || ForceNewContext()) {
 				newContext = newContext.Reproduce();
 				InitNewContext(newContext);
@@ -70,27 +69,19 @@ namespace MinDI {
 				BindObjectsRecord(newContext);
 			}
 
-			T instance = CreateObjectInternal(newContext, bindingName, construction);
+			var instance = CreateObjectInternal(newContext, bindingName, construction);
 			return instance;
 		}
 			
 		private T CreateObjectInternal(IDIContext context, string name, Func<IConstruction> construction) {
-			T instance;
-			if (!SoftCreation()) {
-				instance = context.Resolve<T>(construction, name);
+			var instance = SoftCreation() ? context.TryResolve<T>(construction, name) : context.Resolve<T>(construction, name);
+			if (instance == null) {
+				return null;
 			}
-			else {
-				instance = context.TryResolve<T>(construction, name);
+			VerifyObjectCreation(name, instance, context);
+			if (environment == ContextEnvironment.RemoteObjects) {
+				RegisterCreation(instance);
 			}
-
-			if (instance != null) {
-			 	VerifyObjectCreation(name, instance, context);
-
-				if (environment == ContextEnvironment.RemoteObjects) {
-					RegisterCreation(instance);
-				}
-			}
-
 			return instance;
 		}
 	}

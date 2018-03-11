@@ -1,25 +1,18 @@
 using System;
-using System.Collections;
 using MinDI.StateObjects;
 using UnityEngine;
-using MinDI.Introspection;
 
 namespace MinDI {
-
 	/// <summary>
 	/// Derive your MonoBehaviours that work with MinDI from this class
 	/// </summary>
 	public abstract class ContextMonoBehaviour : MonoBehaviour, IDIClosedContext {
-		[NonSerialized]
-		private ContextDescriptor _descriptor = new ContextDescriptor();
+		[NonSerialized] private ContextDescriptor _descriptor = new ContextDescriptor();
 
 		protected bool isInjected = false;
 
-		[Injection]
-		protected IDIContext contextInjection {
-			set {
-				_descriptor.context = value;
-			}
+		[Injection] protected IDIContext contextInjection {
+			set { _descriptor.context = value; }
 		}
 
 
@@ -44,9 +37,7 @@ namespace MinDI {
 		}
 
 		ContextDescriptor IDIClosedContext.descriptor {
-			get {
-				return _descriptor;
-			}
+			get { return _descriptor; }
 		}
 
 		protected virtual void OnInjected() {

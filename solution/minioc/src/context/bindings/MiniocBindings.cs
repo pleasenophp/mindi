@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using minioc.misc;
-using minioc.resolution.core;
 using MinDI;
 using MinDI.Introspection;
 
