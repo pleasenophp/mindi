@@ -213,5 +213,5 @@ test-results
 test-results/
 
 # Makefile config
-# *.mk
+*.mk
 
