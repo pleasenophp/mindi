@@ -212,6 +212,6 @@ FakesAssemblies/
 test-results
 test-results/
 
-# Makefile
-*.mk
+# Makefile config
+# *.mk
 

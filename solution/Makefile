@@ -1,5 +1,4 @@
 .DEFAULT_GOAL := build
-include config.mk
 
 restore:
 	mono nuget.exe restore
@@ -12,7 +11,4 @@ build:
 
 test:
 	$(NUNIT) mindi-tests/bin/Debug/mindi-tests.dll
-
-install:
-	./deploy.sh
 
