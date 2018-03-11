@@ -23,4 +23,5 @@ endif
 merge-master:
 	git checkout unity4 && git merge master && git push
 	git checkout unity5 && git merge master && git push
+	git checkout master
 
