@@ -4,11 +4,11 @@ restore:
 	mono nuget.exe restore
 
 rebuild:
-	xbuild /t:rebuild mindi-core.sln
+	xbuild /p:Configuration=$(BUILD_TARGET) /t:rebuild mindi-core.sln
 
 build:
-	xbuild /t:build mindi-core.sln
+	xbuild /p:Configuration=$(BUILD_TARGET) /t:build mindi-core.sln
 
 test:
-	$(NUNIT) mindi-tests/bin/Debug/mindi-tests.dll
+	$(NUNIT) mindi-tests/bin/$(BUILD_TARGET)/mindi-tests.dll
 
