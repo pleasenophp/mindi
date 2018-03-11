@@ -49,7 +49,7 @@ git checkout unity4
 **Before building you have to manually copy UnityEngine.dll from your Unity installation into *lib* folder.**
 
 Note: even if you build for non-unity3d usage, the dependency on UnityEngine.dll is still required for now. This will be fixed soon.
-As a workaround, you can manually build all projects, except mindi-unity, that you don't need if you don't need to use it with Unity 3D.
+As a workaround, you can manually build all projects, except **mindi-unity**, that you don't need if you don't need to use it with Unity 3D.
 
 The solution file is in the **solution** folder. You can use VS or Rider IDE to build.
 
