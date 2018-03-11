@@ -1,6 +1,16 @@
 # Path to NUNIT3 console for running 'make test'
 NUNIT=mono /Applications/NUnit.3.5.0/nunit3-console.exe 
 
+# Nuget tool. On Windows use just "nuget.exe"
+NUGET=mono nuget.exe
+# For Windows
+# NUGET=nuget.exe
+
+# Build tool. 
+BUILD_TOOL=xbuild
+# For Windows provide path to MSBuild.exe
+#BUILD_TOOL=/cygdrive/c/Program\ Files\ \(x86\)/MSBuild/14.0/Bin/MSBuild.exe
+
 # Debug or Release
 BUILD_TARGET=Release
 
