@@ -50,7 +50,7 @@ git checkout unity4
 
 The solution file is in the **solution** folder. You can use VS or Rider IDE to build.
 
-If you want to build from command line and use some more automation, then use Unix shell or cygwin to run Makefile commands:
+If you want to build from command line and use some more automation, then use Unix shell or cygwin to run Makefile commands.
 
 First run:
 ```bash
