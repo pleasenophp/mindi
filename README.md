@@ -49,6 +49,7 @@ git checkout unity4
 **Before building you have to manually copy UnityEngine.dll from your Unity installation into *lib* folder.**
 
 The solution file is in the **solution** folder. You can use VS or Rider IDE to build.
+
 If you want to build from command line and use some more automation, then use Unix shell or cygwin to run Makefile commands:
 
 First run:
