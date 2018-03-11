@@ -1,8 +1,5 @@
-﻿using System;
-
-namespace MinDI {
+﻿namespace MinDI {
 	public interface ISceneObject {
-		string name {get;}
+		string name { get; }
 	}
 }
-

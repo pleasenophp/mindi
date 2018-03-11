@@ -1,9 +1,4 @@
-using System;
-using System.Collections;
 using minioc;
-
-using MinDI.Binders;
-using minioc.resolution.dependencies;
 using MinDI.Context;
 using System.Reflection;
 
@@ -15,7 +10,7 @@ namespace MinDI {
 		}
 
 		public static IDIContext CreateContext<T>(IDIContext parent = null, string name = null) where T:class, IContextInitializer {
-			IDIContext context = InternalCreateContext(parent, name); 
+			var context = InternalCreateContext(parent, name); 
 			context.Initialize<T>();
 			return context;
 		}
@@ -30,11 +25,8 @@ namespace MinDI {
 
 
 		public static bool HasContext(this Assembly assembly) {
-			object[] attributes = assembly.GetCustomAttributes(typeof(ContextAssemblyAttribute), false);	
-			if (attributes.Length == 0) {
-				return false;
-			}
-			return true;
+			var attributes = assembly.GetCustomAttributes(typeof(ContextAssemblyAttribute), false);	
+			return attributes.Length != 0;
 		}
 
 		public static bool IsUnityProjectAssembly(this Assembly assembly) {

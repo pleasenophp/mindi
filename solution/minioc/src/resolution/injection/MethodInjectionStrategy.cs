@@ -1,9 +1,6 @@
-//using System.Collections.Generic;
-//using System.Reflection;
 using minioc.misc;
 using minioc.resolution.dependencies;
 using MinDI;
-using System.Collections.Generic;
 using System.Reflection;
 using MinDI.Resolution;
 using MinDI.StateObjects;
@@ -53,9 +50,7 @@ namespace minioc.resolution.injection {
 		protected void ControlRemoteObject(object instance, object value, MethodInfo methodInfo, ParameterInfo parameterInfo) {
 			// Not letting mono behaviours to be injected if they are not IDIClosedContext
 			// (because we cannot control their lifetime)
-
 			IDIClosedContext ctxval = value as IDIClosedContext;
-
 			if (RemoteObjectsHelper.IsRemoteObject(value) && (ctxval == null || !ctxval.IsValid())) {
 				throw new MiniocException("Injecting a remote object that doesn't implement IDIClosedContext is not allowed ! " +
 					"Tried to inject object "+value+" into method "+methodInfo.Name+" into parameter "+parameterInfo.Name

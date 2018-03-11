@@ -1,5 +1,4 @@
-﻿using System;
-using MinDI.StateObjects;
+﻿using MinDI.StateObjects;
 using MinDI.Resolution;
 using System.Collections.Generic;
 

@@ -1,9 +1,7 @@
 using System;
-using System.Collections;
 using MinDI.StateObjects;
 
 namespace MinDI {
-
 	/// <summary>
 	/// Context object is an automatical memory of context on the object.
 	/// Derive your MinDI objects from this class if you don't want to loose the context in some situations
@@ -12,8 +10,7 @@ namespace MinDI {
 	/// </summary>
 	[Serializable]
 	public class OpenContextObject : ContextObject {
-		[NonSerialized]
-		private IDIContext _contextCache;
+		[NonSerialized] private IDIContext _contextCache;
 
 		protected IDIContext context {
 			get {
@@ -26,5 +23,4 @@ namespace MinDI {
 			}
 		}
 	}
-
 }

@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections;
-using MinDI;
 using System;
 using System.Collections.Generic;
 

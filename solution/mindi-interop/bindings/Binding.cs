@@ -1,25 +1,21 @@
 using System;
 using System.Collections.Generic;
-using minioc.resolution.dependencies;
-
-using MinDI;
 using MinDI.StateObjects;
 
 namespace MinDI.Introspection {
-
 	public sealed class Binding : IBinding {
 		public const string DEFAULT_BINDING = "__$UNNAMED__";
 
 		public string name { get; set; }
-		public IList<Type> types { get; set;}
+		public IList<Type> types { get; set; }
 		public bool makeDefault { get; set; }
-	
+
 		public InstantiationType instantiationType { get; set; }
 		public InstantiationType genericInstantiation { get; set; }
-	
-		public object instance { get; set;}
+
+		public object instance { get; set; }
 		public IDIContext context { get; set; }
-		public Func<object> factory { get; set;}
+		public Func<object> factory { get; set; }
 
 		private Func<object> instantiationFactory;
 
@@ -28,7 +24,6 @@ namespace MinDI.Introspection {
 
 		// TODO - add control checks and exceptions
 		// TODO - optimize these 4 methods through constructor
-
 		public static Binding CreateEmpty(IDIContext context) {
 			var result = new Binding();
 			result.context = context;
@@ -44,7 +39,6 @@ namespace MinDI.Introspection {
 		// NOTE - maybe just make these 3 methods accept instantiation type
 		public static Binding CreateForInstance(IDIContext context, IList<Type> types, object instance,
 			bool isDefault = true, string name = DEFAULT_BINDING) {
-
 			var result = new Binding();
 			result.context = context;
 			result.types = types;
@@ -60,7 +54,6 @@ namespace MinDI.Introspection {
 
 		public static Binding CreateForConcrete(IDIContext context, IList<Type> types, Func<object> factory,
 			bool isDefault = true, string name = DEFAULT_BINDING) {
-
 			var result = new Binding();
 			result.context = context;
 			result.types = types;
@@ -76,7 +69,6 @@ namespace MinDI.Introspection {
 
 		public static Binding CreateForAbstract(IDIContext context, IList<Type> types, Func<object> factory,
 			bool isDefault = true, string name = DEFAULT_BINDING) {
-
 			var result = new Binding();
 			result.context = context;
 			result.types = types;
@@ -90,10 +82,8 @@ namespace MinDI.Introspection {
 			return result;
 		}
 
-
 		public static Binding CreateForGeneric(IDIContext context, IList<Type> types, Type genericType,
 			InstantiationType instantiationType, bool isDefault = true, string name = DEFAULT_BINDING) {
-
 			var result = new Binding();
 			result.context = context;
 			result.types = types;
@@ -142,7 +132,7 @@ namespace MinDI.Introspection {
 			return result;
 		}
 
-		private static Type CreateGenericBindingType(Type genericType, Type [] genericArguments) {
+		private static Type CreateGenericBindingType(Type genericType, Type[] genericArguments) {
 			return genericType.MakeGenericType(genericArguments);
 		}
 
@@ -153,12 +143,9 @@ namespace MinDI.Introspection {
 		}
 
 		private void CreateInstantiationFactory() {
-
 			switch (this.instantiationType) {
 				case InstantiationType.Instance:
-					this.instantiationFactory = () => {
-						return this.instance;
-					};
+					this.instantiationFactory = () => { return this.instance; };
 					break;
 				case InstantiationType.Concrete:
 					this.instantiationFactory = () => {
@@ -172,7 +159,6 @@ namespace MinDI.Introspection {
 					this.instantiationFactory = this.factory;
 					break;
 			}
-
 		}
 	}
 }

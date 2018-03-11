@@ -4,7 +4,7 @@ using Object = UnityEngine.Object;
 
 namespace MinDI.StateObjects {
 	public class RemoteObjectsHash : IRemoteObjectsHash {
-		public HashSet<int> hash {get; set;}
+		public HashSet<int> hash { get; set; }
 
 		public RemoteObjectsHash() {
 			hash = new HashSet<int>();
@@ -66,4 +66,3 @@ namespace MinDI.StateObjects {
 		}
 	}
 }
-

@@ -1,10 +1,3 @@
-using System;
-using System.Collections;
-using minioc;
-
-
-using minioc.resolution.dependencies;
-
 namespace MinDI.Binders {
 
 	public static class BindHelper {

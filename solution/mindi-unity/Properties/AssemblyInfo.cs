@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using System.Runtime.CompilerServices;
 using MinDI;
 
 // Information about this assembly is defined by the following attributes.
