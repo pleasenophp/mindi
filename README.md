@@ -51,12 +51,7 @@ git checkout unity4
 The solution file is in the **solution** folder. You can use VS or Rider IDE to build.
 You can use Unix shell or cygwin to run Makefile commands:
 
-First:
-```bash
-cd solution 
-```
-
-Edit **solution/config.mk** for any custom paths.
+Edit **config.mk** for any custom paths.
 
 To restore packages:
 ```bash
@@ -73,7 +68,17 @@ To run tests:
 make test
 ```
 
-See solution/deploy.sh file for the path to the dlls that need to be copied into your project.
+To automatically copy dlls to the $DEPLOY\_DIR from *config.mk*
+```bash
+# Normal deploy
+make install
+
+# Unity deploy
+make install-unity
+```
+
+### Manual deploy
+See Makefile for the path to the dlls that need to be copied into your project.
 To use MinDI in non-Unity 3D project you need the following dlls:
 * mindi.dll
 * mindi-interop.dll
@@ -89,7 +94,9 @@ To use inside of Unity3D or in a class-library, that is designed for Unity3D, ad
 * minioc.dll
 * mindi-unity.dll
 
-Then, import **mindi-unity-package.unitypackage** into your project for the Unity 3D integration prefabs and scripts.
+### Unity package
+Import **mindi-unity-package.unitypackage** into your project for the Unity 3D integration prefabs and scripts.
+The Unity package doesn't include dlls, so you still need to copy them.
 
 ## Usage
 

@@ -1,0 +1,5 @@
+#!/bin/sh
+
+cp config.mk.example config.mk
+echo "config.mk file created. Edit it manually to change the paths"
+
