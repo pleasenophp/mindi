@@ -4,12 +4,15 @@ Lightweight dependency injection framework for .NET
 ## Overview
 
 MinDI is a context-oriented IoC/DI framework, that was initially started in 2015 as a project to extend the [MinIOC](https://bitbucket.org/Baalrukh/minioc/wiki/Home) framework with some syntax sugar, but then quickly turned into its own project, with quite different features and ideology. 
+The kernel of MinDI is a modified and minimized version of MinIOC library.
 
 ## Key features:
 
-* Multi-layer context-oriented IoC container, overriding bindings on any level
+* Multi-layer context-oriented IoC container, creating new context layer with prototype reference to parent one, specifying and overriding custom dependencies on any level
 * Easy syntax for configuration of bindings based on lambda-expressions
-* Easy reflection-based property and method dependency-injection
+* Easy reflection-based property and method dependency injection
+* Complex object-graphs support, circular references supported
+* Binding multiple interfaces to one implementation supported 
 * IoC container is not accessible by user-level objects
 * Custom factories supports for easy objects instantiation
 * Support for generic bindings
@@ -19,7 +22,7 @@ MinDI is a context-oriented IoC/DI framework, that was initially started in 2015
 * Unity3D support, Scenes and MonoBehaviours act as part of the framework
 * In Unity3D allowing to use MonoBehaviours and normal object injections fully transparently. Automatically tracking the destruction of dependent mono behaviours if the object, that caused their creation, was destroyed.
 * Lightweight framework, can be used in AOT modes
-* Easily extensible, integrates with other frameworks 
+* Flexible and easily extensible, integrates with other DI frameworks 
 
 ## Tested with
 
@@ -52,6 +55,8 @@ First:
 ```bash
 cd solution 
 ```
+
+Edit **solution/config.mk** for any custom paths.
 
 To restore packages:
 ```bash
@@ -103,8 +108,11 @@ The projects are organized the way, each next commit message is a next step in t
 
 * Make usage documentation 
 * Make NuGet package
+* Make Unity Asset Store package
 * Expression or interface way to pass requirements in Construction.
 * Support restoring dependencies on deserialization
+* Extend fetching contexts by reflection to support automatical multi-domain configurations
+* Support generating context type providers for AOT projects and other complex configurations
 * See how to easily see context of each providing library (context initializers observaton)
 * Context profiler feature
 * Use constructor to auto generate a method for injection? Can also auto-generate factories.
