@@ -15,10 +15,17 @@ install:
 ifeq ($(DEPLOY_DIR),)
 	$(error Deploy dir is not set in config.mk)
 endif
-	@cp solution/mindi/bin/Debug/mindi.dll $(DEPLOY_DIR)/mindi.dll
-	@cp solution/mindi/bin/Debug/mindi-interop.dll $(DEPLOY_DIR)/mindi-interop.dll
-	@cp solution/mindi-unity/bin/Debug/mindi-unity.dll $(DEPLOY_DIR)/mindi-unity.dll
-	@cp solution/mindi/bin/Debug/minioc.dll $(DEPLOY_DIR)/minioc.dll	
+	@rm -f $(DEPLOY_DIR)/mindi.dll
+	@rm -f $(DEPLOY_DIR)/mindi-interop.dll
+	@rm -f $(DEPLOY_DIR)/mindi-unity.dll
+	@rm -f $(DEPLOY_DIR)/minioc.dll
+	
+	@cp solution/mindi/bin/$(BUILD_TARGET)/mindi.dll $(DEPLOY_DIR)/mindi.dll
+	@cp solution/mindi/bin/$(BUILD_TARGET)/mindi-interop.dll $(DEPLOY_DIR)/mindi-interop.dll
+	@cp solution/mindi/bin/$(BUILD_TARGET)/minioc.dll $(DEPLOY_DIR)/minioc.dll	
+
+install-unity: install
+	@cp solution/mindi-unity/bin/$(BUILD_TARGET)/mindi-unity.dll $(DEPLOY_DIR)/mindi-unity.dll
 
 merge-master:
 	git checkout unity4 && git merge master && git push

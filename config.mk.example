@@ -1,6 +1,10 @@
 # Path to NUNIT3 console for running 'make test'
 NUNIT=mono /Applications/NUnit.3.5.0/nunit3-console.exe 
 
+# Debug or Release
+BUILD_TARGET=Release
+
 # Specify path to you deploy directory here to automatically deploy dll-s with 'make install' commmand
 DEPLOY_DIR=
+# DEPLOY_DIR='../deploy'
 
