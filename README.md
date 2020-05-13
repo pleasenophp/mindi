@@ -1,10 +1,11 @@
 # MinDI
-Lightweight dependency injection framework for .NET
+Lightweight dependency injection framework for .NET with powerfull features and strong phylosophycal principles.
 
 ## Overview
 
 MinDI is a context-oriented IoC/DI framework, that was initially started in 2015 as a project to extend the [MinIOC](https://bitbucket.org/Baalrukh/minioc/wiki/Home) framework with some syntax sugar, but then quickly turned into its own project, with quite different features and ideology. 
-The kernel of MinDI is a modified and minimized version of MinIOC library.
+MinDI supports Dependency Injection for Unity MonoBehaviour and Scenes, allowing to work with them as if they are normal C# objects and inject them to other classes and other way around. 
+The kernel of MinDI is a minimized version of MinIOC library.
 
 ## Key features:
 
@@ -13,7 +14,6 @@ The kernel of MinDI is a modified and minimized version of MinIOC library.
 * Easy reflection-based property and method dependency injection
 * Complex object-graphs support, circular references supported
 * Binding multiple interfaces to one implementation supported 
-* IoC container is not accessible by user-level objects
 * Custom factories supports for easy objects instantiation
 * Support for generic bindings
 * Support fot custom lifetime management
@@ -22,7 +22,7 @@ The kernel of MinDI is a modified and minimized version of MinIOC library.
 * Unity3D support, Scenes and MonoBehaviours act as part of the framework
 * In Unity3D allowing to use MonoBehaviours and normal object injections fully transparently. Automatically tracking the destruction of dependent mono behaviours if the object, that caused their creation, was destroyed.
 * Lightweight framework, can be used in AOT modes
-* Flexible and easily extensible, integrates with other DI frameworks 
+* Flexible and easily extensible, can be integrated with other DI frameworks 
 
 ## Tested with
 
