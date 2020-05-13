@@ -28,7 +28,7 @@ The kernel of MinDI is a modified and minimized version of MinIOC library.
 
 * .NET/Mono 3.5/4.5 standalone applications
 * ASP.NET MVC
-* Unity 3D 4,5,2017 - OSX, Windows, WebGL, iOS
+* Unity 3D 4,5,2017-2019 - OSX, Windows, WebGL, iOS
 
 The framework is successfully tested on several big commercial projects.
 
