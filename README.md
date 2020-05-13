@@ -36,7 +36,7 @@ The framework is successfully tested on several big commercial projects.
 
 NuGet package is not available yet. You can build from source.
 
-To use with Unity 5 or 2017, or just in non-Unity project, use unity5 branch: 
+To use with Unity 5, 2017 and newer, or just in non-Unity project, use unity5 branch: 
 ```bash
 git checkout unity5
 ```
