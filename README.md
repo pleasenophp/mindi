@@ -1,7 +1,7 @@
 # MinDI
 Lightweight dependency injection framework for .NET and Unity3D with powerfull features and strong phylosophycal principles.
 
-**NOTE** that MinDI is not maintained anymore. You can use instead the best maintained framework as of 2021, that is called [Extenject (Zenject)](https://github.com/svermeulen/Extenject) that has the same philosophy as MinDI, is not opinionated, and implements much more features.
+**NOTE** that MinDI is not maintained anymore. You can use instead the best maintained framework as of 2021, [Extenject (Zenject)](https://github.com/svermeulen/Extenject) that has the same philosophy as MinDI, is not opinionated, and implements much more features.
 
 ## Overview
 
